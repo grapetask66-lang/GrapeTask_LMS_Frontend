@@ -13,10 +13,11 @@ import type {
   User,
 } from '@/types/domain';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000/graphql';
 
 export const api = axios.create({
   baseURL: API_URL,
+  method: 'POST',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -31,7 +32,14 @@ api.interceptors.request.use((config) => {
 });
 
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // Check for GraphQL errors
+    if (response.data?.errors) {
+      const message = response.data.errors[0]?.message || 'GraphQL Error';
+      return Promise.reject(new Error(message));
+    }
+    return response;
+  },
   (error: AxiosError<{ message?: string | string[] }>) => {
     if (typeof window !== 'undefined' && error.response?.status === 401) {
       window.localStorage.removeItem('grapetask_lms_token');
@@ -61,12 +69,44 @@ export interface RegisterInput extends LoginInput {
 
 export const authApi = {
   async login(input: LoginInput) {
-    const { data } = await api.post<{ accessToken: string; user: User }>('/auth/login', input);
-    return data;
+    const { data } = await api.post('', {
+      query: `
+        mutation Login($input: LoginInput!) {
+          login(input: $input) {
+            access_token
+            user {
+              id
+              name
+              email
+              role
+            }
+          }
+        }
+      `,
+      variables: { input },
+    });
+    
+    const { access_token, user } = data.data.login;
+    return { accessToken: access_token, user };
   },
   async register(input: RegisterInput) {
-    const { data } = await api.post<{ accessToken: string; user: User }>('/auth/register', input);
-    return data;
+    const { data } = await api.post('', {
+      query: `
+        mutation Register($input: RegisterInput!) {
+          register(input: $input) {
+            id
+            name
+            email
+            role
+          }
+        }
+      `,
+      variables: { input },
+    });
+    
+    // Registration in this schema doesn't seem to return a token, so we'll just return user and let them login
+    // or we can adjust AuthMutator to return a token.
+    return { accessToken: '', user: data.data.register };
   },
   async profile() {
     const raw = typeof window !== 'undefined' ? window.localStorage.getItem('grapetask_lms_user') : null;

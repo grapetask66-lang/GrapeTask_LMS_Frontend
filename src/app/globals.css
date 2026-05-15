@@ -56,11 +56,14 @@ textarea {
   border: 1px solid var(--light-border);
   transition:
     background-color 150ms ease,
-    border-color 150ms ease;
+    border-color 150ms ease,
+    transform 200ms ease;
+  backdrop-filter: blur(12px);
 }
 
 .theme-card:hover {
   background: var(--card-bg-active);
+  transform: translateY(-4px);
 }
 
 .theme-card-active {
@@ -71,4 +74,56 @@ textarea {
 .theme-focus:focus {
   outline: 1px solid var(--primary-orange);
   border-color: var(--orange-border-active);
+}
+
+/* Premium Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+@keyframes glow {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+.glow-effect {
+  position: relative;
+}
+
+.glow-effect::before {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(circle at center, var(--primary-orange), transparent 70%);
+  opacity: 0.1;
+  filter: blur(40px);
+  z-index: -1;
+  animation: glow 4s infinite ease-in-out;
+}
+
+.glass-navbar {
+  background: rgba(2, 6, 23, 0.8);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--light-border);
+}
+
+.text-gradient {
+  background: linear-gradient(to right, #ffffff, #a1a1aa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.orange-gradient {
+  background: linear-gradient(135deg, #f0591f 0%, #ff8c5a 100%);
+}
+
+.secondary-glow {
+  background: var(--secondary-blue-blur);
+  filter: blur(80px);
+  border-radius: 50%;
 }

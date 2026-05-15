@@ -1,0 +1,124 @@
+import React from 'react';
+import Link from 'next/link';
+
+export default function AboutPage() {
+  const leadership = [
+    { name: 'Badshah Irfan Raput', role: 'Founder & CEO', quote: 'My vision is to establish Pakistan as a hub for global tech giants, with GrapeTask being a flagship company.' },
+    { name: 'Muhammad Ikram', role: 'Co-Founder', quote: 'Our goal is to empower young individuals nationwide by providing opportunities to unlock their potential.' },
+    { name: 'Abdul Qavi Memon', role: 'Chief Technology Officer', quote: 'Leading GrapeTask\'s technical vision to build a world-class platform that is secure, scalable, and innovative.' },
+  ];
+
+  const ecosystem = [
+    { title: 'GrapeTask LMS', desc: 'Learn, get assessed, and earn your certificate', icon: '🎓' },
+    { title: 'GrapeTask Marketplace', desc: 'Find work, manage projects, and get paid', icon: '💼' },
+    { title: 'Business Developers', desc: 'Connect clients and experts without technical skills', icon: '🤝' },
+    { title: 'Reward System', desc: 'Bonuses, life insurance, and medical support', icon: '🏆' },
+  ];
+
+  return (
+    <div className="pt-40 pb-20 px-6">
+      <div className="container mx-auto">
+        <div className="max-w-4xl mx-auto text-center mb-24 space-y-4">
+          <h1 className="text-4xl md:text-6xl font-bold text-white">Built in Pakistan. Built for Pakistan. Built for the world.</h1>
+          <p className="text-xl text-bodyGrayText">A movement to empower the next generation of digital professionals.</p>
+        </div>
+
+        {/* Story */}
+        <div className="max-w-4xl mx-auto space-y-12 mb-32">
+           <h2 className="text-3xl font-bold text-white text-center">Our Story</h2>
+           <div className="space-y-8 text-lg text-bodyGrayText leading-relaxed">
+              <p>
+                GrapeTask started with one mission: to create real income opportunities for Pakistani freelancers. As Pakistan's first dedicated freelance marketplace, we built a platform where Experts, Clients, and Business Developers could connect and create value together.
+              </p>
+              <div className="p-8 rounded-[2rem] bg-cardBg border border-orangeBorderActive/20 text-white font-medium italic relative">
+                 <div className="absolute -top-4 -left-4 text-6xl text-primaryOrange/20 opacity-50">"</div>
+                 But we noticed a gap. Thousands of young people in Pakistan — students in schools, colleges, and universities — were left out.
+              </div>
+              <p>
+                So we built GrapeTask LMS. A learning system directly connected to a live marketplace. Not just an education platform — a complete pipeline from skill to income.
+              </p>
+           </div>
+        </div>
+
+        {/* Vision & Mission */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-32">
+           <div className="theme-card p-12 rounded-[3rem] space-y-6 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 orange-gradient rounded-full blur-3xl opacity-10" />
+              <h3 className="text-2xl font-bold text-white uppercase tracking-widest">Our Vision</h3>
+              <p className="text-bodyGrayText leading-relaxed">
+                To make Pakistan a global technology hub by creating a generation of skilled, certified, and financially independent freelancers who compete at the highest level on the world stage.
+              </p>
+              <p className="text-primaryOrange font-bold italic">
+                We will not stop until we have brought a revolution in the freelance world.
+              </p>
+           </div>
+           <div className="theme-card p-12 rounded-[3rem] space-y-6 relative overflow-hidden">
+              <div className="absolute bottom-0 left-0 w-32 h-32 orange-gradient rounded-full blur-3xl opacity-10" />
+              <h3 className="text-2xl font-bold text-white uppercase tracking-widest">Our Mission</h3>
+              <p className="text-bodyGrayText leading-relaxed">
+                To provide every individual in Pakistan access to professional skill training, a verified certification, and a direct path to earning in dollars.
+              </p>
+              <div className="pt-4 flex items-center space-x-2">
+                 <span className="text-3xl font-bold text-white">10 Million</span>
+                 <span className="text-sm text-darkGrayNumber font-bold uppercase">Freelance Jobs by 2030</span>
+              </div>
+           </div>
+        </div>
+
+        {/* Ecosystem */}
+        <div className="mb-32">
+           <h2 className="text-3xl font-bold text-white mb-16 text-center">The GrapeTask Ecosystem</h2>
+           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {ecosystem.map((item) => (
+                <div key={item.title} className="p-8 rounded-3xl bg-cardBg border border-lightBorder text-center space-y-4 hover:border-primaryOrange transition-all group">
+                   <div className="text-4xl">{item.icon}</div>
+                   <h4 className="text-lg font-bold text-white group-hover:text-primaryOrange transition-colors">{item.title}</h4>
+                   <p className="text-sm text-bodyGrayText leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
+           </div>
+        </div>
+
+        {/* Leadership */}
+        <div className="mb-32">
+           <h2 className="text-3xl font-bold text-white mb-16 text-center">Leadership</h2>
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+              {leadership.map((leader) => (
+                <div key={leader.name} className="theme-card p-10 rounded-[2.5rem] space-y-6 text-center group">
+                   <div className="w-24 h-24 orange-gradient rounded-full mx-auto flex items-center justify-center text-3xl text-white shadow-xl group-hover:scale-110 transition-transform">
+                      {leader.name.charAt(0)}
+                   </div>
+                   <div>
+                      <h4 className="text-xl font-bold text-white">{leader.name}</h4>
+                      <p className="text-primaryOrange text-sm font-semibold uppercase tracking-widest">{leader.role}</p>
+                   </div>
+                   <p className="text-sm text-bodyGrayText italic leading-relaxed">
+                     "{leader.quote}"
+                   </p>
+                </div>
+              ))}
+           </div>
+        </div>
+
+        {/* Community */}
+        <div className="p-12 md:p-20 rounded-[3rem] bg-[#010411] border border-lightBorder relative overflow-hidden text-center space-y-8">
+           <div className="absolute top-0 right-0 w-64 h-64 secondary-glow opacity-10" />
+           <h2 className="text-3xl font-bold text-white uppercase tracking-widest">Our Community</h2>
+           <p className="text-lg text-bodyGrayText max-w-3xl mx-auto leading-relaxed">
+             GrapeTask already has city heads in Karachi, Faisalabad, Hyderabad, Bahawalnagar, Khairpur Mir's, Pakpattan Sharif, Pial Kalan, Dina, and Fortabass — with more joining every month.
+           </p>
+           <div className="text-2xl font-bold text-white italic">"We are not just a platform. We are a movement."</div>
+        </div>
+
+        <div className="text-center mt-32">
+          <Link
+            href="/register"
+            className="inline-block px-12 py-5 bg-primaryOrange hover:bg-opacity-90 text-white font-bold text-lg rounded-2xl shadow-2xl shadow-primaryOrange/20 transition-all hover:scale-105 active:scale-95"
+          >
+            Join the Movement →
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
