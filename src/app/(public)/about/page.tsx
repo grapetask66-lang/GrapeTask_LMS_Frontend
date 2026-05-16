@@ -1,5 +1,15 @@
 import React from 'react';
 import Link from 'next/link';
+import { 
+  GraduationCap, 
+  Briefcase, 
+  Users2, 
+  Trophy, 
+  ArrowRight, 
+  Target, 
+  Rocket, 
+  Globe2 
+} from 'lucide-react';
 
 export default function AboutPage() {
   const leadership = [
@@ -9,18 +19,21 @@ export default function AboutPage() {
   ];
 
   const ecosystem = [
-    { title: 'GrapeTask LMS', desc: 'Learn, get assessed, and earn your certificate', icon: '🎓' },
-    { title: 'GrapeTask Marketplace', desc: 'Find work, manage projects, and get paid', icon: '💼' },
-    { title: 'Business Developers', desc: 'Connect clients and experts without technical skills', icon: '🤝' },
-    { title: 'Reward System', desc: 'Bonuses, life insurance, and medical support', icon: '🏆' },
+    { title: 'GrapeTask LMS', desc: 'Learn, get assessed, and earn your certificate', icon: <GraduationCap className="w-10 h-10" /> },
+    { title: 'GrapeTask Marketplace', desc: 'Find work, manage projects, and get paid', icon: <Briefcase className="w-10 h-10" /> },
+    { title: 'Business Developers', desc: 'Connect clients and experts without technical skills', icon: <Users2 className="w-10 h-10" /> },
+    { title: 'Reward System', desc: 'Bonuses, life insurance, and medical support', icon: <Trophy className="w-10 h-10" /> },
   ];
 
   return (
     <div className="pt-40 pb-20 px-6">
       <div className="container mx-auto">
-        <div className="max-w-4xl mx-auto text-center mb-24 space-y-4">
-          <h1 className="text-4xl md:text-6xl font-bold text-white">Built in Pakistan. Built for Pakistan. Built for the world.</h1>
-          <p className="text-xl text-bodyGrayText">A movement to empower the next generation of digital professionals.</p>
+        <div className="max-w-4xl mx-auto text-center mb-24 space-y-6">
+          <h1 className="text-5xl md:text-8xl font-black text-white leading-tight tracking-tighter">
+            Built in <span className="text-primaryOrange">Pakistan.</span> <br />
+            Built for the <span className="bg-gradient-to-r from-white to-white/40 bg-clip-text text-transparent">World.</span>
+          </h1>
+          <p className="text-xl md:text-2xl text-bodyGrayText font-medium max-w-2xl mx-auto">A movement to empower the next generation of digital professionals.</p>
         </div>
 
         {/* Story */}
@@ -67,13 +80,15 @@ export default function AboutPage() {
 
         {/* Ecosystem */}
         <div className="mb-32">
-           <h2 className="text-3xl font-bold text-white mb-16 text-center">The GrapeTask Ecosystem</h2>
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+           <h2 className="text-4xl md:text-5xl font-black text-white mb-20 text-center tracking-tight">The GrapeTask Ecosystem</h2>
+           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
               {ecosystem.map((item) => (
-                <div key={item.title} className="p-8 rounded-3xl bg-cardBg border border-lightBorder text-center space-y-4 hover:border-primaryOrange transition-all group">
-                   <div className="text-4xl">{item.icon}</div>
-                   <h4 className="text-lg font-bold text-white group-hover:text-primaryOrange transition-colors">{item.title}</h4>
-                   <p className="text-sm text-bodyGrayText leading-relaxed">{item.desc}</p>
+                <div key={item.title} className="theme-card p-12 rounded-[3rem] text-center space-y-6 flex flex-col items-center">
+                   <div className="p-4 rounded-2xl bg-primaryOrange/10 text-primaryOrange group-hover:bg-primaryOrange group-hover:text-white transition-all">
+                      {item.icon}
+                   </div>
+                   <h4 className="text-xl font-bold text-white group-hover:text-primaryOrange transition-colors">{item.title}</h4>
+                   <p className="text-lg text-bodyGrayText leading-relaxed">{item.desc}</p>
                 </div>
               ))}
            </div>
@@ -113,9 +128,10 @@ export default function AboutPage() {
         <div className="text-center mt-32">
           <Link
             href="/register"
-            className="inline-block px-12 py-5 bg-primaryOrange hover:bg-opacity-90 text-white font-bold text-lg rounded-2xl shadow-2xl shadow-primaryOrange/20 transition-all hover:scale-105 active:scale-95"
+            className="group inline-flex items-center space-x-3 px-16 py-6 bg-primaryOrange hover:bg-opacity-90 text-white font-black text-xl rounded-[2rem] shadow-2xl shadow-primaryOrange/30 transition-all hover:scale-105 active:scale-95"
           >
-            Join the Movement →
+            <span>Join the Movement</span>
+            <ArrowRight className="w-7 h-7 group-hover:translate-x-2 transition-transform" />
           </Link>
         </div>
       </div>

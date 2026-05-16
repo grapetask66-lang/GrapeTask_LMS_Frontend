@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { Mail, Phone, Send, ArrowRight, HelpCircle } from 'lucide-react';
 
 export default function FAQPage() {
   const categories = [
@@ -36,9 +37,11 @@ export default function FAQPage() {
   return (
     <div className="pt-40 pb-20 px-6">
       <div className="container mx-auto">
-        <div className="max-w-4xl mx-auto text-center mb-24 space-y-4">
-          <h1 className="text-4xl md:text-6xl font-bold text-white">Frequently Asked Questions</h1>
-          <p className="text-xl text-bodyGrayText">Everything you need to know about GrapeTask LMS.</p>
+        <div className="max-w-4xl mx-auto text-center mb-24 space-y-6">
+          <h1 className="text-5xl md:text-8xl font-black text-white leading-tight tracking-tighter">
+            Got <span className="text-primaryOrange">Questions?</span>
+          </h1>
+          <p className="text-xl md:text-2xl text-bodyGrayText font-medium max-w-2xl mx-auto">Everything you need to know about GrapeTask LMS.</p>
         </div>
 
         <div className="max-w-4xl mx-auto space-y-24">
@@ -72,28 +75,33 @@ export default function FAQPage() {
               <h2 className="text-3xl font-bold text-white">Still have questions?</h2>
               <p className="text-bodyGrayText">We're here to help you get started on your journey.</p>
            </div>
-           <div className="flex flex-col sm:flex-row items-center justify-center space-y-6 sm:space-y-0 sm:space-x-12">
-              <div className="flex items-center space-x-4">
-                 <div className="w-12 h-12 rounded-2xl bg-white/5 border border-lightBorder flex items-center justify-center text-primaryOrange text-2xl">📧</div>
+           <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-24">
+              <div className="flex items-center space-x-6">
+                 <div className="w-16 h-16 rounded-[1.5rem] bg-primaryOrange/10 border border-primaryOrange/20 flex items-center justify-center text-primaryOrange">
+                   <Mail className="w-8 h-8" />
+                 </div>
                  <div className="text-left">
-                    <div className="text-xs text-darkGrayNumber font-bold uppercase">Email Us</div>
-                    <div className="text-lg font-bold text-white">info@grapetask.co</div>
+                    <div className="text-xs text-darkGrayNumber font-black uppercase tracking-widest mb-1">Email Us</div>
+                    <div className="text-xl font-black text-white">info@grapetask.co</div>
                  </div>
               </div>
-              <div className="flex items-center space-x-4">
-                 <div className="w-12 h-12 rounded-2xl bg-white/5 border border-lightBorder flex items-center justify-center text-primaryOrange text-2xl">📞</div>
+              <div className="flex items-center space-x-6">
+                 <div className="w-16 h-16 rounded-[1.5rem] bg-primaryOrange/10 border border-primaryOrange/20 flex items-center justify-center text-primaryOrange">
+                   <Phone className="w-8 h-8" />
+                 </div>
                  <div className="text-left">
-                    <div className="text-xs text-darkGrayNumber font-bold uppercase">Call Us</div>
-                    <div className="text-lg font-bold text-white">+92 341 1228760</div>
+                    <div className="text-xs text-darkGrayNumber font-black uppercase tracking-widest mb-1">Call Us</div>
+                    <div className="text-xl font-black text-white">+92 341 1228760</div>
                  </div>
               </div>
            </div>
-           <div className="pt-8">
+           <div className="pt-10">
               <Link
                 href="/contact"
-                className="inline-block px-12 py-5 bg-primaryOrange hover:bg-opacity-90 text-white font-bold text-lg rounded-2xl shadow-2xl shadow-primaryOrange/20 transition-all hover:scale-105 active:scale-95"
+                className="group inline-flex items-center space-x-3 px-16 py-6 bg-primaryOrange hover:bg-opacity-90 text-white font-black text-xl rounded-[2rem] shadow-2xl shadow-primaryOrange/30 transition-all hover:scale-105 active:scale-95"
               >
-                Send a Message →
+                <span>Send a Message</span>
+                <Send className="w-6 h-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
               </Link>
            </div>
         </div>

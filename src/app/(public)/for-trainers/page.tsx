@@ -1,14 +1,51 @@
 import React from 'react';
 import Link from 'next/link';
+import { 
+  Video, 
+  Camera, 
+  Layout, 
+  FileText, 
+  CheckCircle2, 
+  ArrowRight, 
+  Users2, 
+  Building2, 
+  Sparkles, 
+  TrendingUp 
+} from 'lucide-react';
 
 export default function ForTrainersPage() {
   return (
-    <div className="pt-40 pb-20 px-6">
-      <div className="container mx-auto">
-        <div className="max-w-4xl mx-auto text-center mb-24 space-y-4">
-          <h1 className="text-4xl md:text-6xl font-bold text-white">Share Your Expertise. <br /> Earn While You Teach.</h1>
-          <p className="text-xl text-bodyGrayText">Join GrapeTask LMS as a verified trainer and build a sustainable income by teaching practical, career-ready skills.</p>
-        </div>
+    <div className="relative min-h-screen">
+      {/* Full-width Hero Background */}
+      <div className="absolute top-0 inset-x-0 h-[600px] pointer-events-none overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1600&auto=format&fit=crop')] bg-cover bg-center opacity-60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#010411]/40 via-[#010411]/80 to-[#010411]" />
+        <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-primaryOrange/30 blur-[150px] rounded-full" />
+      </div>
+
+      <div className="pt-40 pb-20 px-6 relative z-10">
+        <div className="container mx-auto">
+          <div className="text-center mb-32 space-y-8 max-w-4xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 text-white text-xs font-bold uppercase tracking-widest shadow-sm">
+              <Sparkles className="w-3.5 h-3.5 text-primaryOrange" /> For Experts & Institutes
+            </div>
+            <h1 className="text-5xl md:text-7xl font-black text-white leading-tight tracking-tight">
+              Share Your <span className="text-primaryOrange">Expertise.</span> <br /> 
+              Earn While You <span className="bg-gradient-to-r from-white to-white/50 bg-clip-text text-transparent">Teach.</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-[#a1a1aa] font-medium leading-relaxed">
+              Join GrapeTask LMS as a verified trainer and build a sustainable income by teaching practical, career-ready skills to a massive audience.
+            </p>
+            <div className="pt-6">
+              <Link
+                href="/register?role=trainer"
+                className="inline-flex items-center space-x-2 px-10 py-5 bg-gradient-to-r from-primaryOrange to-[#ff7a45] hover:shadow-[0_0_30px_rgba(240,89,31,0.5)] text-white font-black text-lg rounded-2xl shadow-xl shadow-primaryOrange/20 transition-all duration-200 hover:-translate-y-1 hover:scale-105 active:scale-95"
+              >
+                <span>Apply as a Trainer</span>
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+            </div>
+          </div>
 
         {/* Who Can Become a Trainer */}
         <Section title="Who Can Become a Trainer?">
@@ -40,8 +77,8 @@ export default function ForTrainersPage() {
                <ul className="space-y-4">
                  {['Full Name', 'Professional Portfolio', 'Teaching or Industry Experience', 'Reason for wanting to join GrapeTask'].map((item) => (
                    <li key={item} className="flex items-center space-x-3 text-white">
-                      <div className="w-6 h-6 rounded-full bg-primaryOrange flex items-center justify-center text-[10px] font-bold">✓</div>
-                      <span>{item}</span>
+                      <CheckCircle2 className="w-5 h-5 text-primaryOrange" />
+                      <span className="font-medium">{item}</span>
                    </li>
                  ))}
                </ul>
@@ -49,10 +86,12 @@ export default function ForTrainersPage() {
                  After submission, the GrapeTask team will review your application and get back to you.
                </p>
             </div>
-            <div className="theme-card p-10 rounded-[2.5rem] border-primaryOrange/20">
-               <div className="text-4xl mb-6">📝</div>
-               <h3 className="text-2xl font-bold text-white mb-4">Quality Standards</h3>
-               <p className="text-bodyGrayText text-sm leading-relaxed">
+            <div className="theme-card p-12 rounded-[3rem] border-primaryOrange/20 group">
+               <div className="p-4 rounded-2xl bg-primaryOrange/10 text-primaryOrange mb-8 w-16 h-16 flex items-center justify-center group-hover:bg-primaryOrange group-hover:text-white transition-all">
+                 <Sparkles className="w-8 h-8" />
+               </div>
+               <h3 className="text-3xl font-black text-white mb-6 tracking-tight">Quality Standards</h3>
+               <p className="text-lg text-bodyGrayText leading-relaxed font-medium">
                  GrapeTask maintains strict quality standards for all courses. We ensure that every piece of content adds real value to our learners.
                </p>
             </div>
@@ -66,23 +105,25 @@ export default function ForTrainersPage() {
               {
                 title: 'High-End Production',
                 desc: 'Videos must be HD quality, recorded on professional equipment (DSLR or iPhone recommended). Clear audio is mandatory.',
-                icon: '🎥',
+                icon: <Camera className="w-10 h-10" />,
               },
               {
                 title: 'Professional Setting',
                 desc: 'Recording environment must be clean, professional, and distraction-free to ensure focus.',
-                icon: '🏢',
+                icon: <Building2 className="w-10 h-10" />,
               },
               {
                 title: 'Structured Testing',
                 desc: 'Every video must include MCQs, a quiz, a written summary, and a practical assignment.',
-                icon: '📝',
+                icon: <FileText className="w-10 h-10" />,
               },
             ].map((std) => (
-              <div key={std.title} className="theme-card p-8 rounded-3xl space-y-4">
-                 <div className="text-3xl">{std.icon}</div>
-                 <h4 className="text-xl font-bold text-white">{std.title}</h4>
-                 <p className="text-bodyGrayText text-sm leading-relaxed">{std.desc}</p>
+              <div key={std.title} className="theme-card p-12 rounded-[3rem] space-y-6 flex flex-col items-center text-center group">
+                 <div className="p-4 rounded-2xl bg-primaryOrange/10 text-primaryOrange group-hover:bg-primaryOrange group-hover:text-white transition-all">
+                    {std.icon}
+                 </div>
+                 <h4 className="text-2xl font-black text-white tracking-tight">{std.title}</h4>
+                 <p className="text-lg text-bodyGrayText leading-relaxed">{std.desc}</p>
               </div>
             ))}
           </div>
@@ -128,15 +169,17 @@ export default function ForTrainersPage() {
           </div>
         </Section>
 
-        <div className="text-center mt-20">
+        <div className="text-center mt-32">
           <Link
             href="/register?role=trainer"
-            className="inline-block px-12 py-5 bg-primaryOrange hover:bg-opacity-90 text-white font-bold text-lg rounded-2xl shadow-2xl shadow-primaryOrange/20 transition-all hover:scale-105 active:scale-95"
+            className="group inline-flex items-center space-x-3 px-16 py-6 bg-primaryOrange hover:bg-opacity-90 text-white font-black text-xl rounded-[2rem] shadow-2xl shadow-primaryOrange/30 transition-all hover:scale-105 active:scale-95"
           >
-            Apply as a Trainer Today →
+            <span>Apply as a Trainer Today</span>
+            <ArrowRight className="w-7 h-7 group-hover:translate-x-2 transition-transform" />
           </Link>
         </div>
       </div>
+    </div>
     </div>
   );
 }

@@ -28,6 +28,15 @@ export const coursesApi = {
       return [];
     }
   },
+  getById: async (id: string | string[]) => {
+    try {
+      const response = await api.get(`/courses/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching course ${id}:`, error);
+      throw error;
+    }
+  },
 };
 
 export default api;

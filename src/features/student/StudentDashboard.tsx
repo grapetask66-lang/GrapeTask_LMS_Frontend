@@ -4,7 +4,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Card, CardTitle } from '@/components/ui/Card';
 import { EmptyState } from '@/components/ui/EmptyState';
-import { Field, TextArea } from '@/components/ui/Field';
+import { Field, SelectInput, TextArea } from '@/components/ui/Field';
 import { assessmentApi, certificatesApi, coursesApi, groupsApi, submissionsApi } from '@/lib/api';
 import type { Certificate, Course, Enrollment, ProgressiveTest } from '@/types/domain';
 
@@ -134,10 +134,10 @@ export function StudentDashboard() {
             {test.questions.map((questionItem) => (
               <Field key={questionItem.id} label={questionItem.prompt}>
                 {questionItem.options?.length ? (
-                  <select className="theme-focus min-h-11 w-full rounded-md border border-lightBorder bg-cardBg px-3 text-sm text-pureWhite" value={answers[questionItem.id] ?? ''} onChange={(event) => setAnswers({ ...answers, [questionItem.id]: event.target.value })} required>
+                  <SelectInput value={answers[questionItem.id] ?? ''} onChange={(event) => setAnswers({ ...answers, [questionItem.id]: event.target.value })} required>
                     <option value="">Select answer</option>
                     {questionItem.options.map((option) => <option key={option} value={option}>{option}</option>)}
-                  </select>
+                  </SelectInput>
                 ) : (
                   <TextArea value={answers[questionItem.id] ?? ''} onChange={(event) => setAnswers({ ...answers, [questionItem.id]: event.target.value })} required />
                 )}
