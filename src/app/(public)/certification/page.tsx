@@ -115,7 +115,7 @@ export default function CertificationPage() {
         <div className="text-center">
           <Link
             href="/courses"
-            className="inline-block px-12 py-5 bg-primaryOrange hover:bg-opacity-90 text-white font-bold text-lg rounded-2xl shadow-2xl shadow-primaryOrange/20 transition-all hover:scale-105 active:scale-95"
+            className="inline-block px-6 py-3.5 sm:px-8 sm:py-4 bg-primaryOrange hover:bg-opacity-90 text-white font-bold text-sm sm:text-base rounded-xl shadow-lg shadow-primaryOrange/20 transition-all hover:scale-105 active:scale-95"
           >
             Start a Course Today →
           </Link>

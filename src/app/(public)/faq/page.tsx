@@ -1,13 +1,40 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { Mail, Phone, Send, ArrowRight, HelpCircle } from 'lucide-react';
+import { Mail, Phone, Send, ArrowRight, HelpCircle, ChevronDown, CheckCircle } from 'lucide-react';
+
+type FAQItem = {
+  q: string;
+  a: string;
+};
+
+type FAQCategory = {
+  id: string;
+  name: string;
+  questions: FAQItem[];
+};
 
 export default function FAQPage() {
-  const categories = [
+  const [activeTab, setActiveTab] = useState('general');
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const categories: FAQCategory[] = [
     {
-      name: 'FOR LEARNERS',
+      id: 'general',
+      name: 'General FAQ',
       questions: [
-        { q: 'Who can join GrapeTask LMS?', a: 'Anyone can join — school students, college students, university students, and individual learners who are not enrolled in any institution. GrapeTask LMS is open to all.' },
+        { q: 'What is GrapeTask LMS?', a: 'GrapeTask LMS is Pakistan\'s first skill-to-earn platform. It provides high-quality practical training directly connected to a live freelance marketplace, allowing you to learn from verified experts, complete assessments, and start earning immediately.' },
+        { q: 'Is GrapeTask LMS free to join?', a: 'Yes, it is completely free to create an account on GrapeTask. You only pay for individual premium courses you choose to enroll in, or if you are part of a subscribed partner institution, your access is covered by your school, college, or university.' },
+        { q: 'Are the certificates verified?', a: 'Absolutely. Every certificate is backed by your actual test scores and trainer reviews, and automatically appears as a verified badge on your live GrapeTask freelance marketplace profile, making you instantly credible to global clients.' },
+        { q: 'How is GrapeTask different from other platforms?', a: 'Unlike other online platforms that just offer video lectures, GrapeTask LMS features a progressive module unlocking system, manual grading of practical assignments by expert trainers, and a direct pipeline to active client contracts on the freelance marketplace.' }
+      ]
+    },
+    {
+      id: 'learners',
+      name: 'For Learners FAQ',
+      questions: [
+        { q: 'Who can join GrapeTask LMS?', a: 'Anyone can join — school students, college students, university students, and individual self-taught learners. GrapeTask LMS is open to all who want to build high-paying digital skills.' },
         { q: 'Do I need to pay to enroll in a course?', a: 'Individual learners pay per course. Institutional students (school, college, university) are enrolled by their institution under a subscription plan and do not need to pay individually.' },
         { q: 'What happens if I fail a test?', a: 'If you fail, you must re-watch the video before attempting the test again. Your next attempt will feature a completely different set of questions — not the same test repeated.' },
         { q: 'Can I skip a video and go to the next one?', a: 'No. GrapeTask LMS uses a progressive unlocking system. You must pass the assessment for each video before the next one becomes available.' },
@@ -15,7 +42,8 @@ export default function FAQPage() {
       ]
     },
     {
-      name: 'FOR TRAINERS',
+      id: 'trainers',
+      name: 'For Trainers FAQ',
       questions: [
         { q: 'Who can become a trainer?', a: 'Both individual professionals and training institutes can apply. You must submit your portfolio, experience, and reason for joining. The GrapeTask team will review your application.' },
         { q: 'What video quality is required for my course?', a: 'All course videos must be HD quality, recorded using professional equipment (DSLR or iPhone), in a clean professional environment, with clear audio.' },
@@ -24,86 +52,160 @@ export default function FAQPage() {
       ]
     },
     {
-      name: 'FOR INSTITUTIONS',
+      id: 'institutions',
+      name: 'For Institutions FAQ',
       questions: [
         { q: 'How does the institutional subscription work?', a: 'Your institution pays a monthly per-student fee based on your student level. GrapeTask provides a dedicated portal where you assign courses, manage students, and receive progress reports.' },
-        { q: 'Can I get a discount for a longer commitment?', a: 'Yes. GrapeTask offers significant discounts for 6-month and 1-year packages. These packages are available directly from your institutional dashboard.' },
+        { q: 'Can I get a discount for a longer commitment?', a: 'Yes. GrapeTask offers significant discounts for 6-month (25% off) and 1-year (40% off) packages. These packages are available directly from your institutional dashboard.' },
         { q: 'How are progress reports delivered?', a: 'Trainers generate reports directly in the system with one click. Reports are automatically branded with the GrapeTask logo and your institution\'s logo, then delivered to your portal inbox and email.' },
         { q: 'Can parents see their child\'s progress?', a: 'Yes. The institution head can forward reports to parents after reviewing them.' },
       ]
     }
   ];
 
+  const currentCategory = categories.find(c => c.id === activeTab) || categories[0];
+
+  const handleToggle = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
+  const handleTabChange = (tabId: string) => {
+    setActiveTab(tabId);
+    setOpenIndex(null); // Close open answers when changing tabs
+  };
+
   return (
-    <div className="pt-40 pb-20 px-6">
-      <div className="container mx-auto">
-        <div className="max-w-4xl mx-auto text-center mb-24 space-y-6">
-          <h1 className="text-5xl md:text-8xl font-black text-white leading-tight tracking-tighter">
-            Got <span className="text-primaryOrange">Questions?</span>
+    <div className="pt-24 md:pt-40 pb-20 px-4 sm:px-6 bg-[#020617] min-h-screen">
+      <div className="container mx-auto max-w-5xl">
+        
+        {/* Header Section */}
+        <div className="text-center mb-16 md:mb-24 space-y-4 md:space-y-6">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 text-primaryOrange text-xs font-black uppercase tracking-widest shadow-sm">
+            <HelpCircle className="w-3.5 h-3.5 animate-bounce" /> Support Center
+          </div>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-white leading-tight tracking-tight text-3d">
+            Got <span className="text-primaryOrange text-3d-orange">Questions?</span>
           </h1>
-          <p className="text-xl md:text-2xl text-bodyGrayText font-medium max-w-2xl mx-auto">Everything you need to know about GrapeTask LMS.</p>
+          <p className="text-base sm:text-lg md:text-xl text-[#a1a1aa] font-medium max-w-2xl mx-auto leading-relaxed">
+            Everything you need to know about GrapeTask LMS. Explore answers sorted by categories.
+          </p>
         </div>
 
-        <div className="max-w-4xl mx-auto space-y-24">
+        {/* Categories Tab Navigation */}
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-12 p-2 rounded-2xl sm:rounded-3xl glass-card border border-lightBorder max-w-3xl mx-auto">
           {categories.map((category) => (
-            <div key={category.name} className="space-y-12">
-               <h2 className="text-2xl font-bold text-primaryOrange uppercase tracking-[0.3em] border-l-4 border-primaryOrange pl-6">
-                 {category.name}
-               </h2>
-               <div className="grid grid-cols-1 gap-6">
-                  {category.questions.map((item, i) => (
-                    <div key={i} className="theme-card p-10 rounded-[2.5rem] space-y-4 hover:border-orangeBorderActive/40 transition-colors group">
-                       <h3 className="text-xl font-bold text-white group-hover:text-primaryOrange transition-colors">
-                          {item.q}
-                       </h3>
-                       <p className="text-bodyGrayText leading-relaxed">
-                          {item.a}
-                       </p>
-                    </div>
-                  ))}
-               </div>
-            </div>
+            <button
+              key={category.id}
+              onClick={() => handleTabChange(category.id)}
+              className={`px-4 sm:px-6 py-2.5 sm:py-3.5 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-black uppercase tracking-wider transition-all duration-300 ${
+                activeTab === category.id
+                  ? 'bg-primaryOrange text-white shadow-lg shadow-primaryOrange/25 scale-[1.02]'
+                  : 'text-mediumGrayTitle hover:text-white hover:bg-white/5'
+              }`}
+            >
+              {category.name.replace(' FAQ', '')}
+            </button>
           ))}
         </div>
 
-        {/* Contact CTA */}
-        <div className="mt-40 p-12 md:p-24 rounded-[4rem] bg-cardBg border border-lightBorder text-center space-y-12 relative overflow-hidden">
-           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10">
-              <div className="absolute top-1/4 left-1/4 w-64 h-64 secondary-glow opacity-20" />
-           </div>
-           <div className="space-y-4">
-              <h2 className="text-3xl font-bold text-white">Still have questions?</h2>
-              <p className="text-bodyGrayText">We're here to help you get started on your journey.</p>
-           </div>
-           <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-24">
-              <div className="flex items-center space-x-6">
-                 <div className="w-16 h-16 rounded-[1.5rem] bg-primaryOrange/10 border border-primaryOrange/20 flex items-center justify-center text-primaryOrange">
-                   <Mail className="w-8 h-8" />
-                 </div>
-                 <div className="text-left">
-                    <div className="text-xs text-darkGrayNumber font-black uppercase tracking-widest mb-1">Email Us</div>
-                    <div className="text-xl font-black text-white">info@grapetask.co</div>
-                 </div>
-              </div>
-              <div className="flex items-center space-x-6">
-                 <div className="w-16 h-16 rounded-[1.5rem] bg-primaryOrange/10 border border-primaryOrange/20 flex items-center justify-center text-primaryOrange">
-                   <Phone className="w-8 h-8" />
-                 </div>
-                 <div className="text-left">
-                    <div className="text-xs text-darkGrayNumber font-black uppercase tracking-widest mb-1">Call Us</div>
-                    <div className="text-xl font-black text-white">+92 341 1228760</div>
-                 </div>
-              </div>
-           </div>
-           <div className="pt-10">
-              <Link
-                href="/contact"
-                className="group inline-flex items-center space-x-3 px-16 py-6 bg-primaryOrange hover:bg-opacity-90 text-white font-black text-xl rounded-[2rem] shadow-2xl shadow-primaryOrange/30 transition-all hover:scale-105 active:scale-95"
+        {/* Dynamic Accordion list */}
+        <div className="space-y-4 max-w-4xl mx-auto">
+          {currentCategory.questions.map((item, index) => {
+            const isOpen = openIndex === index;
+            return (
+              <div
+                key={index}
+                className={`theme-card p-5 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl border transition-all duration-500 relative overflow-hidden group ${
+                  isOpen 
+                    ? 'border-primaryOrange/40 bg-cardBgActive/20 shadow-[0_15px_30px_rgba(240,89,31,0.06)]' 
+                    : 'border-lightBorder hover:border-orangeBorderActive/30 hover:bg-cardBgActive/10'
+                }`}
               >
-                <span>Send a Message</span>
-                <Send className="w-6 h-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-              </Link>
-           </div>
+                {/* Visual hover splash */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primaryOrange/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+                <button
+                  onClick={() => handleToggle(index)}
+                  className="w-full flex items-center justify-between text-left focus:outline-none"
+                >
+                  <div className="flex items-center gap-4 sm:gap-6 pr-4">
+                    <span className={`w-8 h-8 rounded-lg sm:rounded-xl flex items-center justify-center font-black text-sm flex-shrink-0 transition-all duration-300 ${
+                      isOpen 
+                        ? 'bg-primaryOrange text-white rotate-[360deg] shadow-md shadow-primaryOrange/25' 
+                        : 'bg-white/5 text-primaryOrange group-hover:bg-primaryOrange/10'
+                    }`}>
+                      ?
+                    </span>
+                    <h3 className={`text-base sm:text-lg md:text-xl font-bold transition-colors duration-300 pr-2 ${
+                      isOpen ? 'text-primaryOrange' : 'text-white group-hover:text-primaryOrange'
+                    }`}>
+                      {item.q}
+                    </h3>
+                  </div>
+                  <ChevronDown className={`w-5 h-5 sm:w-6 sm:h-6 text-mediumGrayTitle group-hover:text-white transition-transform duration-300 ${
+                    isOpen ? 'rotate-180 text-primaryOrange' : ''
+                  }`} />
+                </button>
+
+                {/* Expanded smooth accordion content */}
+                <div
+                  className={`grid transition-all duration-300 ease-in-out ${
+                    isOpen ? 'grid-rows-[1fr] opacity-100 mt-4 sm:mt-6' : 'grid-rows-[0fr] opacity-0 pointer-events-none'
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <div className="pl-12 border-l border-primaryOrange/20 py-2">
+                      <p className="text-sm sm:text-base text-bodyGrayText leading-relaxed font-medium">
+                        {item.a}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Contact CTA */}
+        <div className="mt-24 md:mt-32 p-8 sm:p-12 md:p-20 rounded-[2.5rem] sm:rounded-[3.5rem] bg-cardBg border border-lightBorder text-center space-y-8 sm:space-y-12 relative overflow-hidden shadow-2xl">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 pointer-events-none">
+            <div className="absolute top-1/4 left-1/4 w-64 h-64 secondary-glow opacity-10" />
+          </div>
+          <div className="space-y-3 sm:space-y-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight text-3d">
+              Still have <span className="text-primaryOrange text-3d-orange">Questions?</span>
+            </h2>
+            <p className="text-sm sm:text-base text-[#a1a1aa] font-semibold">We're here to help you get started on your journey.</p>
+          </div>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 lg:gap-24">
+            <div className="flex items-center space-x-4 sm:space-x-6 text-left w-full md:w-auto justify-center md:justify-start">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-[1.5rem] bg-primaryOrange/10 border border-primaryOrange/20 flex items-center justify-center text-primaryOrange">
+                <Mail className="w-6 h-6 sm:w-8 sm:h-8" />
+              </div>
+              <div>
+                <div className="text-[10px] text-darkGrayNumber font-black uppercase tracking-widest mb-0.5 sm:mb-1">Email Us</div>
+                <a href="mailto:info@grapetask.co" className="text-lg sm:text-xl font-black text-white hover:text-primaryOrange transition-colors">info@grapetask.co</a>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4 sm:space-x-6 text-left w-full md:w-auto justify-center md:justify-start">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-[1.5rem] bg-primaryOrange/10 border border-primaryOrange/20 flex items-center justify-center text-primaryOrange">
+                <Phone className="w-6 h-6 sm:w-8 sm:h-8" />
+              </div>
+              <div>
+                <div className="text-[10px] text-darkGrayNumber font-black uppercase tracking-widest mb-0.5 sm:mb-1">Call Us</div>
+                <a href="tel:+923411228760" className="text-lg sm:text-xl font-black text-white hover:text-primaryOrange transition-colors">+92 341 1228760</a>
+              </div>
+            </div>
+          </div>
+          <div className="pt-6 sm:pt-10">
+            <Link
+              href="/contact"
+              className="group inline-flex items-center space-x-2 px-6 py-3.5 sm:px-8 sm:py-4 bg-primaryOrange hover:bg-opacity-90 text-white font-black text-sm sm:text-base rounded-xl shadow-lg shadow-primaryOrange/20 transition-all hover:scale-105 active:scale-95"
+            >
+              <span>Send a Message</span>
+              <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            </Link>
+          </div>
         </div>
       </div>
     </div>

@@ -51,10 +51,10 @@ export default function ForLearnersPage() {
     <div className="pt-40 pb-20 px-6">
       <div className="container mx-auto">
         <div className="max-w-4xl mx-auto text-center mb-24 space-y-6">
-          <h1 className="text-5xl md:text-8xl font-black text-white leading-tight tracking-tighter">
-            Start Your Learning <span className="text-primaryOrange">Journey</span> Today
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-white leading-tight tracking-tight text-3d">
+            Start Your Learning <span className="text-primaryOrange text-3d-orange">Journey</span> Today
           </h1>
-          <p className="text-xl md:text-2xl text-bodyGrayText font-medium max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-bodyGrayText font-medium max-w-2xl mx-auto leading-relaxed">
             Whether you are a school student, university graduate, or self-motivated individual — GrapeTask LMS has a learning path built for you.
           </p>
         </div>
@@ -62,7 +62,7 @@ export default function ForLearnersPage() {
         {/* Learner Types */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-32">
           {learnerTypes.map((type) => (
-            <div key={type.title} className="theme-card p-12 rounded-[3rem] space-y-6 group hover:-translate-y-2 transition-transform">
+            <div key={type.title} className="theme-card card-3d p-6 sm:p-12 rounded-3xl sm:rounded-[3rem] space-y-6 group hover:-translate-y-2 transition-transform">
               <div className="p-4 rounded-2xl bg-primaryOrange/10 text-primaryOrange mb-8 w-16 h-16 flex items-center justify-center group-hover:bg-primaryOrange group-hover:text-white transition-all">
                  {type.icon}
               </div>
@@ -132,10 +132,10 @@ export default function ForLearnersPage() {
         <div className="text-center">
           <Link
             href="/courses"
-            className="group inline-flex items-center space-x-3 px-16 py-6 bg-primaryOrange hover:bg-opacity-90 text-white font-black text-xl rounded-[2rem] shadow-2xl shadow-primaryOrange/30 transition-all hover:scale-105 active:scale-95"
+            className="group inline-flex items-center space-x-2 px-6 py-3.5 sm:px-8 sm:py-4 bg-primaryOrange hover:bg-opacity-90 text-white font-black text-sm sm:text-base rounded-xl shadow-lg shadow-primaryOrange/20 transition-all hover:scale-105 active:scale-95"
           >
             <span>Ready to start? Browse Courses</span>
-            <ArrowRight className="w-7 h-7 group-hover:translate-x-2 transition-transform" />
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
       </div>

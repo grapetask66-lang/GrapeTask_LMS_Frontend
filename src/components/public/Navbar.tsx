@@ -89,34 +89,34 @@ const Navbar = () => {
 
         {/* Mobile Menu Overlay */}
         <div className={`lg:hidden fixed inset-x-0 top-[88px] bg-[#020617]/95 backdrop-blur-2xl border-t border-white/5 transition-all duration-500 overflow-hidden ${mobileMenuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'}`}>
-          <div className="p-8 flex flex-col space-y-6">
+          <div className="p-8 flex flex-col space-y-5">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`text-2xl font-black tracking-tighter ${
-                  pathname === link.href ? 'text-primaryOrange' : 'text-white'
+                className={`text-lg font-bold tracking-tight transition-colors duration-200 hover:text-primaryOrange ${
+                  pathname === link.href ? 'text-primaryOrange' : 'text-white/90'
                 }`}
               >
                 {link.name}
               </Link>
             ))}
-            <div className="pt-8 flex flex-col space-y-4">
+            <div className="pt-6 flex flex-col space-y-3">
               <Link
                 href="/login"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full py-5 bg-white/5 text-white font-black text-xl rounded-2xl text-center flex items-center justify-center space-x-3"
+                className="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold text-sm rounded-xl text-center flex items-center justify-center space-x-2 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
               >
-                <LogIn className="w-6 h-6" />
+                <LogIn className="w-4 h-4" />
                 <span>Login</span>
               </Link>
               <Link
                 href="/register"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full py-5 bg-primaryOrange text-white font-black text-xl rounded-2xl text-center flex items-center justify-center space-x-3 shadow-2xl shadow-primaryOrange/20"
+                className="w-full py-3 bg-primaryOrange hover:bg-opacity-95 text-white font-extrabold text-sm rounded-xl text-center flex items-center justify-center space-x-2 shadow-lg shadow-primaryOrange/10 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
               >
-                <UserPlus className="w-6 h-6" />
+                <UserPlus className="w-4 h-4" />
                 <span>Join Free</span>
               </Link>
             </div>

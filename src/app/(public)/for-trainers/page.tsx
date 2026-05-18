@@ -1,195 +1,230 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
-import { 
-  Video, 
-  Camera, 
-  Layout, 
-  FileText, 
-  CheckCircle2, 
-  ArrowRight, 
-  Users2, 
-  Building2, 
-  Sparkles, 
-  TrendingUp 
+import {
+  GraduationCap, BookOpen, Award, Users, ShieldCheck, DollarSign,
+  ArrowRight, CheckCircle2, ChevronRight, Video, Camera, Sparkles, HelpCircle,
+  Briefcase, MonitorPlay, Layers, ClipboardCheck, Mic, PenTool, MessageSquare, Radio
 } from 'lucide-react';
 
 export default function ForTrainersPage() {
+  const requirements = [
+    { title: 'Portfolio Submission', desc: 'Provide links to your professional work, designs, or Github code repositories.', icon: Briefcase },
+    { title: 'Video Quality', desc: 'Course videos must be HD 1080p recorded with clear audio and in a clean environment.', icon: MonitorPlay },
+    { title: 'Structured Content', desc: 'Courses must follow a level-based curriculum (School, College, or University).', icon: Layers },
+    { title: 'Assessments', desc: 'Include test questions (MCQs, practical assignments) after every course video lesson.', icon: ClipboardCheck },
+  ];
+
+  const standards = [
+    { title: 'Professional Equipment', desc: 'Use DSLR or high-quality smartphones to record lectures. Audio must be crisp.', icon: Mic },
+    { title: 'Manual Grading', desc: 'Be prepared to manually grade students\' practical code or design submissions.', icon: PenTool },
+    { title: 'Interactive Chat', desc: 'Answer student questions inside your course\'s built-in chat window weekly.', icon: MessageSquare },
+    { title: 'Live Q&As', desc: 'Host weekly live masterclasses or Q&A video sessions for your premium learners.', icon: Radio },
+  ];
+
   return (
-    <div className="relative min-h-screen">
-      {/* Full-width Hero Background */}
-      <div className="absolute top-0 inset-x-0 h-[600px] pointer-events-none overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1600&auto=format&fit=crop')] bg-cover bg-center opacity-60" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#010411]/40 via-[#010411]/80 to-[#010411]" />
-        <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-primaryOrange/30 blur-[150px] rounded-full" />
+    <div className="relative min-h-screen bg-[#020617] text-white">
+
+      {/* ── HERO VIDEO BACKGROUND ── */}
+      <div className="absolute top-0 inset-x-0 h-[500px] sm:h-[600px] pointer-events-none overflow-hidden z-0">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          ref={el => {
+            if (el) {
+              el.muted = true;
+              el.defaultMuted = true;
+              el.play().catch(() => { });
+            }
+          }}
+          className="absolute inset-0 w-full h-full object-cover opacity-75 sm:opacity-85 z-10"
+        >
+          <source src="/videos/trainer-teaching.mp4" type="video/mp4" />
+        </video>
+        {/* Navy + Orange thematic overlays */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#020617]/25 via-[#020617]/55 to-[#020617] z-20" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#020617]/60 via-transparent to-[#f0591f]/15 mix-blend-screen opacity-60 z-20" />
+        <div className="absolute top-0 right-1/4 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-primaryOrange/10 blur-[100px] sm:blur-[150px] rounded-full z-20" />
       </div>
 
-      <div className="pt-40 pb-20 px-6 relative z-10">
-        <div className="container mx-auto">
-          <div className="text-center mb-32 space-y-8 max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 text-white text-xs font-bold uppercase tracking-widest shadow-sm">
-              <Sparkles className="w-3.5 h-3.5 text-primaryOrange" /> For Experts & Institutes
+      <div className="pt-28 sm:pt-40 pb-20 px-4 sm:px-6 relative z-30">
+        <div className="container mx-auto max-w-6xl">
+
+          {/* Header Info */}
+          <div className="text-center mb-16 sm:mb-24 space-y-4 sm:space-y-6 max-w-4xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 text-primaryOrange text-xs font-bold uppercase tracking-widest shadow-sm">
+              <Sparkles className="w-3.5 h-3.5" /> Join Our Team
             </div>
-            <h1 className="text-5xl md:text-7xl font-black text-white leading-tight tracking-tight">
-              Share Your <span className="text-primaryOrange">Expertise.</span> <br /> 
-              Earn While You <span className="bg-gradient-to-r from-white to-white/50 bg-clip-text text-transparent">Teach.</span>
+            {/* Heading slightly smaller & 3D text styled */}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-white leading-tight tracking-tight text-3d">
+              Teach on <span className="text-primaryOrange text-3d-orange">GrapeTask LMS</span>
             </h1>
-            <p className="text-xl md:text-2xl text-[#a1a1aa] font-medium leading-relaxed">
-              Join GrapeTask LMS as a verified trainer and build a sustainable income by teaching practical, career-ready skills to a massive audience.
+            <p className="text-base sm:text-lg text-[#a1a1aa] font-medium max-w-2xl mx-auto leading-relaxed">
+              Share your expertise, train the next generation of digital professionals, and build a rewarding residual income stream.
             </p>
-            <div className="pt-6">
+          </div>
+
+          {/* Who can become a trainer - Background bg-[#020617] instead of black */}
+          <div className="mb-24 p-6 sm:p-12 md:p-20 rounded-[2.5rem] sm:rounded-[3.5rem] bg-[#020617] border border-lightBorder relative overflow-hidden shadow-2xl">
+            <div className="absolute top-0 right-0 w-80 h-80 secondary-glow opacity-10" />
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+
+              <div className="lg:col-span-7 space-y-6 sm:space-y-8">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white leading-tight tracking-tight text-3d">
+                  Who Can Become a <span className="text-primaryOrange text-3d-orange">Trainer?</span>
+                </h2>
+                <p className="text-sm sm:text-base text-[#a1a1aa] font-medium leading-relaxed">
+                  We look for passionate professionals with real industry experience. If you love code, design, content creation, or business, we invite you to apply.
+                </p>
+                <div className="space-y-4 pt-2">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-8 h-8 rounded-xl bg-primaryOrange/10 flex items-center justify-center text-primaryOrange border border-primaryOrange/20 flex-shrink-0">
+                      <CheckCircle2 className="w-4.5 h-4.5" />
+                    </div>
+                    <p className="text-sm sm:text-base text-[#e4e4e7] font-semibold">Individual expert freelancers with verified portfolios</p>
+                  </div>
+                  <div className="flex items-center space-x-4">
+                    <div className="w-8 h-8 rounded-xl bg-primaryOrange/10 flex items-center justify-center text-primaryOrange border border-primaryOrange/20 flex-shrink-0">
+                      <CheckCircle2 className="w-4.5 h-4.5" />
+                    </div>
+                    <p className="text-sm sm:text-base text-[#e4e4e7] font-semibold">Established offline computer training institutes looking to go online</p>
+                  </div>
+                  <div className="flex items-center space-x-4">
+                    <div className="w-8 h-8 rounded-xl bg-primaryOrange/10 flex items-center justify-center text-primaryOrange border border-primaryOrange/20 flex-shrink-0">
+                      <CheckCircle2 className="w-4.5 h-4.5" />
+                    </div>
+                    <p className="text-sm sm:text-base text-[#e4e4e7] font-semibold">Software development houses offering practical internship tracks</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Stacked Graphic Widgets */}
+              <div className="lg:col-span-5 flex flex-col space-y-6">
+                <div className="theme-card p-6 sm:p-10 rounded-[2rem] border border-lightBorder relative overflow-hidden backdrop-blur-xl bg-[rgba(255,255,255,0.03)] card-3d">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primaryOrange/5 to-transparent pointer-events-none" />
+                  <div className="text-center space-y-4">
+                    <div className="w-16 h-16 rounded-2xl bg-primaryOrange/10 border border-primaryOrange/20 text-primaryOrange flex items-center justify-center mx-auto shadow-inner">
+                      <Video className="w-8 h-8" />
+                    </div>
+                    <h3 className="text-lg sm:text-xl font-black text-white tracking-tight">Record from Home</h3>
+                    <p className="text-xs sm:text-sm text-bodyGrayText font-medium leading-relaxed">
+                      Complete support in course structural development, recording advice, and grading setups.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Registration Requirements - Changed background from black to Navy Blue #020617 */}
+          <div className="mb-24 p-6 sm:p-12 md:p-20 rounded-[2.5rem] sm:rounded-[3.5rem] bg-[#020617] border border-lightBorder relative overflow-hidden shadow-2xl">
+            <div className="absolute bottom-0 left-0 w-80 h-80 secondary-glow opacity-10" />
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-12 sm:mb-16 text-center tracking-tight text-3d">
+              Trainer Registration <span className="text-primaryOrange text-3d-orange">Requirements</span>
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 items-stretch">
+              {requirements.map((req) => {
+                const Icon = req.icon;
+                return (
+                  <div key={req.title} className="theme-card card-3d h-full p-6 sm:p-8 rounded-[2rem] flex flex-col items-start text-left relative overflow-hidden bg-gradient-to-b from-white/[0.03] to-white/[0.01] hover:from-primaryOrange/[0.08] hover:to-transparent border border-white/10 hover:border-primaryOrange/40 transition-all duration-500 shadow-xl hover:shadow-[0_20px_50px_rgba(240,89,31,0.15)] group">
+                    <div className="absolute inset-0 bg-gradient-to-tr from-primaryOrange/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                    
+                    <div className="w-14 h-14 rounded-2xl bg-white/[0.04] group-hover:bg-primaryOrange/10 text-white/80 group-hover:text-primaryOrange border border-white/10 group-hover:border-primaryOrange/30 flex items-center justify-center shadow-lg group-hover:shadow-[0_0_20px_rgba(240,89,31,0.2)] transition-all duration-500 mb-6 transform group-hover:scale-110 group-hover:rotate-3 flex-shrink-0 z-10">
+                      <Icon className="w-6 h-6" />
+                    </div>
+                    
+                    <div className="flex-1 flex flex-col justify-start z-10 w-full text-left">
+                      <h3 className="text-lg font-bold text-white tracking-tight mb-3 group-hover:text-primaryOrange transition-colors duration-300">{req.title}</h3>
+                      <p className="text-sm text-bodyGrayText group-hover:text-[#d4d4d8] font-medium leading-relaxed transition-colors duration-300">{req.desc}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Course Creation Standards - Background bg-[#020617] or bg-cardBg instead of black */}
+          <div className="mb-24">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-12 sm:mb-16 text-center tracking-tight text-3d">
+              Course Creation <span className="text-primaryOrange text-3d-orange">Standards</span>
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 items-stretch">
+              {standards.map((std) => {
+                const Icon = std.icon;
+                return (
+                  <div key={std.title} className="theme-card card-3d h-full p-6 sm:p-8 rounded-[2rem] flex flex-col items-start text-left relative overflow-hidden bg-gradient-to-b from-white/[0.03] to-white/[0.01] hover:from-primaryOrange/[0.08] hover:to-transparent border border-white/10 hover:border-primaryOrange/40 transition-all duration-500 shadow-xl hover:shadow-[0_20px_50px_rgba(240,89,31,0.15)] group">
+                    <div className="absolute inset-0 bg-gradient-to-tr from-primaryOrange/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                    
+                    <div className="w-14 h-14 rounded-2xl bg-white/[0.04] group-hover:bg-primaryOrange/10 text-white/80 group-hover:text-primaryOrange border border-white/10 group-hover:border-primaryOrange/30 flex items-center justify-center shadow-lg group-hover:shadow-[0_0_20px_rgba(240,89,31,0.2)] transition-all duration-500 mb-6 transform group-hover:scale-110 group-hover:rotate-3 flex-shrink-0 z-10">
+                      <Icon className="w-6 h-6" />
+                    </div>
+                    
+                    <div className="flex-1 flex flex-col justify-start z-10 w-full text-left">
+                      <h3 className="text-lg font-bold text-white tracking-tight mb-3 group-hover:text-primaryOrange transition-colors duration-300">{std.title}</h3>
+                      <p className="text-sm text-bodyGrayText group-hover:text-[#d4d4d8] font-medium leading-relaxed transition-colors duration-300">{std.desc}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Revenue Model Section - Changed background to Navy Blue #020617 and revenue split indicators into elegant 3D boxes */}
+          <div className="mb-24 p-6 sm:p-12 md:p-20 rounded-[2.5rem] sm:rounded-[3.5rem] bg-[#020617] border border-lightBorder relative overflow-hidden shadow-2xl text-center">
+            <div className="absolute top-0 right-0 w-80 h-80 secondary-glow opacity-10" />
+
+            <div className="max-w-4xl mx-auto space-y-12">
+              <div className="space-y-4">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight text-3d">
+                  Revenue <span className="text-primaryOrange text-3d-orange">Model</span>
+                </h2>
+                <p className="text-sm sm:text-base text-[#a1a1aa] font-medium max-w-xl mx-auto leading-relaxed">
+                  We believe in compensating trainers fairly for their work. Our residual split allows you to keep the vast majority of course license sales.
+                </p>
+              </div>
+
+              {/* Elevated high-contrast 3D Revenue splits boxes */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-2xl mx-auto">
+                <div className="theme-card card-3d p-8 sm:p-10 rounded-[2rem] border border-primaryOrange/20 bg-cardBg flex flex-col items-center text-center space-y-4 hover:shadow-[0_15px_30px_rgba(240,89,31,0.1)] transition-all duration-500 hover:-translate-y-2 hover:scale-105">
+                  <div className="text-5xl sm:text-6xl font-black text-primaryOrange tracking-tight leading-none text-3d-orange">70%</div>
+                  <div className="text-sm text-white font-black uppercase tracking-widest">Trainer Split</div>
+                  <p className="text-xs text-bodyGrayText font-medium leading-relaxed">
+                    You receive 70% of all course revenues generated from your premium student licenses and courses.
+                  </p>
+                </div>
+
+                <div className="theme-card card-3d p-8 sm:p-10 rounded-[2rem] border border-white/10 bg-cardBg flex flex-col items-center text-center space-y-4 hover:shadow-[0_15px_30px_rgba(255,255,255,0.05)] transition-all duration-500 hover:-translate-y-2 hover:scale-105">
+                  <div className="text-5xl sm:text-6xl font-black text-white tracking-tight leading-none text-3d">30%</div>
+                  <div className="text-sm text-[#a1a1aa] font-black uppercase tracking-widest">Platform Operations</div>
+                  <p className="text-xs text-bodyGrayText font-medium leading-relaxed">
+                    GrapeTask retains 30% to run marketing, secure payments, host content, and maintain platforms.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="text-center space-y-8">
+            <h2 className="text-2xl sm:text-3xl font-black text-white text-3d">
+              Ready to Share Your <span className="text-primaryOrange text-3d-orange">Knowledge?</span>
+            </h2>
+            <div className="flex justify-center">
               <Link
-                href="/register?role=trainer"
-                className="inline-flex items-center space-x-2 px-10 py-5 bg-gradient-to-r from-primaryOrange to-[#ff7a45] hover:shadow-[0_0_30px_rgba(240,89,31,0.5)] text-white font-black text-lg rounded-2xl shadow-xl shadow-primaryOrange/20 transition-all duration-200 hover:-translate-y-1 hover:scale-105 active:scale-95"
+                href="/contact?type=trainer"
+                className="group inline-flex items-center space-x-2 px-6 py-3.5 sm:px-8 sm:py-4 bg-primaryOrange hover:bg-opacity-95 text-white font-black text-sm sm:text-base rounded-xl shadow-lg shadow-primaryOrange/20 transition-all hover:scale-105 active:scale-95"
               >
-                <span>Apply as a Trainer</span>
-                <ArrowRight className="w-5 h-5" />
+                <span>Apply as Trainer</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           </div>
 
-        {/* Who Can Become a Trainer */}
-        <Section title="Who Can Become a Trainer?">
-          <div className="theme-card p-12 rounded-[3rem] text-center max-w-4xl mx-auto space-y-6">
-            <p className="text-xl text-white leading-relaxed">
-              GrapeTask LMS welcomes both individual professionals and training institutes.
-            </p>
-            <p className="text-bodyGrayText text-lg">
-              If you have real-world expertise in a skill and the ability to teach it clearly — GrapeTask LMS wants you.
-            </p>
-            <div className="pt-8 grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-               <div className="p-6 rounded-2xl bg-white/5 border border-lightBorder">
-                  <h4 className="text-primaryOrange font-bold mb-2">Individual Professionals</h4>
-                  <p className="text-sm text-bodyGrayText">Freelancers and industry experts with a proven track record.</p>
-               </div>
-               <div className="p-6 rounded-2xl bg-white/5 border border-lightBorder">
-                  <h4 className="text-primaryOrange font-bold mb-2">Training Institutes</h4>
-                  <p className="text-sm text-bodyGrayText">Established academies looking to expand their digital presence.</p>
-               </div>
-            </div>
-          </div>
-        </Section>
-
-        {/* Registration Requirements */}
-        <Section title="Trainer Registration Requirements" className="bg-[#010411]">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-               <p className="text-bodyGrayText">To apply as a trainer, you must submit:</p>
-               <ul className="space-y-4">
-                 {['Full Name', 'Professional Portfolio', 'Teaching or Industry Experience', 'Reason for wanting to join GrapeTask'].map((item) => (
-                   <li key={item} className="flex items-center space-x-3 text-white">
-                      <CheckCircle2 className="w-5 h-5 text-primaryOrange" />
-                      <span className="font-medium">{item}</span>
-                   </li>
-                 ))}
-               </ul>
-               <p className="text-sm text-darkGrayNumber italic pt-4">
-                 After submission, the GrapeTask team will review your application and get back to you.
-               </p>
-            </div>
-            <div className="theme-card p-12 rounded-[3rem] border-primaryOrange/20 group">
-               <div className="p-4 rounded-2xl bg-primaryOrange/10 text-primaryOrange mb-8 w-16 h-16 flex items-center justify-center group-hover:bg-primaryOrange group-hover:text-white transition-all">
-                 <Sparkles className="w-8 h-8" />
-               </div>
-               <h3 className="text-3xl font-black text-white mb-6 tracking-tight">Quality Standards</h3>
-               <p className="text-lg text-bodyGrayText leading-relaxed font-medium">
-                 GrapeTask maintains strict quality standards for all courses. We ensure that every piece of content adds real value to our learners.
-               </p>
-            </div>
-          </div>
-        </Section>
-
-        {/* Course Standards */}
-        <Section title="Course Creation Standards">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                title: 'High-End Production',
-                desc: 'Videos must be HD quality, recorded on professional equipment (DSLR or iPhone recommended). Clear audio is mandatory.',
-                icon: <Camera className="w-10 h-10" />,
-              },
-              {
-                title: 'Professional Setting',
-                desc: 'Recording environment must be clean, professional, and distraction-free to ensure focus.',
-                icon: <Building2 className="w-10 h-10" />,
-              },
-              {
-                title: 'Structured Testing',
-                desc: 'Every video must include MCQs, a quiz, a written summary, and a practical assignment.',
-                icon: <FileText className="w-10 h-10" />,
-              },
-            ].map((std) => (
-              <div key={std.title} className="theme-card p-12 rounded-[3rem] space-y-6 flex flex-col items-center text-center group">
-                 <div className="p-4 rounded-2xl bg-primaryOrange/10 text-primaryOrange group-hover:bg-primaryOrange group-hover:text-white transition-all">
-                    {std.icon}
-                 </div>
-                 <h4 className="text-2xl font-black text-white tracking-tight">{std.title}</h4>
-                 <p className="text-lg text-bodyGrayText leading-relaxed">{std.desc}</p>
-              </div>
-            ))}
-          </div>
-        </Section>
-
-        {/* Revenue Model */}
-        <Section title="Revenue Model" className="bg-[#010411]">
-          <div className="p-12 md:p-20 rounded-[3rem] bg-cardBg border border-orangeBorderActive/40 relative overflow-hidden text-center space-y-8">
-            <div className="absolute -left-20 top-0 w-64 h-64 secondary-glow opacity-10" />
-            <h2 className="text-5xl md:text-7xl font-bold text-white">70 / 30 <span className="text-primaryOrange">Split</span></h2>
-            <div className="max-w-2xl mx-auto space-y-4">
-               <p className="text-2xl text-white font-medium">70% of all course revenue goes directly to trainers.</p>
-               <p className="text-bodyGrayText">GrapeTask retains 30% for platform operations, review, and management. Fair. Simple. Transparent.</p>
-            </div>
-            <div className="pt-8">
-               <div className="inline-flex items-center space-x-6 px-8 py-4 rounded-2xl glass-navbar border border-lightBorder">
-                  <div className="text-left">
-                     <div className="text-xs text-darkGrayNumber uppercase font-bold">Trainer</div>
-                     <div className="text-2xl font-bold text-primaryOrange">70%</div>
-                  </div>
-                  <div className="w-px h-10 bg-lightBorder" />
-                  <div className="text-left">
-                     <div className="text-xs text-darkGrayNumber uppercase font-bold">GrapeTask</div>
-                     <div className="text-2xl font-bold text-white">30%</div>
-                  </div>
-               </div>
-            </div>
-          </div>
-        </Section>
-
-        {/* Trainer Tools */}
-        <Section title="Trainer Tools">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              'Personal Dashboard', 'Student Notifications', 'Review Tools', 
-              'One-on-one Chat', 'Weekly Q&A Hosting', 'Automated Reports', 
-              'Community Access', 'Earnings Tracking'
-            ].map((tool) => (
-              <div key={tool} className="p-6 rounded-2xl bg-cardBg border border-lightBorder text-center hover:border-primaryOrange transition-all cursor-default">
-                 <div className="text-sm font-semibold text-white">{tool}</div>
-              </div>
-            ))}
-          </div>
-        </Section>
-
-        <div className="text-center mt-32">
-          <Link
-            href="/register?role=trainer"
-            className="group inline-flex items-center space-x-3 px-16 py-6 bg-primaryOrange hover:bg-opacity-90 text-white font-black text-xl rounded-[2rem] shadow-2xl shadow-primaryOrange/30 transition-all hover:scale-105 active:scale-95"
-          >
-            <span>Apply as a Trainer Today</span>
-            <ArrowRight className="w-7 h-7 group-hover:translate-x-2 transition-transform" />
-          </Link>
         </div>
-      </div>
-    </div>
-    </div>
-  );
-}
-
-function Section({ title, children, className = '' }: { title: string; children: React.ReactNode; className?: string }) {
-  return (
-    <div className={`py-20 md:py-32 -mx-6 px-6 ${className}`}>
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-16 text-center">{title}</h2>
-        {children}
       </div>
     </div>
   );

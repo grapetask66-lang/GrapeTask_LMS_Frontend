@@ -60,10 +60,10 @@ export default function HowItWorksPage() {
     <div className="pt-40 pb-20 px-6">
       <div className="container mx-auto">
         <div className="max-w-4xl mx-auto text-center mb-24 space-y-6">
-          <h1 className="text-5xl md:text-8xl font-black text-white leading-tight tracking-tighter">
-            How it <span className="text-primaryOrange">Works</span>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-white leading-tight tracking-tight text-3d">
+            How it <span className="text-primaryOrange text-3d-orange">Works</span>
           </h1>
-          <p className="text-xl md:text-2xl text-bodyGrayText font-medium max-w-2xl mx-auto">A simple, structured path from learning to earning.</p>
+          <p className="text-base sm:text-lg md:text-xl text-bodyGrayText font-medium max-w-2xl mx-auto">A simple, structured path from learning to earning.</p>
         </div>
 
         <div className="max-w-5xl mx-auto relative">
@@ -74,19 +74,19 @@ export default function HowItWorksPage() {
             {steps.map((step, index) => (
               <div key={index} className={`flex flex-col md:flex-row items-center relative z-10 ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
                 <div className="w-full md:w-1/2 p-4">
-                   <div className="theme-card p-12 rounded-[3rem] space-y-6 hover:border-primaryOrange transition-all flex flex-col items-center md:items-start text-center md:text-left group">
+                   <div className="theme-card card-3d p-6 sm:p-12 rounded-3xl sm:rounded-[3rem] space-y-6 hover:border-primaryOrange transition-all flex flex-col items-center md:items-start text-center md:text-left group">
                       <div className="p-4 rounded-2xl bg-primaryOrange/10 text-primaryOrange group-hover:bg-primaryOrange group-hover:text-white transition-all shadow-xl">
                         {step.icon}
                       </div>
                       <div className="space-y-4">
-                        <h3 className="text-2xl md:text-3xl font-black text-white leading-tight tracking-tight">Step {index + 1}: {step.title}</h3>
-                        <p className="text-lg text-bodyGrayText leading-relaxed">{step.desc}</p>
+                        <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-white leading-tight tracking-tight">Step {index + 1}: {step.title}</h3>
+                        <p className="text-sm sm:text-base text-bodyGrayText leading-relaxed">{step.desc}</p>
                       </div>
                    </div>
                 </div>
                 
                 {/* Connector Node */}
-                <div className="absolute left-8 md:left-1/2 -translate-x-1/2 w-16 h-16 rounded-full glass-navbar border-4 border-[#010411] flex items-center justify-center text-primaryOrange font-bold shadow-lg shadow-primaryOrange/20">
+                <div className="absolute left-8 md:left-1/2 -translate-x-1/2 w-16 h-16 rounded-full glass-navbar border-4 border-[#020617] flex items-center justify-center text-primaryOrange font-bold shadow-lg shadow-primaryOrange/20">
                    {index + 1}
                 </div>
                 

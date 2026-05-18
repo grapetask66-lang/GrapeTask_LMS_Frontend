@@ -116,7 +116,7 @@ export default function AboutPage() {
         </div>
 
         {/* Community */}
-        <div className="p-12 md:p-20 rounded-[3rem] bg-[#010411] border border-lightBorder relative overflow-hidden text-center space-y-8">
+        <div className="p-6 sm:p-12 md:p-20 rounded-[2.5rem] sm:rounded-[3rem] bg-[#020617] border border-lightBorder relative overflow-hidden text-center space-y-8">
            <div className="absolute top-0 right-0 w-64 h-64 secondary-glow opacity-10" />
            <h2 className="text-3xl font-bold text-white uppercase tracking-widest">Our Community</h2>
            <p className="text-lg text-bodyGrayText max-w-3xl mx-auto leading-relaxed">
