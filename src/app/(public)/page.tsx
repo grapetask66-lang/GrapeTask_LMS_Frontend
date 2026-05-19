@@ -5,7 +5,7 @@ import Link from 'next/link';
 import {
   ArrowRight, GraduationCap, Smartphone, Rocket, Award,
   TrendingUp, Users, BookOpen, CheckCircle2, Briefcase,
-  Play, Star, Zap, Shield, Globe, Monitor, Palette, LineChart, Video, Megaphone, Camera, ChevronRight,
+  Play, Pause, Star, Zap, Shield, Globe, Monitor, Palette, LineChart, Video, Megaphone, Camera, ChevronRight,
   ShieldCheck, Laptop, DollarSign, ChevronDown, HelpCircle,
   Cpu, ShoppingBag, Code, Layers
 } from 'lucide-react';
@@ -136,7 +136,7 @@ const HERO_SLIDES = [
     ctaLink: "/courses",
     secCtaText: "Partner Institutes",
     secCtaLink: "/for-institutions",
-    video: "https://assets.mixkit.co/videos/preview/mixkit-developer-working-on-code-at-night-43037-large.mp4"
+    video: "/videos/main_hero/learn high-income digital skills.mp4"
   },
   {
     badge: "GLOBAL STANDARDS",
@@ -152,7 +152,7 @@ const HERO_SLIDES = [
     ctaLink: "/how-it-works",
     secCtaText: "Apply as Trainer",
     secCtaLink: "/for-trainers",
-    video: "https://assets.mixkit.co/videos/preview/mixkit-office-colleagues-discussing-work-42289-large.mp4"
+    video: "/videos/main_hero/Earn Professional Verifid Badges..mp4"
   },
   {
     badge: "INSTANT INCOME FLOW",
@@ -168,7 +168,7 @@ const HERO_SLIDES = [
     ctaLink: "/register",
     secCtaText: "Pricing Plans",
     secCtaLink: "/pricing",
-    video: "https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-designer-drawing-on-a-tablet-42296-large.mp4"
+    video: "/videos/main_hero/launch your remote freelance career..mp4"
   }
 ];
 
@@ -233,6 +233,8 @@ export default function HomePage() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [activeFaqTab, setActiveFaqTab] = useState('general');
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
   const currentFaqCategory = FAQ_CATEGORIES.find(c => c.id === activeFaqTab) || FAQ_CATEGORIES[0];
 
@@ -248,12 +250,26 @@ export default function HomePage() {
   useScrollReveal();
 
   useEffect(() => {
-    // Autoplay video slider every 7 seconds
+    // Autoplay video slider every 5 seconds as per request
     const t = setInterval(() => {
       handleNextSlide();
-    }, 7000);
+    }, 5000);
     return () => clearInterval(t);
   }, []);
+
+  const togglePlayPause = () => {
+    const newIsPlaying = !isPlaying;
+    setIsPlaying(newIsPlaying);
+    videoRefs.current.forEach(video => {
+      if (video) {
+        if (newIsPlaying) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      }
+    });
+  };
 
   const handleNextSlide = () => {
     setIsTransitioning(true);
@@ -279,23 +295,33 @@ export default function HomePage() {
 
         {/* Absolute Video Background Container: z-0 */}
         <div className="absolute inset-0 bg-[#020617] overflow-hidden z-0">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            ref={el => {
-              if (el) {
-                el.muted = true;
-                el.defaultMuted = true;
-                el.play().catch(() => { });
-              }
-            }}
-            className="absolute inset-0 w-full h-full object-cover opacity-80 z-10"
-          >
-            <source src="/videos/hero.mp4" type="video/mp4" />
-          </video>
+          {HERO_SLIDES.map((slide, idx) => (
+            <video
+              key={idx}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              ref={el => {
+                videoRefs.current[idx] = el;
+                if (el) {
+                  el.muted = true;
+                  el.defaultMuted = true;
+                  if (isPlaying) {
+                    el.play().catch(() => {});
+                  } else {
+                    el.pause();
+                  }
+                }
+              }}
+              className={`absolute inset-0 w-full h-full object-cover z-10 transition-opacity duration-1000 ${
+                activeSlide === idx ? 'opacity-80' : 'opacity-0'
+              }`}
+            >
+              <source src={slide.video} type="video/mp4" />
+            </video>
+          ))}
 
           {/* Custom Theme Color Overlays - Orange + Navy Blue blending: z-20 */}
           {/* Left-aligned deep navy screen for text readability */}
@@ -308,6 +334,15 @@ export default function HomePage() {
 
         {/* Ambient background glow blob: z-20 */}
         <div className="absolute top-1/4 right-1/4 w-[250px] sm:w-[450px] h-[250px] sm:h-[450px] rounded-full bg-[#f0591f] opacity-[0.07] blur-[100px] sm:blur-[130px] pointer-events-none animate-float-slow z-20" />
+
+        {/* Play/Pause Button */}
+        <button
+          onClick={togglePlayPause}
+          className="absolute bottom-10 right-8 z-40 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md flex items-center justify-center text-white transition-all duration-300 hover:scale-110 shadow-lg"
+          aria-label={isPlaying ? "Pause video" : "Play video"}
+        >
+          {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-1" />}
+        </button>
 
         <div className="container mx-auto relative z-30">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
@@ -755,6 +790,19 @@ export default function HomePage() {
                 <div className="relative z-10 text-xs sm:text-sm font-black text-white group-hover:text-[#f0591f] transition-colors leading-snug">{career.name}</div>
               </Link>
             ))}
+          </div>
+
+          <div className="text-center mt-12 sm:mt-16 reveal flex justify-center">
+            <Link 
+              href="/courses" 
+              className="group relative inline-flex items-center gap-2 px-8 py-4 bg-[#f0591f]/10 hover:bg-[#f0591f] text-[#f0591f] hover:text-white font-black text-sm sm:text-base rounded-2xl border border-[#f0591f]/30 hover:border-[#f0591f] transition-all duration-500 overflow-hidden shadow-[0_0_20px_rgba(240,89,31,0.15)] hover:shadow-[0_15px_40px_rgba(240,89,31,0.4)] hover:-translate-y-1.5"
+            >
+              {/* Shine effect on hover */}
+              <div className="absolute inset-0 -translate-x-[150%] group-hover:translate-x-[150%] transition-transform duration-1000 ease-out bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12" />
+              
+              <span className="relative z-10">Explore All Careers</span>
+              <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1.5 transition-transform duration-300" />
+            </Link>
           </div>
         </div>
       </section>

@@ -530,6 +530,49 @@ textarea {
 }
 
 /* =============================================
+   INSTANT CLICK & PAGE TRANSITIONS
+   ============================================= */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Instant active state for all interactive elements */
+a, button {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Smooth page transitions */
+.page-transition {
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* Instant button feedback */
+.btn-instant {
+  transition: transform 0.1s ease, background-color 0.1s ease, opacity 0.1s ease;
+}
+
+.btn-instant:active {
+  transform: scale(0.97);
+}
+
+/* =============================================
    GLOW EFFECT
    ============================================= */
 .glow-effect {

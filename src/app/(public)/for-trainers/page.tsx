@@ -5,10 +5,25 @@ import Link from 'next/link';
 import {
   GraduationCap, BookOpen, Award, Users, ShieldCheck, DollarSign,
   ArrowRight, CheckCircle2, ChevronRight, Video, Camera, Sparkles, HelpCircle,
-  Briefcase, MonitorPlay, Layers, ClipboardCheck, Mic, PenTool, MessageSquare, Radio
+  Briefcase, MonitorPlay, Layers, ClipboardCheck, Mic, PenTool, MessageSquare, Radio, Play, Pause
 } from 'lucide-react';
 
 export default function ForTrainersPage() {
+  const [isPlaying, setIsPlaying] = React.useState(true);
+  const videoRef = React.useRef<HTMLVideoElement | null>(null);
+
+  const togglePlayPause = () => {
+    const newIsPlaying = !isPlaying;
+    setIsPlaying(newIsPlaying);
+    if (videoRef.current) {
+      if (newIsPlaying) {
+        videoRef.current.play().catch(() => {});
+      } else {
+        videoRef.current.pause();
+      }
+    }
+  };
+
   const requirements = [
     { title: 'Portfolio Submission', desc: 'Provide links to your professional work, designs, or Github code repositories.', icon: Briefcase },
     { title: 'Video Quality', desc: 'Course videos must be HD 1080p recorded with clear audio and in a clean environment.', icon: MonitorPlay },
@@ -35,21 +50,35 @@ export default function ForTrainersPage() {
           playsInline
           preload="auto"
           ref={el => {
+            videoRef.current = el;
             if (el) {
               el.muted = true;
               el.defaultMuted = true;
-              el.play().catch(() => { });
+              if (isPlaying) {
+                el.play().catch(() => { });
+              } else {
+                el.pause();
+              }
             }
           }}
           className="absolute inset-0 w-full h-full object-cover opacity-75 sm:opacity-85 z-10"
         >
-          <source src="/videos/trainer-teaching.mp4" type="video/mp4" />
+          <source src="/videos/Teach on GrapeTask LMS.mp4" type="video/mp4" />
         </video>
         {/* Navy + Orange thematic overlays */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#020617]/25 via-[#020617]/55 to-[#020617] z-20" />
         <div className="absolute inset-0 bg-gradient-to-tr from-[#020617]/60 via-transparent to-[#f0591f]/15 mix-blend-screen opacity-60 z-20" />
         <div className="absolute top-0 right-1/4 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-primaryOrange/10 blur-[100px] sm:blur-[150px] rounded-full z-20" />
       </div>
+
+      {/* Play/Pause Button */}
+      <button
+        onClick={togglePlayPause}
+        className="absolute top-[400px] sm:top-[450px] right-8 z-40 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md flex items-center justify-center text-white transition-all duration-300 hover:scale-110 shadow-lg"
+        aria-label={isPlaying ? "Pause video" : "Play video"}
+      >
+        {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-1" />}
+      </button>
 
       <div className="pt-28 sm:pt-40 pb-20 px-4 sm:px-6 relative z-30">
         <div className="container mx-auto max-w-6xl">

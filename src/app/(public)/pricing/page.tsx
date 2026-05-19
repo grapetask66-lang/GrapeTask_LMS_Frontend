@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import {
   CheckCircle2, ArrowRight, Star, Shield, HelpCircle,
-  Clock, DollarSign, Building2, UserCheck, Play, Award
+  Clock, DollarSign, Building2, UserCheck, Play, Pause, Award
 } from 'lucide-react';
 
 const pricing = [
@@ -14,6 +14,21 @@ const pricing = [
 ];
 
 export default function PricingPage() {
+  const [isPlaying, setIsPlaying] = React.useState(true);
+  const videoRef = React.useRef<HTMLVideoElement | null>(null);
+
+  const togglePlayPause = () => {
+    const newIsPlaying = !isPlaying;
+    setIsPlaying(newIsPlaying);
+    if (videoRef.current) {
+      if (newIsPlaying) {
+        videoRef.current.play().catch(() => {});
+      } else {
+        videoRef.current.pause();
+      }
+    }
+  };
+
   const individualPlans = [
     {
       level: 'Starter Course',
@@ -61,21 +76,35 @@ export default function PricingPage() {
           playsInline
           preload="auto"
           ref={el => {
+            videoRef.current = el;
             if (el) {
               el.muted = true;
               el.defaultMuted = true;
-              el.play().catch(() => { });
+              if (isPlaying) {
+                el.play().catch(() => { });
+              } else {
+                el.pause();
+              }
             }
           }}
           className="absolute inset-0 w-full h-full object-cover opacity-75 sm:opacity-85 z-10"
         >
-          <source src="/videos/pricing-analytics.mp4" type="video/mp4" />
+          <source src="/videos/Flexible Pricing Plans.mp4" type="video/mp4" />
         </video>
         {/* Navy + Orange gradients */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#020617]/25 via-[#020617]/55 to-[#020617] z-20" />
         <div className="absolute inset-0 bg-gradient-to-tr from-[#020617]/60 via-transparent to-[#f0591f]/15 mix-blend-screen opacity-60 z-20" />
         <div className="absolute top-0 right-1/4 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-primaryOrange/10 blur-[100px] sm:blur-[150px] rounded-full z-20" />
       </div>
+
+      {/* Play/Pause Button */}
+      <button
+        onClick={togglePlayPause}
+        className="absolute top-[400px] sm:top-[450px] right-8 z-40 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md flex items-center justify-center text-white transition-all duration-300 hover:scale-110 shadow-lg"
+        aria-label={isPlaying ? "Pause video" : "Play video"}
+      >
+        {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-1" />}
+      </button>
 
       <div className="pt-28 sm:pt-40 pb-20 px-4 sm:px-6 relative z-30">
         <div className="container mx-auto max-w-6xl">
