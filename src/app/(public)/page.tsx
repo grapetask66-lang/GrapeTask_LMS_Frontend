@@ -81,8 +81,8 @@ const CATEGORIES = [
     tag: 'Business',
     description: 'Upwork, Client Contracts',
     icon: <Briefcase className="w-5 h-5" />,
-    glowColor: 'from-emerald-500/10 to-green-500/10',
-    accentColor: 'text-emerald-400 group-hover:text-emerald-300',
+    glowColor: 'from-primaryOrange/10 to-orange-500/10',
+    accentColor: 'text-primaryOrange group-hover:text-orange-300',
   },
   {
     title: 'E-Commerce Retail',
@@ -418,8 +418,8 @@ export default function HomePage() {
 
               {/* Center Badge */}
               <div className="relative z-10 w-28 h-28 bg-gradient-to-br from-[#f0591f]/90 to-[#f0591f]/40 backdrop-blur-xl rounded-3xl flex flex-col items-center justify-center border border-white/20 shadow-[0_8px_32px_rgba(240,89,31,0.2)] animate-float-slow hover:rotate-6 transition-transform">
-                <Award className="w-8 h-8 text-white mb-1 drop-shadow-md" />
-                <span className="text-white font-black text-[9px] tracking-widest drop-shadow-sm">CERTIFIED</span>
+                <Award className="w-8 h-8 text-white mb-1" />
+                <span className="text-white font-black text-[9px] tracking-widest">CERTIFIED</span>
               </div>
 
               {/* Stacked Interactive Stats Cards */}
@@ -438,7 +438,7 @@ export default function HomePage() {
 
                 <div className="glass-card w-48 p-4 rounded-xl border border-white/10 shadow-lg backdrop-blur-md transition-all hover:scale-105">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-emerald-500/10 rounded-lg flex items-center justify-center text-emerald-400">
+                    <div className="w-8 h-8 bg-primaryOrange/10 rounded-lg flex items-center justify-center text-primaryOrange">
                       <Users className="w-4 h-4" />
                     </div>
                     <div>
@@ -493,72 +493,110 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="relative py-14 overflow-hidden bg-[#020617] border-y border-[rgba(255,255,255,0.04)] z-10">
-        {/* Subtle grid background & ambient glows */}
-        <div className="absolute inset-0 hero-grid opacity-[0.03] pointer-events-none" />
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[250px] bg-gradient-to-b from-[#f0591f]/5 to-transparent rounded-full blur-[80px] pointer-events-none" />
+      <section className="relative py-20 sm:py-28 lg:py-32 overflow-hidden bg-[#020617] border-y border-[rgba(255,255,255,0.04)] z-10">
+        {/* Enhanced background elements */}
+        <div className="absolute inset-0 hero-grid opacity-[0.02] pointer-events-none" />
+        
+        {/* Soft gradient overlays for depth */}
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-[#f0591f]/[0.03] to-transparent rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute -bottom-40 left-1/4 w-[500px] h-[300px] bg-gradient-to-t from-blue-500/[0.02] to-transparent rounded-full blur-[80px] pointer-events-none" />
+        <div className="absolute top-1/2 right-0 w-[400px] h-[400px] bg-gradient-to-l from-[#f0591f]/[0.02] to-transparent rounded-full blur-[90px] pointer-events-none" />
+        
+        {/* Decorative blurred circles */}
+        <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-[#f0591f]/[0.03] blur-3xl pointer-events-none animate-float-slow" />
+        <div className="absolute bottom-20 right-10 w-40 h-40 rounded-full bg-blue-500/[0.03] blur-3xl pointer-events-none animate-float-reverse" />
 
-        <div className="container mx-auto px-4 sm:px-6 mb-10 relative z-20">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 max-w-6xl mx-auto">
-            <div className="text-left space-y-2">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[#f0591f]/20 bg-[#f0591f]/5 text-[#f0591f] text-[10px] font-black uppercase tracking-widest">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#f0591f] animate-pulse" />
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-12 sm:mb-16 relative z-20">
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 lg:gap-12 max-w-7xl mx-auto">
+            {/* Left side - Heading */}
+            <div className="text-left space-y-4 lg:max-w-xl">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#f0591f]/20 bg-[#f0591f]/5 text-[#f0591f] text-xs font-black uppercase tracking-widest backdrop-blur-sm">
+                <span className="w-2 h-2 rounded-full bg-[#f0591f] animate-pulse" />
                 Trending Disciplines
               </div>
-              <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight text-3d leading-tight">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight text-3d leading-tight">
                 Explore High-Income <span className="text-[#f0591f] text-3d-orange">Skill Floor Paths</span>
               </h2>
             </div>
-            <p className="text-xs sm:text-sm text-[#a1a1aa] font-medium max-w-md leading-relaxed">
-              Choose from Pakistan's most sought-after categories, designed to take you from structured learning modules directly to verified freelance gig contracts.
-            </p>
+            
+            {/* Right side - Description with CTA */}
+            <div className="lg:max-w-lg space-y-6">
+              <p className="text-sm sm:text-base text-[#a1a1aa] font-medium leading-relaxed sm:leading-7">
+                Choose from <span className="text-white font-semibold">Pakistan's most sought-after categories</span>, designed to take you from <span className="text-[#f0591f] font-semibold">structured learning modules</span> directly to <span className="text-[#f0591f] font-semibold">verified freelance gig contracts</span>. Start your journey today.
+              </p>
+              
+              {/* Premium CTA Button */}
+              <Link 
+                href="/courses" 
+                className="group relative inline-flex items-center gap-2.5 px-6 py-3 bg-gradient-to-r from-[#f0591f] to-[#ff7a45] text-white font-bold text-sm rounded-xl shadow-[0_8px_25px_rgba(240,89,31,0.25)] hover:shadow-[0_12px_35px_rgba(240,89,31,0.4)] transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] active:scale-[0.98] overflow-hidden"
+              >
+                {/* Shine effect */}
+                <div className="absolute inset-0 -translate-x-[150%] group-hover:translate-x-[150%] transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12" />
+                
+                <span className="relative z-10">Explore All Paths</span>
+                <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform duration-300" />
+              </Link>
+            </div>
           </div>
         </div>
 
         {/* ── PREMIUM INTERACTIVE CAROUSEL ── */}
-        <div className="relative w-full overflow-hidden py-4 marquee-wrap">
+        <div className="relative w-full overflow-hidden py-6 sm:py-8 marquee-wrap">
           {/* Gradient Edge Masks for visual blending */}
-          <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-40 bg-gradient-to-r from-[#020617] via-[#020617]/70 to-transparent pointer-events-none z-20" />
-          <div className="absolute right-0 top-0 bottom-0 w-20 sm:w-40 bg-gradient-to-l from-[#020617] via-[#020617]/70 to-transparent pointer-events-none z-20" />
+          <div className="absolute left-0 top-0 bottom-0 w-24 sm:w-48 lg:w-56 bg-gradient-to-r from-[#020617] via-[#020617]/80 to-transparent pointer-events-none z-20" />
+          <div className="absolute right-0 top-0 bottom-0 w-24 sm:w-48 lg:w-56 bg-gradient-to-l from-[#020617] via-[#020617]/80 to-transparent pointer-events-none z-20" />
 
           {/* Scrolling Container */}
           <div className="flex w-max">
             {/* The animation container. We loop categories multiple times for seamless scrolling */}
-            <div className="animate-marquee-premium flex gap-5 sm:gap-6 shrink-0 px-4">
+            <div className="animate-marquee-premium flex gap-5 sm:gap-6 lg:gap-8 shrink-0 px-4 sm:px-6">
               {[...CATEGORIES, ...CATEGORIES, ...CATEGORIES].map((cat, idx) => (
                 <Link
                   key={idx}
                   href={`/courses?category=${cat.slug}`}
-                  className="group relative flex items-center gap-4.5 p-5 rounded-2xl bg-white/[0.01] hover:bg-white/[0.03] border border-white/[0.05] hover:border-white/[0.12] transition-all duration-500 min-w-[250px] sm:min-w-[290px] overflow-hidden shadow-[0_4px_25px_rgba(0,0,0,0.4)] hover:shadow-[0_12px_35px_rgba(0,0,0,0.6)] hover:-translate-y-1.5"
+                  className="group relative flex items-center gap-4 sm:gap-5 p-5 sm:p-6 rounded-2xl bg-white/[0.02] hover:bg-white/[0.05] border border-white/[0.06] hover:border-[#f0591f]/30 transition-all duration-500 ease-out min-w-[260px] sm:min-w-[300px] lg:min-w-[320px] overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_50px_rgba(240,89,31,0.15)] hover:-translate-y-2"
+                  style={{
+                    transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)'
+                  }}
                 >
                   {/* Hover ambient backdrop glow */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${cat.glowColor} opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-md pointer-events-none`} />
+                  <div className={`absolute inset-0 bg-gradient-to-br ${cat.glowColor} opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl pointer-events-none`} />
                   
                   {/* Hover ambient colored border accent */}
-                  <div className={`absolute -inset-px rounded-2xl bg-gradient-to-r ${cat.glowColor} opacity-0 group-hover:opacity-50 transition-opacity duration-700 blur-sm pointer-events-none`} />
+                  <div className={`absolute -inset-px rounded-2xl bg-gradient-to-r ${cat.glowColor} opacity-0 group-hover:opacity-60 transition-opacity duration-500 blur-sm pointer-events-none`} />
+                  
+                  {/* Premium border glow on hover */}
+                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{
+                    boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1), 0 0 20px rgba(240,89,31,0.1)'
+                  }} />
 
-                  {/* Icon Badge */}
-                  <div className={`relative z-10 flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-white/5 border border-white/10 ${cat.accentColor} group-hover:scale-110 transition-all duration-500 shadow-inner group-hover:shadow-[0_0_15px_rgba(255,255,255,0.05)]`}>
-                    {cat.icon}
+                  {/* Icon Badge - Enhanced */}
+                  <div className={`relative z-10 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-white/[0.05] border border-white/[0.1] ${cat.accentColor} group-hover:scale-110 group-hover:border-[#f0591f]/30 transition-all duration-500 shadow-inner group-hover:shadow-[0_0_20px_rgba(240,89,31,0.2)]`}>
+                    <div className="w-6 h-6 sm:w-7 sm:h-7">
+                      {cat.icon}
+                    </div>
                   </div>
 
                   {/* Content */}
-                  <div className="relative z-10 flex flex-col flex-1 text-left">
-                    <span className="text-[9px] font-black uppercase tracking-widest text-[#a1a1aa] group-hover:text-white transition-colors duration-300">
+                  <div className="relative z-10 flex flex-col flex-1 text-left min-w-0">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-[#a1a1aa] group-hover:text-white/90 transition-colors duration-300">
                       {cat.tag}
                     </span>
-                    <h3 className="text-sm sm:text-base font-extrabold text-white group-hover:text-[#f0591f] transition-colors duration-300 mt-0.5">
+                    <h3 className="text-sm sm:text-base font-extrabold text-white group-hover:text-[#f0591f] transition-colors duration-300 mt-1 truncate">
                       {cat.title}
                     </h3>
-                    <span className="text-[10px] sm:text-xs text-[#71717a] group-hover:text-[#d4d4d8] transition-colors duration-300 font-semibold mt-1">
+                    <span className="text-xs sm:text-sm text-[#71717a] group-hover:text-[#d4d4d8] transition-colors duration-300 font-medium mt-1.5 line-clamp-1">
                       {cat.description}
                     </span>
                   </div>
 
-                  {/* Tiny indicator icon */}
-                  <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1.5 transition-all duration-300 text-[#f0591f]">
-                    <ChevronRight className="w-4 h-4" />
+                  {/* Arrow indicator - Enhanced */}
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300 text-[#f0591f]">
+                    <ChevronRight className="w-5 h-5" />
                   </div>
+                  
+                  {/* Bottom accent line on hover */}
+                  <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#f0591f] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </Link>
               ))}
             </div>
@@ -822,32 +860,64 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── STATS SECTION ── */}
+      {/* LMS STATS SECTION */}
       <section className="py-16 sm:py-24 px-4 sm:px-6">
         <div className="container mx-auto max-w-5xl">
-          <div className="p-6 sm:p-12 md:p-20 rounded-[2.5rem] sm:rounded-[4rem] glass-card border border-[rgba(255,255,255,0.06)] relative overflow-hidden shadow-2xl reveal">
+          <div className="p-6 sm:p-10 md:p-14 rounded-[2rem] sm:rounded-[3rem] glass-card border border-[rgba(255,255,255,0.06)] relative overflow-hidden shadow-[0_24px_80px_rgba(0,0,0,0.28)] reveal">
             <div className="absolute top-0 right-0 w-80 h-80 secondary-glow opacity-10 -mr-24 -mt-24 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 orange-gradient opacity-[0.04] blur-3xl -ml-24 -mb-24 pointer-events-none" />
 
-            <div className="text-center mb-12 sm:mb-16">
+            <div className="text-center mb-10 sm:mb-12 relative z-10">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 text-primaryOrange text-xs font-black uppercase tracking-widest mb-5">
+                <LineChart className="w-3.5 h-3.5" /> LMS Outcomes
+              </div>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-3 tracking-tight text-3d">
-                Freelancing By The <span className="text-primaryOrange text-3d-orange">Numbers</span>
+                Learning Impact <span className="text-primaryOrange text-3d-orange">That Shows</span>
               </h2>
-              <p className="text-sm sm:text-base text-[#a1a1aa] max-w-xl mx-auto font-medium">The global shift towards independent work is here — and it's accelerating.</p>
+              <p className="text-sm sm:text-base text-[#a1a1aa] max-w-2xl mx-auto font-medium leading-relaxed">
+                Clear LMS performance signals for institutions, trainers, and learners.
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-10 text-center items-stretch">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 text-left items-stretch relative z-10">
               {[
-                { val: '1.57B', label: 'Freelancers Worldwide', color: 'text-[#f0591f]' },
-                { val: '46.7%', label: 'Global Workforce', color: 'text-white' },
-                { val: '$16.5B', label: 'Market Size by 2030', color: 'text-white' },
+                {
+                  val: '92%',
+                  title: 'Course Completion Rate',
+                  label: 'students completed assigned modules.',
+                  icon: <BookOpen className="w-5 h-5" />,
+                },
+                {
+                  val: '70%',
+                  title: 'Certification Earned',
+                  label: 'learners earned industry-recognized certificates.',
+                  icon: <Award className="w-5 h-5" />,
+                },
+                {
+                  val: '85%',
+                  title: 'Skill Improvement',
+                  label: 'learners improved grades after 3 months.',
+                  icon: <TrendingUp className="w-5 h-5" />,
+                },
               ].map((s, i) => (
                 <div
                   key={i}
-                  className="p-6 sm:p-8 rounded-2xl sm:rounded-3xl bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.05)] reveal card-3d hover:-translate-y-2 hover:border-primaryOrange/2 transition-all hover:bg-white/5 duration-500 flex flex-col items-center justify-center h-full text-center"
+                  className="group p-6 sm:p-7 rounded-2xl bg-[rgba(255,255,255,0.035)] border border-[rgba(255,255,255,0.07)] reveal card-3d hover:-translate-y-2 hover:border-primaryOrange/35 transition-all hover:bg-white/[0.055] duration-500 flex flex-col h-full shadow-[0_12px_34px_rgba(0,0,0,0.18)] hover:shadow-[0_22px_55px_rgba(0,0,0,0.24),0_0_24px_rgba(240,89,31,0.08)]"
                   style={{ transitionDelay: `${i * 150}ms` }}
                 >
-                  <div className={`text-4xl sm:text-5xl font-black tracking-tighter ${s.color} mb-2`}>{s.val}</div>
-                  <div className="text-[#a1a1aa] font-bold uppercase tracking-widest text-[10px]">{s.label}</div>
+                  <div className="flex items-center justify-between gap-4 mb-8">
+                    <div className="w-11 h-11 rounded-xl bg-primaryOrange/10 border border-primaryOrange/25 text-primaryOrange flex items-center justify-center group-hover:bg-primaryOrange group-hover:text-white transition-colors duration-300">
+                      {s.icon}
+                    </div>
+                    <div className="inline-flex items-center gap-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-primaryOrange">
+                      <CheckCircle2 className="w-3 h-3" /> Verified
+                    </div>
+                  </div>
+                  <div className="text-5xl sm:text-6xl font-black tracking-tight text-primaryOrange text-3d-orange mb-4 leading-none">{s.val}</div>
+                  <h3 className="text-lg sm:text-xl font-black text-white tracking-tight mb-2 leading-snug">{s.title}</h3>
+                  <p className="text-sm text-[#a1a1aa] font-semibold leading-relaxed">
+                    <span className="text-primaryOrange">{s.val}</span> {s.label}
+                  </p>
                 </div>
               ))}
             </div>

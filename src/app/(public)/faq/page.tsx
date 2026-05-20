@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Mail, Phone, Send, ArrowRight, HelpCircle, ChevronDown, CheckCircle } from 'lucide-react';
+import { Mail, Phone, Send, ArrowRight, HelpCircle, ChevronDown, CheckCircle, BadgeQuestionMark } from 'lucide-react';
 
 type FAQItem = {
   q: string;
@@ -129,12 +129,12 @@ export default function FAQPage() {
                   className="w-full flex items-center justify-between text-left focus:outline-none"
                 >
                   <div className="flex items-center gap-4 sm:gap-6 pr-4">
-                    <span className={`w-8 h-8 rounded-lg sm:rounded-xl flex items-center justify-center font-black text-sm flex-shrink-0 transition-all duration-300 ${
+                    <span className={`w-8 h-8 rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
                       isOpen 
                         ? 'bg-primaryOrange text-white rotate-[360deg] shadow-md shadow-primaryOrange/25' 
                         : 'bg-white/5 text-primaryOrange group-hover:bg-primaryOrange/10'
                     }`}>
-                      ?
+                      <BadgeQuestionMark className="w-4 h-4" />
                     </span>
                     <h3 className={`text-base sm:text-lg md:text-xl font-bold transition-colors duration-300 pr-2 ${
                       isOpen ? 'text-primaryOrange' : 'text-white group-hover:text-primaryOrange'

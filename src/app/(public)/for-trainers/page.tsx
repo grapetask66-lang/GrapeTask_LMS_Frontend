@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import {
   GraduationCap, BookOpen, Award, Users, ShieldCheck, DollarSign,
-  ArrowRight, CheckCircle2, ChevronRight, Video, Camera, Sparkles, HelpCircle,
+  ArrowRight, CheckCircle2, ChevronRight, Video, Camera, Sparkles, HelpCircle, Rocket,
   Briefcase, MonitorPlay, Layers, ClipboardCheck, Mic, PenTool, MessageSquare, Radio, Play, Pause
 } from 'lucide-react';
 
@@ -196,6 +196,72 @@ export default function ForTrainersPage() {
                       <h3 className="text-lg font-bold text-white tracking-tight mb-3 group-hover:text-primaryOrange transition-colors duration-300">{std.title}</h3>
                       <p className="text-sm text-bodyGrayText group-hover:text-[#d4d4d8] font-medium leading-relaxed transition-colors duration-300">{std.desc}</p>
                     </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Trainer Launch Roadmap */}
+          <div className="mb-24 p-6 sm:p-12 md:p-16 rounded-[2.5rem] sm:rounded-[3rem] bg-[#020617] border border-lightBorder relative overflow-hidden shadow-2xl">
+            <div className="absolute top-0 right-0 w-80 h-80 secondary-glow opacity-10 pointer-events-none" />
+            <div className="text-center mb-12 space-y-4 relative z-10">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 text-primaryOrange text-xs font-black uppercase tracking-widest">
+                <Rocket className="w-3.5 h-3.5" /> Launch Roadmap
+              </div>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight text-3d">
+                From expert to <span className="text-primaryOrange text-3d-orange">published trainer</span>
+              </h2>
+              <p className="text-sm sm:text-base text-[#a1a1aa] font-medium max-w-2xl mx-auto leading-relaxed">
+                A simple review process helps you package your knowledge into a polished course learners can trust.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 relative z-10">
+              {[
+                { step: '01', title: 'Apply & Verify', desc: 'Submit your profile, portfolio, and preferred teaching category for review.' },
+                { step: '02', title: 'Plan the Curriculum', desc: 'Map lessons, assessments, and milestones with LMS-friendly structure.' },
+                { step: '03', title: 'Publish & Support', desc: 'Go live, answer learner questions, and keep improving your course outcomes.' },
+              ].map((item) => (
+                <div key={item.step} className="theme-card card-3d p-6 sm:p-7 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-primaryOrange/35 hover:bg-white/[0.055] transition-all duration-500 hover:-translate-y-2 group">
+                  <div className="text-5xl font-black text-primaryOrange/25 group-hover:text-primaryOrange/45 leading-none mb-5 transition-colors">{item.step}</div>
+                  <h3 className="text-lg sm:text-xl font-black text-white tracking-tight mb-3">{item.title}</h3>
+                  <p className="text-sm text-bodyGrayText group-hover:text-[#d4d4d8] font-medium leading-relaxed transition-colors">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Trainer Support Toolkit */}
+          <div className="mb-24 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch">
+            <div className="lg:col-span-5 p-6 sm:p-8 rounded-[2rem] bg-cardBg border border-lightBorder relative overflow-hidden shadow-xl">
+              <div className="absolute bottom-0 left-0 w-64 h-64 orange-gradient opacity-[0.04] blur-3xl pointer-events-none" />
+              <div className="relative z-10 space-y-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 text-primaryOrange text-[10px] font-black uppercase tracking-widest">
+                  <HelpCircle className="w-3.5 h-3.5" /> Support Toolkit
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight text-3d">
+                  Tools that keep trainers <span className="text-primaryOrange text-3d-orange">consistent</span>
+                </h2>
+                <p className="text-sm text-[#a1a1aa] font-medium leading-relaxed">
+                  Trainers get workflows for feedback, student questions, lesson updates, and performance tracking.
+                </p>
+              </div>
+            </div>
+            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+              {[
+                { title: 'Feedback Templates', desc: 'Reusable grading notes help students understand exactly what to improve.', icon: PenTool },
+                { title: 'Live Session Planner', desc: 'Schedule Q&A themes, class demos, and weekly learner checkpoints.', icon: Radio },
+                { title: 'Student Question Queue', desc: 'Keep course discussions organized so support feels fast and professional.', icon: MessageSquare },
+                { title: 'Content Refresh Prompts', desc: 'Spot lessons that need updates as tools, software, and standards change.', icon: ClipboardCheck },
+              ].map((tool) => {
+                const Icon = tool.icon;
+                return (
+                  <div key={tool.title} className="theme-card card-3d p-5 sm:p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-primaryOrange/35 hover:bg-white/[0.055] transition-all duration-500 hover:-translate-y-2 group">
+                    <div className="w-11 h-11 rounded-xl bg-primaryOrange/10 border border-primaryOrange/25 text-primaryOrange flex items-center justify-center mb-4 group-hover:bg-primaryOrange group-hover:text-white transition-colors">
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <h3 className="text-base sm:text-lg font-black text-white tracking-tight mb-2">{tool.title}</h3>
+                    <p className="text-sm text-bodyGrayText font-medium leading-relaxed">{tool.desc}</p>
                   </div>
                 );
               })}

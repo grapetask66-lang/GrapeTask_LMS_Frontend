@@ -128,7 +128,7 @@ export default function CourseDetailsPage() {
                 <div className="text-xs font-bold text-darkGrayNumber uppercase tracking-widest">Created by</div>
                 <div className="text-base font-black text-white flex items-center gap-1.5">
                   {course.trainer || 'Verified Trainer'}
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                  <CheckCircle2 className="w-4 h-4 text-primaryOrange" />
                 </div>
               </div>
             </div>
@@ -151,7 +151,7 @@ export default function CourseDetailsPage() {
                     <PlayCircle className="w-8 h-8 text-white ml-1" />
                   </div>
                 </div>
-                <div className="absolute bottom-3 left-0 w-full text-center text-xs font-bold text-white tracking-widest drop-shadow-md">
+                <div className="absolute bottom-3 left-0 w-full text-center text-xs font-bold text-white tracking-widest">
                   Preview Course
                 </div>
               </div>
@@ -205,7 +205,7 @@ export default function CourseDetailsPage() {
                   'Understand how to deploy and scale your solutions'
                 ].map((item, i) => (
                   <div key={i} className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-5 h-5 text-primaryOrange shrink-0 mt-0.5" />
                     <span className="text-bodyGrayText text-sm font-medium leading-relaxed">{item}</span>
                   </div>
                 ))}

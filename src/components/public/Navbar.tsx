@@ -96,22 +96,36 @@ const Navbar = () => {
             {mobileMenuOpen ? <X className="w-[22px] h-[22px]" /> : <Menu className="w-[22px] h-[22px]" />}
           </button>
         </div>
+      </nav>
 
-        {/* Mobile Menu Overlay */}
-        {mobileMenuOpen && (
-          <div 
-            className="lg:hidden fixed inset-0 top-[56px] sm:top-[80px] bg-[#020617]/98 backdrop-blur-xl z-40"
-            style={{ 
-              animation: 'fadeIn 0.15s ease-out'
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && (
+        <div
+          className="lg:hidden fixed inset-0 top-[56px] sm:top-[80px] z-50"
+          style={{
+            animation: 'fadeIn 0.15s ease-out'
+          }}
+        >
+          <button
+            type="button"
+            aria-label="Close menu"
+            className="absolute inset-0 bg-pureBlack/35 backdrop-blur-[2px]"
+            onClick={closeMobileMenu}
+          />
+          <aside
+            className="relative z-10 h-full w-[min(18rem,calc(100vw-3rem))] overflow-hidden border-r border-orangeBorderActive bg-mainBg shadow-2xl"
+            style={{
+              animation: 'slideInLeft 0.2s ease-out'
             }}
           >
-            <div className="p-3 sm:p-8 flex flex-col space-y-1 sm:space-y-2 overflow-y-auto max-h-[calc(100vh-64px)] sm:max-h-[calc(100vh-80px)]">
+            <div className="pointer-events-none absolute inset-0 bg-primaryOrange/10" />
+            <div className="relative p-3 sm:p-8 flex flex-col space-y-1 sm:space-y-2 overflow-y-auto max-h-[calc(100vh-56px)] sm:max-h-[calc(100vh-80px)]">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   href={link.href}
                   onClick={closeMobileMenu}
-                className={`text-xs sm:text-lg font-bold tracking-tight py-2 sm:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl hover:bg-white/5 active:bg-white/10 active:scale-[0.98] transition-all duration-100 ${
+                  className={`text-xs sm:text-lg font-bold tracking-tight py-2 sm:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl hover:bg-white/5 active:bg-white/10 active:scale-[0.98] transition-all duration-100 ${
                     pathname === link.href ? 'text-primaryOrange bg-primaryOrange/5' : 'text-white/90'
                   }`}
                 >
@@ -137,9 +151,9 @@ const Navbar = () => {
                 </Link>
               </div>
             </div>
-          </div>
-        )}
-      </nav>
+          </aside>
+        </div>
+      )}
       
       {/* Spacer to prevent content jump */}
       <div className="h-12 sm:h-20 md:h-24" />

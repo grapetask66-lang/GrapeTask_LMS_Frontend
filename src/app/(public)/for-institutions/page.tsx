@@ -151,6 +151,38 @@ export default function ForInstitutionsPage() {
             </div>
           </div>
 
+          {/* Rollout Plan */}
+          <div className="mb-24 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch">
+            <div className="lg:col-span-5 p-6 sm:p-8 rounded-[2rem] bg-cardBg border border-lightBorder relative overflow-hidden shadow-xl">
+              <div className="absolute top-0 right-0 w-64 h-64 orange-gradient opacity-[0.04] blur-3xl pointer-events-none" />
+              <div className="relative z-10 space-y-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 text-primaryOrange text-[10px] font-black uppercase tracking-widest">
+                  <Clock className="w-3.5 h-3.5" /> 30-Day Rollout
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight text-3d">
+                  Launch without adding <span className="text-primaryOrange text-3d-orange">IT complexity</span>
+                </h2>
+                <p className="text-sm text-[#a1a1aa] font-medium leading-relaxed">
+                  A guided onboarding flow helps administrators activate students, assign courses, and start tracking progress quickly.
+                </p>
+              </div>
+            </div>
+
+            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
+              {[
+                { day: 'Week 1', title: 'Setup', desc: 'Create the institution portal, import student lists, and allocate licenses.' },
+                { day: 'Week 2', title: 'Assign', desc: 'Map courses to classes by level, skill goal, or department requirement.' },
+                { day: 'Week 3+', title: 'Track', desc: 'Review completion, assessment scores, and trainer feedback in one place.' },
+              ].map((item) => (
+                <div key={item.day} className="theme-card card-3d p-5 sm:p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-primaryOrange/35 hover:bg-white/[0.055] transition-all duration-500 hover:-translate-y-2 group">
+                  <div className="text-[10px] font-black uppercase tracking-widest text-primaryOrange mb-3">{item.day}</div>
+                  <h3 className="text-lg font-black text-white tracking-tight mb-2">{item.title}</h3>
+                  <p className="text-sm text-bodyGrayText font-medium leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* Portal Features - Changed background to Navy Blue #020617 */}
           <div className="mb-24 p-6 sm:p-12 md:p-20 rounded-[2.5rem] sm:rounded-[3.5rem] bg-[#020617] border border-lightBorder relative overflow-hidden shadow-2xl">
             <div className="absolute bottom-0 left-0 w-80 h-80 secondary-glow opacity-10" />
@@ -210,6 +242,35 @@ export default function ForInstitutionsPage() {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Engagement Insights */}
+          <div className="mb-24 p-6 sm:p-12 md:p-16 rounded-[2.5rem] sm:rounded-[3rem] bg-[#020617] border border-lightBorder relative overflow-hidden shadow-2xl">
+            <div className="absolute bottom-0 left-0 w-80 h-80 secondary-glow opacity-10 pointer-events-none" />
+            <div className="text-center mb-12 space-y-4 relative z-10">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 text-primaryOrange text-xs font-black uppercase tracking-widest">
+                <BarChart3 className="w-3.5 h-3.5" /> Academic Visibility
+              </div>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight text-3d">
+                Reports leaders can <span className="text-primaryOrange text-3d-orange">act on</span>
+              </h2>
+              <p className="text-sm sm:text-base text-[#a1a1aa] font-medium max-w-2xl mx-auto leading-relaxed">
+                Keep administrators, teachers, and parents aligned with progress signals that are easy to understand.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 relative z-10">
+              {[
+                { value: '92%', title: 'Module completion', desc: 'See which classes are staying on schedule and where support is needed.' },
+                { value: '70%', title: 'Certificate progress', desc: 'Track learners moving from course completion to verified certification.' },
+                { value: '85%', title: 'Skill improvement', desc: 'Compare assessments over time to show measurable academic growth.' },
+              ].map((metric) => (
+                <div key={metric.title} className="theme-card card-3d p-6 sm:p-7 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-primaryOrange/35 hover:bg-white/[0.055] transition-all duration-500 hover:-translate-y-2 group">
+                  <div className="text-4xl sm:text-5xl font-black text-primaryOrange text-3d-orange mb-4 leading-none">{metric.value}</div>
+                  <h3 className="text-lg sm:text-xl font-black text-white tracking-tight mb-3">{metric.title}</h3>
+                  <p className="text-sm text-bodyGrayText font-medium leading-relaxed">{metric.desc}</p>
+                </div>
+              ))}
             </div>
           </div>
 

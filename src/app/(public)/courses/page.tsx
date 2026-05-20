@@ -10,7 +10,9 @@ import {
   ArrowRight,
   CheckCircle2,
   Filter,
-  ChevronDown,
+  BookOpen,
+  Briefcase,
+  Award,
   Play,
   Pause
 } from 'lucide-react';
@@ -197,6 +199,54 @@ const CoursesPage = () => {
             </div>
           </div>
 
+          {/* Guided Paths */}
+          <div className="mb-16 sm:mb-20 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-stretch">
+            <div className="lg:col-span-5 p-8 sm:p-10 rounded-[2.25rem] bg-[#020617] border border-lightBorder relative overflow-hidden shadow-[0_20px_65px_rgba(0,0,0,0.24)]">
+              <div className="absolute top-0 right-0 w-64 h-64 orange-gradient opacity-[0.06] blur-3xl pointer-events-none" />
+              <div className="relative z-10 space-y-5 sm:space-y-6">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 text-primaryOrange text-[10px] sm:text-xs font-black uppercase tracking-widest">
+                  <Filter className="w-3.5 h-3.5" /> Pick Faster
+                </div>
+                <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight text-3d leading-tight">
+                  Choose the right <span className="text-primaryOrange text-3d-orange">learning path</span>
+                </h2>
+                <p className="text-base sm:text-lg text-[#a1a1aa] font-medium leading-relaxed max-w-xl">
+                  Start with your current level, then move into portfolio-ready modules, trainer-reviewed tasks, and certification.
+                </p>
+              </div>
+            </div>
+
+            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6">
+              {[
+                { title: 'Foundation', desc: 'Short lessons, guided practice, and beginner-friendly checks.', level: 'School', icon: BookOpen },
+                { title: 'Career Track', desc: 'Practical projects for college learners building job skills.', level: 'College', icon: Briefcase },
+                { title: 'Pro Portfolio', desc: 'Advanced work, reviews, and certification-ready outcomes.', level: 'University', icon: Award },
+              ].map((path) => {
+                const IconComponent = path.icon;
+                return (
+                  <div key={path.title} className="theme-card card-3d flex flex-col justify-between p-6 sm:p-7 rounded-[2.25rem] bg-white/[0.03] border border-white/10 hover:border-primaryOrange/35 hover:bg-white/[0.055] transition-all duration-500 hover:-translate-y-2 group min-h-[260px]">
+                    <div className="flex items-center justify-between gap-4 mb-5">
+                      <div className="w-12 h-12 rounded-2xl bg-primaryOrange/10 border border-primaryOrange/25 text-primaryOrange flex items-center justify-center group-hover:bg-primaryOrange group-hover:text-white transition-colors">
+                        <IconComponent className="w-6 h-6" />
+                      </div>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-primaryOrange">{path.level}</span>
+                    </div>
+                    <div className="space-y-4 flex-grow">
+                      <h3 className="text-xl font-black text-white tracking-tight leading-snug">{path.title}</h3>
+                      <p className="text-sm text-bodyGrayText font-medium leading-relaxed">{path.desc}</p>
+                    </div>
+                    <div className="mt-6">
+                      <span className="inline-flex items-center gap-2 text-sm font-bold text-primaryOrange uppercase tracking-[0.2em]">
+                        Explore
+                        <ArrowRight className="w-4 h-4" />
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
           {/* Course Grid */}
           {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
@@ -210,7 +260,7 @@ const CoursesPage = () => {
                 <Link
                   href={`/courses/${course.id}`}
                   key={course.id}
-                  className="theme-card card-3d rounded-[2rem] overflow-hidden flex flex-col group block hover:-translate-y-2.5 hover:shadow-[0_20px_50px_rgba(240,89,31,0.12)] transition-all duration-500"
+                  className="theme-card card-3d rounded-[2rem] overflow-hidden flex flex-col group hover:-translate-y-2.5 hover:shadow-[0_20px_50px_rgba(240,89,31,0.12)] transition-all duration-500"
                 >
                   <div className="aspect-video bg-[#020617] relative overflow-hidden">
                     {course.thumbnail ? (
@@ -263,6 +313,22 @@ const CoursesPage = () => {
               </button>
             </div>
           )}
+
+          {/* Learning Experience */}
+          <div className="mt-20 sm:mt-24 grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
+            {[
+              { value: '01', title: 'Learn in focused modules', desc: 'Each course is broken into clear lessons so students can make progress without feeling lost.' },
+              { value: '02', title: 'Practice with checkpoints', desc: 'Assessments and tasks help learners prove they understood the skill before moving ahead.' },
+              { value: '03', title: 'Earn visible proof', desc: 'Completion signals, trainer feedback, and certificates make achievements easy to share.' },
+            ].map((item) => (
+              <div key={item.value} className="theme-card card-3d p-6 sm:p-7 rounded-[2rem] bg-[#020617] border border-white/10 hover:border-primaryOrange/35 hover:bg-white/[0.04] transition-all duration-500 hover:-translate-y-2 relative overflow-hidden group">
+                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primaryOrange/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="text-5xl font-black text-primaryOrange/25 group-hover:text-primaryOrange/45 leading-none mb-5 transition-colors">{item.value}</div>
+                <h3 className="text-lg sm:text-xl font-black text-white tracking-tight mb-3">{item.title}</h3>
+                <p className="text-sm text-[#a1a1aa] font-medium leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
 
           {/* Comparison Section */}
           <div className="mt-24 md:mt-32 p-6 sm:p-12 md:p-20 rounded-[2.5rem] sm:rounded-[3rem] bg-cardBg border border-lightBorder relative overflow-hidden shadow-2xl">
