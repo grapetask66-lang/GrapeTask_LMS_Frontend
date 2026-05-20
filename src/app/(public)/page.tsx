@@ -507,36 +507,17 @@ export default function HomePage() {
         <div className="absolute bottom-20 right-10 w-40 h-40 rounded-full bg-blue-500/[0.03] blur-3xl pointer-events-none animate-float-reverse" />
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-12 sm:mb-16 relative z-20">
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 lg:gap-12 max-w-7xl mx-auto">
-            {/* Left side - Heading */}
-            <div className="text-left space-y-4 lg:max-w-xl">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#f0591f]/20 bg-[#f0591f]/5 text-[#f0591f] text-xs font-black uppercase tracking-widest backdrop-blur-sm">
-                <span className="w-2 h-2 rounded-full bg-[#f0591f] animate-pulse" />
-                Trending Disciplines
-              </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight text-3d leading-tight">
-                Explore High-Income <span className="text-[#f0591f] text-3d-orange">Skill Floor Paths</span>
-              </h2>
+          <div className="mx-auto max-w-4xl text-center lg:text-left space-y-6">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#f0591f]/20 bg-[#f0591f]/5 text-[#f0591f] text-xs font-black uppercase tracking-widest backdrop-blur-sm">
+              <span className="w-2 h-2 rounded-full bg-[#f0591f] animate-pulse" />
+              Trending Disciplines
             </div>
-            
-            {/* Right side - Description with CTA */}
-            <div className="lg:max-w-lg space-y-6">
-              <p className="text-sm sm:text-base text-[#a1a1aa] font-medium leading-relaxed sm:leading-7">
-                Choose from <span className="text-white font-semibold">Pakistan's most sought-after categories</span>, designed to take you from <span className="text-[#f0591f] font-semibold">structured learning modules</span> directly to <span className="text-[#f0591f] font-semibold">verified freelance gig contracts</span>. Start your journey today.
-              </p>
-              
-              {/* Premium CTA Button */}
-              <Link 
-                href="/courses" 
-                className="group relative inline-flex items-center gap-2.5 px-6 py-3 bg-gradient-to-r from-[#f0591f] to-[#ff7a45] text-white font-bold text-sm rounded-xl shadow-[0_8px_25px_rgba(240,89,31,0.25)] hover:shadow-[0_12px_35px_rgba(240,89,31,0.4)] transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] active:scale-[0.98] overflow-hidden"
-              >
-                {/* Shine effect */}
-                <div className="absolute inset-0 -translate-x-[150%] group-hover:translate-x-[150%] transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12" />
-                
-                <span className="relative z-10">Explore All Paths</span>
-                <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform duration-300" />
-              </Link>
-            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight text-3d leading-tight">
+              Explore High-Income <span className="text-[#f0591f] text-3d-orange">Skill Floor Paths</span>
+            </h2>
+            <p className="mx-auto lg:mx-0 max-w-3xl text-sm sm:text-base text-[#a1a1aa] font-medium leading-relaxed sm:leading-7">
+              Choose from <span className="text-white font-semibold">Pakistan's most sought-after categories</span>, designed to take you from <span className="text-[#f0591f] font-semibold">structured learning modules</span> directly to <span className="text-[#f0591f] font-semibold">verified freelance gig contracts</span>. Start your journey today.
+            </p>
           </div>
         </div>
 
@@ -600,6 +581,19 @@ export default function HomePage() {
                 </Link>
               ))}
             </div>
+          </div>
+        </div>
+
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+          <div className="flex justify-center">
+            <Link 
+              href="/courses" 
+              className="group relative inline-flex items-center gap-2.5 px-6 py-3 bg-gradient-to-r from-[#f0591f] to-[#ff7a45] text-white font-bold text-sm rounded-xl shadow-[0_8px_25px_rgba(240,89,31,0.25)] hover:shadow-[0_12px_35px_rgba(240,89,31,0.4)] transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] active:scale-[0.98] overflow-hidden"
+            >
+              <div className="absolute inset-0 -translate-x-[150%] group-hover:translate-x-[150%] transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12" />
+              <span className="relative z-10">Explore All Paths</span>
+              <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform duration-300" />
+            </Link>
           </div>
         </div>
       </section>
@@ -978,11 +972,11 @@ export default function HomePage() {
                     className="w-full flex items-center justify-between text-left focus:outline-none"
                   >
                     <div className="flex items-center gap-4 sm:gap-6 pr-4">
-                      <span className={`w-8 h-8 rounded-lg sm:rounded-xl flex items-center justify-center font-black text-sm flex-shrink-0 transition-all duration-300 ${isOpen
+                      <span className={`w-8 h-8 rounded-lg sm:rounded-xl flex items-center justify-center text-sm flex-shrink-0 transition-all duration-300 ${isOpen
                         ? 'bg-primaryOrange text-white rotate-[360deg] shadow-md shadow-primaryOrange/25'
                         : 'bg-white/5 text-primaryOrange group-hover:bg-primaryOrange/10'
                         }`}>
-                        ?
+                        <HelpCircle className="w-4 h-4" />
                       </span>
                       <h3 className={`text-base sm:text-lg md:text-xl font-bold transition-colors duration-300 pr-2 ${isOpen ? 'text-primaryOrange' : 'text-white group-hover:text-primaryOrange'
                         }`}>
