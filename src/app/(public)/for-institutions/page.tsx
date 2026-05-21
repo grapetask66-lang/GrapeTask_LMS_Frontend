@@ -86,7 +86,6 @@ export default function ForInstitutionsPage() {
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 text-primaryOrange text-xs font-bold uppercase tracking-widest shadow-sm">
               <Building2 className="w-3.5 h-3.5" /> Academic Partnerships
             </div>
-            {/* Heading slightly smaller & 3D text styled */}
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-white leading-tight tracking-tight text-3d">
               Partner with <span className="text-primaryOrange text-3d-orange">GrapeTask LMS</span>
             </h1>
@@ -95,7 +94,7 @@ export default function ForInstitutionsPage() {
             </p>
           </div>
 
-          {/* Benefits Grid - All background classes are bg-[#020617] or bg-cardBg instead of black */}
+          {/* Benefits Grid */}
           <div className="mb-24">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-12 sm:mb-16 text-center tracking-tight text-3d">
               Why Partner with <span className="text-primaryOrange text-3d-orange">GrapeTask LMS?</span>
@@ -123,7 +122,7 @@ export default function ForInstitutionsPage() {
             </div>
           </div>
 
-          {/* How it Works - Changed background to Navy Blue #020617 */}
+          {/* How it Works */}
           <div className="mb-24 p-6 sm:p-12 md:p-20 rounded-[2.5rem] sm:rounded-[3.5rem] bg-[#020617] border border-lightBorder relative overflow-hidden shadow-2xl">
             <div className="absolute top-0 right-0 w-80 h-80 secondary-glow opacity-10" />
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-12 sm:mb-16 text-center tracking-tight text-3d">
@@ -183,7 +182,7 @@ export default function ForInstitutionsPage() {
             </div>
           </div>
 
-          {/* Portal Features - Changed background to Navy Blue #020617 */}
+          {/* Portal Features */}
           <div className="mb-24 p-6 sm:p-12 md:p-20 rounded-[2.5rem] sm:rounded-[3.5rem] bg-[#020617] border border-lightBorder relative overflow-hidden shadow-2xl">
             <div className="absolute bottom-0 left-0 w-80 h-80 secondary-glow opacity-10" />
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
@@ -217,28 +216,85 @@ export default function ForInstitutionsPage() {
               <div className="lg:col-span-5">
                 <div className="theme-card p-6 sm:p-8 rounded-[2rem] border border-lightBorder relative overflow-hidden backdrop-blur-xl bg-[rgba(255,255,255,0.03)] card-3d">
                   <div className="absolute inset-0 bg-gradient-to-br from-primaryOrange/5 to-transparent pointer-events-none" />
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between pb-4 border-b border-white/5">
-                      <span className="text-[10px] text-darkGrayNumber font-black uppercase tracking-widest">Active Licenses</span>
-                      <span className="text-xs font-bold px-2 py-0.5 rounded bg-primaryOrange/20 text-primaryOrange">250 Allocated</span>
+
+                  {/* Section Heading */}
+                  <div className="space-y-2 mb-4">
+                    <h3 className="text-lg sm:text-xl font-bold text-[#e2e8f0]">
+                      Institution Overview
+                    </h3>
+                    <p className="text-sm text-[#64748b] leading-relaxed max-w-xl">
+                      Manage student access, monitor course participation, and keep track of active learning plans from one simple dashboard.
+                    </p>
+                  </div>
+
+                  {/* Plans Container */}
+                  <div className="rounded-2xl border border-[#1e3a5f]/60 bg-gradient-to-br from-[#0f1d32] to-[#0a1628] p-5 sm:p-6 space-y-4 shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+
+                    {/* Header Row */}
+                    <div className="flex items-center justify-between border-b border-[#1e3a5f]/50 pb-4">
+                      <span className="text-[11px] uppercase tracking-[0.2em] text-[#4b6a8f] font-semibold">
+                        Active Student Access
+                      </span>
+
+                      <span className="text-xs font-bold bg-gradient-to-r from-[#ea580c] to-[#f97316] text-white px-3 py-1 rounded-full shadow-[0_0_12px_rgba(249,115,22,0.3)]">
+                        250 Allocated
+                      </span>
                     </div>
-                    <div className="space-y-3">
-                      <div className="p-3 rounded-lg bg-white/5 border border-white/10 flex justify-between items-center text-xs">
-                        <span className="font-semibold text-white">School Students Plan</span>
-                        <span className="text-[#a1a1aa] font-bold">120 Seats used</span>
+
+                    {/* Items */}
+                    <div className="space-y-2.5">
+
+                      {/* School Access */}
+                      <div className="group flex items-center justify-between rounded-xl border border-[#1e3a5f]/50 bg-[#0f1d32]/60 pl-4 pr-4 py-3.5 transition-all duration-300 hover:bg-[#162544] hover:border-[#f97316]/40 hover:shadow-[0_0_16px_rgba(249,115,22,0.08)] relative overflow-hidden">
+                        <div className="absolute left-0 top-0 bottom-0 w-[3px] rounded-l-xl bg-gradient-to-b from-[#f97316] to-[#ea580c] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="flex items-center gap-3">
+                          <span className="w-2 h-2 rounded-full bg-[#f97316] shadow-[0_0_6px_rgba(249,115,22,0.5)]" />
+                          <p className="text-sm font-semibold text-[#cbd5e1]">
+                            School Access
+                          </p>
+                        </div>
+
+                        <span className="text-sm font-bold text-[#fb923c] tabular-nums">
+                          120 Active
+                        </span>
                       </div>
-                      <div className="p-3 rounded-lg bg-white/5 border border-white/10 flex justify-between items-center text-xs">
-                        <span className="font-semibold text-white">College Students Plan</span>
-                        <span className="text-[#a1a1aa] font-bold">85 Seats used</span>
+
+                      {/* College Access */}
+                      <div className="group flex items-center justify-between rounded-xl border border-[#1e3a5f]/50 bg-[#0f1d32]/60 pl-4 pr-4 py-3.5 transition-all duration-300 hover:bg-[#162544] hover:border-[#f97316]/40 hover:shadow-[0_0_16px_rgba(249,115,22,0.08)] relative overflow-hidden">
+                        <div className="absolute left-0 top-0 bottom-0 w-[3px] rounded-l-xl bg-gradient-to-b from-[#f97316] to-[#ea580c] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="flex items-center gap-3">
+                          <span className="w-2 h-2 rounded-full bg-[#f97316] shadow-[0_0_6px_rgba(249,115,22,0.5)]" />
+                          <p className="text-sm font-semibold text-[#cbd5e1]">
+                            College Access
+                          </p>
+                        </div>
+
+                        <span className="text-sm font-bold text-[#fb923c] tabular-nums">
+                          85 Active
+                        </span>
                       </div>
-                      <div className="p-3 rounded-lg bg-white/5 border border-white/10 flex justify-between items-center text-xs">
-                        <span className="font-semibold text-white">University Students Plan</span>
-                        <span className="text-[#a1a1aa] font-bold">45 Seats used</span>
+
+                      {/* University Access */}
+                      <div className="group flex items-center justify-between rounded-xl border border-[#1e3a5f]/50 bg-[#0f1d32]/60 pl-4 pr-4 py-3.5 transition-all duration-300 hover:bg-[#162544] hover:border-[#f97316]/40 hover:shadow-[0_0_16px_rgba(249,115,22,0.08)] relative overflow-hidden">
+                        <div className="absolute left-0 top-0 bottom-0 w-[3px] rounded-l-xl bg-gradient-to-b from-[#f97316] to-[#ea580c] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="flex items-center gap-3">
+                          <span className="w-2 h-2 rounded-full bg-[#f97316] shadow-[0_0_6px_rgba(249,115,22,0.5)]" />
+                          <p className="text-sm font-semibold text-[#cbd5e1]">
+                            University Access
+                          </p>
+                        </div>
+
+                        <span className="text-sm font-bold text-[#fb923c] tabular-nums">
+                          45 Active
+                        </span>
                       </div>
+
                     </div>
-                    <div className="pt-2 text-center text-[10px] text-darkGrayNumber font-black uppercase tracking-widest leading-none">
-                      Secured by GrapeTask LMS Guard
-                    </div>
+
+                  </div>
+
+                  <div className="pt-3 text-center text-[10px] text-darkGrayNumber font-black uppercase tracking-widest leading-none">
+                    Secured by GrapeTask LMS Guard
                   </div>
                 </div>
               </div>
@@ -274,7 +330,7 @@ export default function ForInstitutionsPage() {
             </div>
           </div>
 
-          {/* Pricing Plans - Changed background to Navy Blue #020617 */}
+          {/* Pricing Plans */}
           <div className="p-6 sm:p-12 md:p-20 rounded-[2.5rem] sm:rounded-[3.5rem] bg-[#020617] border border-lightBorder relative overflow-hidden shadow-2xl mb-24">
             <div className="absolute top-0 right-0 w-80 h-80 secondary-glow opacity-10" />
 
@@ -287,30 +343,27 @@ export default function ForInstitutionsPage() {
               </p>
             </div>
 
-            {/* Asymmetrical Premium Pricing Cards with clean PKR text and Orange Hover */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
               {pricing.map((plan) => (
                 <div key={plan.level} className="relative group">
-                  <div className="pricing-card p-8 sm:p-10 rounded-tl-[4rem] rounded-br-[4rem] rounded-tr-[1.5rem] rounded-bl-[1.5rem] border border-white/10 flex flex-col items-center text-center space-y-6 bg-cardBg hover:bg-primaryOrange hover:border-primaryOrange hover:text-white transition-all duration-500 hover:-translate-y-4 hover:scale-[1.03] shadow-2xl relative overflow-hidden h-full">
-                    {/* Visual orange glow decoration inside card on hover */}
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-full blur-xl group-hover:bg-white/20 transition-all pointer-events-none" />
+                  <div className="pricing-card p-6 sm:p-8 rounded-[2.25rem] border border-white/10 flex flex-col items-center text-center space-y-5 bg-cardBg hover:bg-primaryOrange hover:border-primaryOrange hover:text-white transition-all duration-500 hover:-translate-y-3 hover:scale-[1.02] shadow-2xl relative overflow-hidden h-full">
+                    <div className="absolute top-0 right-0 w-20 h-20 bg-white/5 rounded-full blur-xl group-hover:bg-white/20 transition-all pointer-events-none" />
 
-                    <h3 className="text-lg font-black text-white group-hover:text-white uppercase tracking-wider">{plan.level}</h3>
+                    <h3 className="text-base sm:text-lg font-black text-white group-hover:text-white uppercase tracking-wider">{plan.level}</h3>
 
                     <div className="flex flex-col items-center">
                       <div className="flex items-baseline justify-center">
-                        {/* Simpler clean font, reduced relative size */}
-                        <span className="font-sans text-base font-semibold text-primaryOrange group-hover:text-white transition-colors mr-1">PKR</span>
-                        <span className="text-4xl sm:text-5xl font-black text-white group-hover:text-white transition-colors">{plan.price}</span>
+                        <span className="font-sans text-sm sm:text-base font-semibold text-primaryOrange group-hover:text-white transition-colors mr-1">PKR</span>
+                        <span className="text-3xl sm:text-4xl font-black text-white group-hover:text-white transition-colors">{plan.price}</span>
                       </div>
-                      <span className="text-[9px] text-darkGrayNumber group-hover:text-white/60 transition-colors font-black uppercase tracking-[0.2em] mt-2">Per Student / Month</span>
+                      <span className="text-[10px] sm:text-[11px] text-darkGrayNumber group-hover:text-white/60 transition-colors font-black uppercase tracking-[0.18em] mt-2">Per Student / Month</span>
                     </div>
 
-                    <p className="text-sm text-bodyGrayText group-hover:text-white/80 transition-colors leading-relaxed font-semibold">{plan.desc}</p>
+                    <p className="text-sm sm:text-base text-bodyGrayText group-hover:text-white/80 transition-colors leading-relaxed font-medium mx-auto max-w-sm">{plan.desc}</p>
 
                     <Link
                       href="/contact?type=institution"
-                      className="w-full py-4 bg-white/5 border border-white/10 rounded-2xl text-white font-bold hover:bg-white hover:text-primaryOrange group-hover:bg-white group-hover:text-primaryOrange transition-all text-center text-xs sm:text-sm"
+                      className="w-full py-3 sm:py-3.5 bg-white/5 border border-white/10 rounded-2xl text-white font-bold hover:bg-white hover:text-primaryOrange group-hover:bg-white group-hover:text-primaryOrange transition-all text-center text-xs sm:text-sm"
                     >
                       Get Started
                     </Link>

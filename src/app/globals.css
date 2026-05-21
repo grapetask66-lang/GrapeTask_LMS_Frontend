@@ -61,14 +61,17 @@ textarea {
   border: 1px solid var(--light-border);
   transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   backdrop-filter: blur(16px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 0 1px 0 rgba(255,255,255,0.02) inset;
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.12), 0 1px 0 rgba(255,255,255,0.02) inset;
+  transform: perspective(1200px) translateZ(0);
+  transform-origin: center center;
   transform-style: preserve-3d;
+  backface-visibility: hidden;
   will-change: transform, box-shadow, border-color;
 }
 
 .theme-card:hover {
   background: var(--card-bg-active);
-  transform: translateY(-8px) scale(1.01);
+  transform: perspective(1200px) translateY(-8px) translateZ(0) scale(1.01);
   border-color: rgba(240, 89, 31, 0.3);
   box-shadow: 
     0 24px 60px rgba(0, 0, 0, 0.3), 
@@ -81,22 +84,32 @@ textarea {
   background: var(--card-bg);
   border: 1px solid var(--light-border);
   backdrop-filter: blur(16px);
+  transform: perspective(1200px) translateZ(0);
   transform-style: preserve-3d;
   will-change: transform, box-shadow, border-color;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1),
               border-color 0.6s cubic-bezier(0.16, 1, 0.3, 1),
               background 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.15), 0 1px 0 rgba(255,255,255,0.03) inset;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.18), 0 1px 0 rgba(255,255,255,0.03) inset;
+  transform-origin: center center;
+  backface-visibility: hidden;
 }
 
 .card-3d:hover {
-  transform: translateY(-8px) rotateX(2deg) rotateY(-1deg) scale(1.015);
+  transform: perspective(1200px) translateY(-8px) rotateX(2deg) rotateY(-1deg) scale(1.015);
   border-color: rgba(240, 89, 31, 0.3);
   box-shadow:
     0 30px 80px rgba(0,0,0,0.4),
     0 0 40px rgba(240, 89, 31, 0.15),
     inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+@media (hover: none) {
+  .theme-card,
+  .card-3d {
+    transform: perspective(1000px) translateY(0) translateZ(0);
+  }
 }
 
 /* Pricing card with elevated glow */
@@ -418,6 +431,25 @@ textarea {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.18), 0 1px 0 rgba(255,255,255,0.04) inset;
+  transform: perspective(1200px) translateZ(0);
+  transform-origin: center center;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform, box-shadow, border-color;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease, border-color 0.5s ease, background 0.5s ease;
+}
+
+.glass-card:hover {
+  transform: perspective(1200px) translateY(-5px) rotateX(1deg) rotateY(-0.4deg);
+  box-shadow: 0 22px 70px rgba(0,0,0,0.28), 0 0 30px rgba(240,89,31,0.08);
+}
+
+
+@media (hover: none) {
+  .glass-card {
+    transform: perspective(1000px) translateY(0) translateZ(0);
+  }
 }
 
 /* =============================================

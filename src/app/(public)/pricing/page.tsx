@@ -34,15 +34,15 @@ export default function PricingPage() {
   const individualPlans = [
     {
       level: 'Starter Course',
-      price: 'Pay per Course',
-      desc: 'Access select courses at your own pace',
+      price: 'Flexible Access',
+      desc: 'Self-paced course access with practical milestones and verified badge outcomes.',
       icon: Lightbulb,
       features: [
-        'Pay only for the courses you choose',
-        'HD video lessons from verified expert trainers',
-        'Structured assessments after every video',
-        'Course completion certificate verified on profile',
-        '24/7 student community group access'
+        'Choose skill-based modules and pay only for the clear learning paths you follow',
+        'Practical tasks reviewed by certified trainers',
+        'Verified badge attached to learner profile on completion',
+        'Freelance-ready portfolio exercises and practical case studies',
+        'Active community support with peer collaboration'
       ],
       cta: 'Browse Courses',
       href: '/courses',
@@ -50,16 +50,15 @@ export default function PricingPage() {
     },
     {
       level: 'Premium Path',
-      price: 'Advanced Track',
-      desc: 'Intensive practical training with direct trainer feedback',
+      price: 'Guided Certification',
+      desc: 'Trainer-backed growth track with live review, coaching, and career preparation.',
       icon: Medal,
       features: [
-        'Priority enrollment in new courses',
-        'Personal code review and grading from expert trainers',
-        'Direct 1-on-1 chat support with course trainers',
-        'Weekly live Q&A/masterclass group sessions',
-        'Verified GrapeTask LMS Certificate badge',
-        'Direct project pipeline on GrapeTask freelance marketplace'
+        'Priority access to new professional course modules',
+        'One-on-one trainer feedback on projects and submissions',
+        'Weekly live coaching sessions and milestone reviews',
+        'Verified certification badge synced to the freelancer profile',
+        'Dedicated portfolio support and freelance-ready preparation'
       ],
       cta: 'Join Now',
       href: '/register',
@@ -128,38 +127,62 @@ export default function PricingPage() {
           </div>
 
           {/* Plan Guidance */}
-          <div className="mb-24 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch px-2 sm:px-4">
-            <div className="lg:col-span-5 p-6 sm:p-8 rounded-[2rem] bg-cardBg border border-lightBorder relative overflow-hidden shadow-xl">
-              <div className="absolute top-0 right-0 w-64 h-64 orange-gradient opacity-[0.04] blur-3xl pointer-events-none" />
-              <div className="relative z-10 space-y-4">
+          <div className="mb-24 grid grid-cols-1 lg:grid-cols-[1.4fr_0.95fr] gap-6 sm:gap-8 px-2 sm:px-4 items-start">
+            <div className="p-7 sm:p-10 rounded-[2.5rem] bg-cardBg border border-lightBorder relative overflow-hidden shadow-2xl">
+              <div className="absolute top-0 right-0 w-64 h-64 orange-gradient opacity-[0.05] blur-3xl pointer-events-none" />
+              <div className="relative z-10">
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 text-primaryOrange text-[10px] font-black uppercase tracking-widest">
-                  <UserCheck className="w-3.5 h-3.5" /> Choose Confidently
+                  <UserCheck className="w-3.5 h-3.5" /> Learner Pathways
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight text-3d break-words">
-                  Match pricing to your <span className="text-primaryOrange text-3d-orange">learning goal</span>
+                <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight text-3d break-words mt-4">
+                  A cleaner learning experience for learners, trainers, and institutions.
                 </h2>
-                <p className="text-sm text-[#a1a1aa] font-medium leading-relaxed">
-                  Whether you are buying one course or training an entire class, pricing stays clear and practical.
+                <p className="text-sm text-[#a1a1aa] font-medium leading-relaxed mt-4 max-w-2xl">
+                  GrapeTask LMS is built for modern skill development: flexible course access, trainer-led review, and verified certificates that prepare learners for real freelance work.
                 </p>
+
+                <div className="mt-8 space-y-5">
+                  {[
+                    { title: 'Flexible course access', desc: 'Choose the exact skill path you need, pay only for relevant modules, and learn at your own pace.', icon: User },
+                    { title: 'Trainer-led review', desc: 'Get structured task assessments, practical feedback, and certified trainer support for each milestone.', icon: Rocket },
+                    { title: 'Institution-ready scale', desc: 'Support schools, colleges, and universities with seat management, group onboarding, and shared reporting.', icon: Users },
+                  ].map((item) => {
+                    const IconComponent = item.icon;
+                    return (
+                      <div key={item.title} className="flex gap-4 rounded-3xl border border-white/10 bg-white/5 p-4">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primaryOrange/10 text-primaryOrange border border-primaryOrange/20">
+                          <IconComponent className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <h3 className="text-base font-bold text-white">{item.title}</h3>
+                          <p className="text-sm text-[#a1a1aa] leading-relaxed mt-1">{item.desc}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
-            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
-              {[
-                { title: 'Individual Learner', desc: 'Best for one skill, one certificate, or a focused portfolio project.', icon: User },
-                { title: 'Premium Track', desc: 'Best when you need trainer feedback, live support, and career preparation.', icon: Rocket },
-                { title: 'Institution Plan', desc: 'Best for schools, colleges, and universities managing student seats at scale.', icon: Users },
-              ].map((item) => {
-                const IconComponent = item.icon;
-                return (
-                  <div key={item.title} className="theme-card card-3d p-5 sm:p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-primaryOrange/35 hover:bg-white/[0.055] transition-all duration-500 hover:-translate-y-2 group flex flex-col h-full">
-                    <div className="w-12 h-12 rounded-xl bg-primaryOrange/10 border border-primaryOrange/25 text-primaryOrange flex items-center justify-center mb-4 group-hover:bg-primaryOrange group-hover:text-white transition-colors flex-shrink-0">
-                      <IconComponent className="w-6 h-6" />
+
+            <div className="p-7 sm:p-10 rounded-[2.5rem] bg-[#0b1223]/80 border border-lightBorder shadow-2xl">
+              <div className="uppercase tracking-[0.3em] text-primaryOrange text-[10px] font-black mb-5">What makes GrapeTask different</div>
+              <div className="space-y-5">
+                {[
+                  { title: 'Clear outcome tracks', desc: 'Each pathway is aligned to skills, certification, and freelance readiness rather than vague plan labels.' },
+                  { title: 'Verified badge delivery', desc: 'Certificates and badges appear directly on learner profiles and are accepted by hiring partners.' },
+                  { title: 'Practical trainer support', desc: 'Live coach review, project guidance, and community feedback keep learners moving forward.' },
+                ].map((item) => (
+                  <div key={item.title} className="flex gap-4">
+                    <div className="mt-1 flex h-10 w-10 items-center justify-center rounded-2xl bg-white/5 border border-white/10 text-primaryOrange">
+                      <CheckCircle2 className="w-5 h-5" />
                     </div>
-                    <h3 className="text-base sm:text-lg font-black text-white tracking-tight mb-2 line-clamp-2">{item.title}</h3>
-                    <p className="text-sm text-bodyGrayText font-medium leading-relaxed flex-grow">{item.desc}</p>
+                    <div>
+                      <h3 className="text-base font-bold text-white">{item.title}</h3>
+                      <p className="text-sm text-[#a1a1aa] leading-relaxed mt-1">{item.desc}</p>
+                    </div>
                   </div>
-                );
-              })}
+                ))}
+              </div>
             </div>
           </div>
 
@@ -273,7 +296,7 @@ export default function PricingPage() {
             </div>
 
             {/* Redesigned 3 Unique Geometric/Leaf Cards with orange hover turning solid & simpler clean PKR font */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
               {[
                 { level: 'School Students', price: '200', desc: 'Beginner-friendly content', icon: School },
                 { level: 'College Students', price: '300', desc: 'Intermediate practical content', icon: BookOpen },
@@ -282,30 +305,29 @@ export default function PricingPage() {
                 const IconComponent = plan.icon;
                 return (
                   <div key={plan.level} className="relative group">
-                    <div className="pricing-card p-8 sm:p-10 rounded-tl-[4rem] rounded-br-[4rem] rounded-tr-[1.5rem] rounded-bl-[1.5rem] border border-white/10 flex flex-col items-center text-center space-y-6 bg-cardBg hover:bg-primaryOrange hover:border-primaryOrange hover:text-white transition-all duration-500 hover:-translate-y-4 hover:scale-[1.03] shadow-2xl relative overflow-hidden h-full">
+                    <div className="pricing-card p-6 sm:p-8 rounded-[2.5rem] border border-white/10 flex flex-col items-center text-center space-y-5 bg-cardBg hover:bg-primaryOrange hover:border-primaryOrange hover:text-white transition-all duration-500 hover:-translate-y-3 hover:scale-[1.02] shadow-2xl relative overflow-hidden h-full">
                       {/* Visual orange glow decoration inside card on hover */}
-                      <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-full blur-xl group-hover:bg-white/20 transition-all pointer-events-none" />
+                      <div className="absolute top-0 right-0 w-20 h-20 bg-white/5 rounded-full blur-xl group-hover:bg-white/20 transition-all pointer-events-none" />
 
-                      <div className="w-16 h-16 rounded-2xl bg-primaryOrange/10 border border-primaryOrange/25 text-primaryOrange flex items-center justify-center group-hover:bg-white group-hover:text-primaryOrange transition-colors relative z-10 flex-shrink-0">
-                        <IconComponent className="w-8 h-8" />
+                      <div className="w-14 h-14 rounded-2xl bg-primaryOrange/10 border border-primaryOrange/25 text-primaryOrange flex items-center justify-center group-hover:bg-white group-hover:text-primaryOrange transition-colors relative z-10 flex-shrink-0">
+                        <IconComponent className="w-6 h-6" />
                       </div>
 
-                      <h3 className="text-lg font-black text-white group-hover:text-white uppercase tracking-wider relative z-10 break-words">{plan.level}</h3>
+                      <h3 className="text-base sm:text-lg font-black text-white group-hover:text-white uppercase tracking-wider relative z-10 break-words">{plan.level}</h3>
 
                       <div className="flex flex-col items-center relative z-10">
                         <div className="flex items-baseline justify-center gap-1">
-                          {/* Simpler clean font, reduced relative size */}
-                          <span className="font-sans text-base font-semibold text-primaryOrange group-hover:text-white transition-colors">PKR</span>
-                          <span className="text-4xl sm:text-5xl font-black text-white group-hover:text-white transition-colors">{plan.price}</span>
+                          <span className="font-sans text-sm sm:text-base font-semibold text-primaryOrange group-hover:text-white transition-colors">PKR</span>
+                          <span className="text-3xl sm:text-4xl font-black text-white group-hover:text-white transition-colors">{plan.price}</span>
                         </div>
-                        <span className="text-[9px] text-darkGrayNumber group-hover:text-white/60 transition-colors font-black uppercase tracking-[0.2em] mt-2">Per Student / Month</span>
+                        <span className="text-[10px] sm:text-[11px] text-darkGrayNumber group-hover:text-white/60 transition-colors font-black uppercase tracking-[0.18em] mt-2">Per Student / Month</span>
                       </div>
 
-                      <p className="text-sm text-bodyGrayText group-hover:text-white/80 transition-colors leading-relaxed font-semibold relative z-10">{plan.desc}</p>
+                      <p className="text-sm sm:text-base text-bodyGrayText group-hover:text-white/80 transition-colors leading-relaxed font-semibold relative z-10 max-w-[18rem]">{plan.desc}</p>
 
                       <Link
                         href="/contact?type=institution"
-                        className="w-full py-4 bg-white/5 border border-white/10 rounded-2xl text-white font-bold hover:bg-white hover:text-primaryOrange group-hover:bg-white group-hover:text-primaryOrange transition-all text-center text-xs sm:text-sm relative z-10"
+                        className="w-full py-3 sm:py-3.5 bg-white/5 border border-white/10 rounded-2xl text-white font-bold hover:bg-white hover:text-primaryOrange group-hover:bg-white group-hover:text-primaryOrange transition-all text-center text-xs sm:text-sm relative z-10"
                       >
                         Get Started
                       </Link>

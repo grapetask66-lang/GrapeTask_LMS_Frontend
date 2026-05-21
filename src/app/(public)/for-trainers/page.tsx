@@ -139,7 +139,7 @@ export default function ForTrainersPage() {
                     <div className="w-16 h-16 rounded-2xl bg-primaryOrange/10 border border-primaryOrange/20 text-primaryOrange flex items-center justify-center mx-auto shadow-inner">
                       <Video className="w-8 h-8" />
                     </div>
-                    <h3 className="text-lg sm:text-xl font-black text-white tracking-tight">Record from Home</h3>
+                    <h3 className="text-lg sm:text-xl font-black text-white tracking-tight">Record from Home & Office</h3>
                     <p className="text-xs sm:text-sm text-bodyGrayText font-medium leading-relaxed">
                       Complete support in course structural development, recording advice, and grading setups.
                     </p>

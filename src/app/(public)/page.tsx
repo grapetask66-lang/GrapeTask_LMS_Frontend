@@ -480,12 +480,12 @@ export default function HomePage() {
       </section>
 
       {/* ── SKILL PATHS SHOWCASE SECTION ── */}
-      {/* Mobile Stats Bar - separated from hero for compact first-screen flow */}
-      <section className="block md:hidden px-4 pb-8 bg-[#020617]">
-        <div className="grid grid-cols-2 gap-2.5 p-3.5 rounded-2xl glass-card border border-[rgba(255,255,255,0.06)] backdrop-blur-md">
+      {/* Mobile Stats Section — separate transparent panel for strong 3D depth */}
+      <section className="block md:hidden px-4 pb-8 bg-transparent">
+        <div className="grid grid-cols-2 gap-3 p-4 rounded-[2.5rem] glass-card border border-[rgba(255,255,255,0.12)] backdrop-blur-xl shadow-[0_25px_60px_rgba(0,0,0,0.25)]">
           {HERO_STATS.map((stat, i) => (
-            <div key={i} className="text-center py-1.5">
-              <div className="flex justify-center mb-1 text-[#f0591f]">{stat.icon}</div>
+            <div key={i} className="card-3d bg-white/[0.04] border border-[rgba(255,255,255,0.08)] p-4 rounded-3xl text-center py-5 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_45px_rgba(0,0,0,0.22)]">
+              <div className="flex justify-center mb-2 text-[#f0591f]">{stat.icon}</div>
               <div className="text-lg font-black text-white leading-tight">{stat.value}</div>
               <div className="text-[9px] text-[#a1a1aa] uppercase tracking-wider font-extrabold">{stat.label}</div>
             </div>
