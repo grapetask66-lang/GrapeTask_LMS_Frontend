@@ -63,7 +63,6 @@ export default function ForInstitutionsPage() {
         >
           <source src="/videos/Partner with GrapeTask LMS.mp4" type="video/mp4" />
         </video>
-        {/* Navy + Orange thematic overlays */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#020617]/25 via-[#020617]/55 to-[#020617] z-20" />
         <div className="absolute inset-0 bg-gradient-to-tr from-[#020617]/60 via-transparent to-[#f0591f]/15 mix-blend-screen opacity-60 z-20" />
         <div className="absolute top-0 right-1/4 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-primaryOrange/10 blur-[100px] sm:blur-[150px] rounded-full z-20" />
@@ -72,7 +71,7 @@ export default function ForInstitutionsPage() {
       {/* Play/Pause Button */}
       <button
         onClick={togglePlayPause}
-        className="absolute top-[400px] sm:top-[450px] right-8 z-40 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md flex items-center justify-center text-white transition-all duration-300 hover:scale-110 shadow-lg"
+        className="absolute top-[400px] sm:top-[450px] right-8 z-40 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md flex items-center justify-center text-white transition-all duration-300 hover:scale-125 hover:-translate-y-2 shadow-lg hover:shadow-[0_15px_30px_rgba(240,89,31,0.3)]"
         aria-label={isPlaying ? "Pause video" : "Play video"}
       >
         {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-1" />}
@@ -83,7 +82,7 @@ export default function ForInstitutionsPage() {
 
           {/* Header Info */}
           <div className="text-center mb-16 sm:mb-24 space-y-4 sm:space-y-6 max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 text-primaryOrange text-xs font-bold uppercase tracking-widest shadow-sm">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 text-primaryOrange text-xs font-bold uppercase tracking-widest shadow-sm hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">
               <Building2 className="w-3.5 h-3.5" /> Academic Partnerships
             </div>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-white leading-tight tracking-tight text-3d">
@@ -106,10 +105,10 @@ export default function ForInstitutionsPage() {
                 { title: 'Trainer Grading', desc: 'Expert trainers grade practical submissions, leaving detailed code and design feedback.', icon: <ShieldCheck className="w-6 h-6" /> },
                 { title: 'Direct Reports', desc: 'Instant progress reports delivered directly to your portal inbox with one click.', icon: <BarChart3 className="w-6 h-6" /> },
               ].map((benefit) => (
-                <div key={benefit.title} className="theme-card card-3d h-full p-6 sm:p-8 rounded-[2rem] flex flex-col items-start text-left relative overflow-hidden bg-gradient-to-b from-white/[0.03] to-white/[0.01] hover:from-primaryOrange/[0.08] hover:to-transparent border border-white/10 hover:border-primaryOrange/40 transition-all duration-500 shadow-xl hover:shadow-[0_20px_50px_rgba(240,89,31,0.15)] group">
+                <div key={benefit.title} className="theme-card h-full p-6 sm:p-8 rounded-[2rem] flex flex-col items-start text-left relative overflow-hidden bg-gradient-to-b from-white/[0.03] to-white/[0.01] hover:from-primaryOrange/[0.08] hover:to-transparent border border-white/10 hover:border-primaryOrange/40 transition-all duration-500 shadow-xl hover:-translate-y-6 hover:scale-[1.02] hover:shadow-[0_30px_60px_-15px_rgba(240,89,31,0.4)] group">
                   <div className="absolute inset-0 bg-gradient-to-tr from-primaryOrange/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
                   
-                  <div className="w-14 h-14 mb-6 rounded-2xl bg-white/[0.04] group-hover:bg-primaryOrange/10 text-white/80 group-hover:text-primaryOrange border border-white/10 group-hover:border-primaryOrange/30 flex items-center justify-center shadow-lg group-hover:shadow-[0_0_20px_rgba(240,89,31,0.2)] transition-all duration-500 transform group-hover:scale-110 group-hover:rotate-3 flex-shrink-0 z-10">
+                  <div className="w-14 h-14 mb-6 rounded-2xl bg-white/[0.04] group-hover:bg-primaryOrange/10 text-white/80 group-hover:text-primaryOrange border border-white/10 group-hover:border-primaryOrange/30 flex items-center justify-center shadow-lg group-hover:shadow-[0_0_20px_rgba(240,89,31,0.2)] transition-all duration-500 transform group-hover:scale-110 group-hover:rotate-6 group-hover:-translate-y-1 flex-shrink-0 z-10">
                     {benefit.icon}
                   </div>
 
@@ -134,10 +133,10 @@ export default function ForInstitutionsPage() {
                 { step: '02', title: 'Register Students', desc: 'Receive dedicated portal credentials. Add your student body and assign student licenses.' },
                 { step: '03', title: 'Receive Reports', desc: 'Students complete video lessons and pass assessments. Get verified reports on their progress.' },
               ].map((step, idx) => (
-                <div key={step.step} className="theme-card card-3d h-full p-6 sm:p-8 rounded-[2rem] flex flex-col items-start text-left relative overflow-hidden bg-gradient-to-b from-white/[0.03] to-white/[0.01] hover:from-primaryOrange/[0.08] hover:to-transparent border border-white/10 hover:border-primaryOrange/40 transition-all duration-500 shadow-xl hover:shadow-[0_20px_50px_rgba(240,89,31,0.15)] group">
+                <div key={step.step} className="theme-card h-full p-6 sm:p-8 rounded-[2rem] flex flex-col items-start text-left relative overflow-hidden bg-gradient-to-b from-white/[0.03] to-white/[0.01] hover:from-primaryOrange/[0.08] hover:to-transparent border border-white/10 hover:border-primaryOrange/40 transition-all duration-500 shadow-xl hover:-translate-y-6 hover:scale-[1.02] hover:shadow-[0_30px_60px_-15px_rgba(240,89,31,0.4)] group">
                   <div className="absolute inset-0 bg-gradient-to-tr from-primaryOrange/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
                   
-                  <div className="text-5xl sm:text-6xl font-black text-primaryOrange/20 group-hover:text-primaryOrange/40 tracking-tighter leading-none mb-6 transition-colors duration-500 z-10">
+                  <div className="text-5xl sm:text-6xl font-black text-primaryOrange/20 group-hover:text-primaryOrange/40 tracking-tighter leading-none mb-6 transition-all duration-500 transform group-hover:scale-110 group-hover:-translate-y-2 z-10">
                     {step.step}
                   </div>
                   
@@ -150,39 +149,61 @@ export default function ForInstitutionsPage() {
             </div>
           </div>
 
-          {/* Rollout Plan */}
+          {/* Rollout Plan - REVAMPED SECTION */}
           <div className="mb-24 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch">
-            <div className="lg:col-span-5 p-6 sm:p-8 rounded-[2rem] bg-cardBg border border-lightBorder relative overflow-hidden shadow-xl">
-              <div className="absolute top-0 right-0 w-64 h-64 orange-gradient opacity-[0.04] blur-3xl pointer-events-none" />
-              <div className="relative z-10 space-y-4">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 text-primaryOrange text-[10px] font-black uppercase tracking-widest">
+            
+            {/* Left: Large Image & Text Overlay */}
+            <div className="lg:col-span-7 relative rounded-[2rem] overflow-hidden border border-lightBorder shadow-xl min-h-[450px] sm:min-h-[550px] hover:-translate-y-2 hover:shadow-[0_30px_60px_-15px_rgba(240,89,31,0.3)] transition-all duration-500 group/main">
+              <img 
+                src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&auto=format&fit=crop&q=80" 
+                alt="Classroom technology setup" 
+                className="absolute inset-0 w-full h-full object-cover group-hover/main:scale-110 transition-transform duration-700 z-0" 
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/70 to-[#020617]/20 z-10"></div>
+              
+              <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10 z-20 space-y-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 text-primaryOrange text-[10px] font-black uppercase tracking-widest backdrop-blur-md hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">
                   <Clock className="w-3.5 h-3.5" /> 30-Day Rollout
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight text-3d">
-                  Launch without adding <span className="text-primaryOrange text-3d-orange">IT complexity</span>
+                <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight drop-shadow-lg">
+                  Launch without adding <span className="text-primaryOrange">IT complexity</span>
                 </h2>
-                <p className="text-sm text-[#a1a1aa] font-medium leading-relaxed">
+                <p className="text-sm text-[#e4e4e7] font-medium leading-relaxed max-w-lg">
                   A guided onboarding flow helps administrators activate students, assign courses, and start tracking progress quickly.
                 </p>
               </div>
             </div>
 
-            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
+            {/* Right: Stacked Timeline Cards */}
+            <div className="lg:col-span-5 flex flex-col gap-4 sm:gap-5">
               {[
-                { day: 'Week 1', title: 'Setup', desc: 'Create the institution portal, import student lists, and allocate licenses.' },
-                { day: 'Week 2', title: 'Assign', desc: 'Map courses to classes by level, skill goal, or department requirement.' },
-                { day: 'Week 3+', title: 'Track', desc: 'Review completion, assessment scores, and trainer feedback in one place.' },
-              ].map((item) => (
-                <div key={item.day} className="theme-card card-3d p-5 sm:p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-primaryOrange/35 hover:bg-white/[0.055] transition-all duration-500 hover:-translate-y-2 group">
-                  <div className="text-[10px] font-black uppercase tracking-widest text-primaryOrange mb-3">{item.day}</div>
-                  <h3 className="text-lg font-black text-white tracking-tight mb-2">{item.title}</h3>
-                  <p className="text-sm text-bodyGrayText font-medium leading-relaxed">{item.desc}</p>
+                { step: '01', day: 'Week 1', title: 'Setup', desc: 'Create the institution portal, import student lists, and allocate licenses.' },
+                { step: '02', day: 'Week 2', title: 'Assign', desc: 'Map courses to classes by level, skill goal, or department requirement.' },
+                { step: '03', day: 'Week 3+', title: 'Track', desc: 'Review completion, assessment scores, and trainer feedback in one place.' },
+              ].map((item, i) => (
+                <div key={item.day} className="theme-card p-5 sm:p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-primaryOrange/40 hover:bg-white/[0.055] transition-all duration-500 hover:-translate-y-4 hover:scale-[1.01] hover:shadow-[0_25px_50px_-12px_rgba(240,89,31,0.3)] group flex items-start gap-5 flex-1">
+                  
+                  {/* Timeline Step Icon & Connector */}
+                  <div className="flex flex-col items-center gap-2 pt-1">
+                    <div className="w-10 h-10 rounded-xl bg-primaryOrange/10 border border-primaryOrange/20 text-primaryOrange flex items-center justify-center font-black text-base flex-shrink-0 group-hover:bg-primaryOrange group-hover:text-white group-hover:scale-110 group-hover:rotate-6 group-hover:-translate-y-1 transition-all duration-300 shadow-[0_0_15px_rgba(240,89,31,0)] group-hover:shadow-[0_0_15px_rgba(240,89,31,0.3)]">
+                      {item.step}
+                    </div>
+                    {/* Connector Line */}
+                    {i < 2 && <div className="w-px flex-1 bg-white/5 mt-2"></div>}
+                  </div>
+
+                  {/* Text Content */}
+                  <div className="flex-1 pb-4">
+                    <div className="text-[10px] font-black uppercase tracking-widest text-primaryOrange/60 group-hover:text-primaryOrange mb-1 transition-colors duration-300">{item.day}</div>
+                    <h3 className="text-lg font-black text-white tracking-tight mb-2 group-hover:text-primaryOrange transition-colors duration-300">{item.title}</h3>
+                    <p className="text-sm text-bodyGrayText group-hover:text-[#d4d4d8] font-medium leading-relaxed transition-colors duration-300">{item.desc}</p>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Portal Features */}
+          {/* Portal Features - Added Image */}
           <div className="mb-24 p-6 sm:p-12 md:p-20 rounded-[2.5rem] sm:rounded-[3.5rem] bg-[#020617] border border-lightBorder relative overflow-hidden shadow-2xl">
             <div className="absolute bottom-0 left-0 w-80 h-80 secondary-glow opacity-10" />
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
@@ -195,14 +216,24 @@ export default function ForInstitutionsPage() {
                   Every partner school, college, and university receives a dedicated manager portal. No complicated IT setups required. Manage licenses, assign classes, and pull report cards from one clean interface.
                 </p>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 pt-4 items-stretch">
+                {/* Image added above feature grid */}
+                <div className="relative rounded-2xl overflow-hidden border border-white/5 group/img">
+                  <img 
+                    src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&auto=format&fit=crop&q=80" 
+                    alt="Team collaborating on dashboard" 
+                    className="w-full h-[220px] object-cover group-hover/img:scale-110 transition-transform duration-700" 
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/50 to-transparent"></div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 pt-2 items-stretch">
                   {portalFeatures.map((feat) => (
-                    <div key={feat.title} className="theme-card card-3d h-full p-5 sm:p-6 rounded-2xl flex flex-col items-start text-left relative overflow-hidden bg-gradient-to-b from-white/[0.03] to-white/[0.01] hover:from-primaryOrange/[0.08] hover:to-transparent border border-white/10 hover:border-primaryOrange/40 transition-all duration-500 shadow-md hover:shadow-[0_15px_30px_rgba(240,89,31,0.15)] group">
+                    <div key={feat.title} className="theme-card h-full p-5 sm:p-6 rounded-2xl flex flex-col items-start text-left relative overflow-hidden bg-gradient-to-b from-white/[0.03] to-white/[0.01] hover:from-primaryOrange/[0.08] hover:to-transparent border border-white/10 hover:border-primaryOrange/40 transition-all duration-500 shadow-md hover:-translate-y-4 hover:scale-[1.02] hover:shadow-[0_20px_40px_-10px_rgba(240,89,31,0.3)] group">
                       <div className="absolute inset-0 bg-gradient-to-tr from-primaryOrange/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
                       
                       <div className="flex-1 flex flex-col justify-start z-10 w-full text-left">
                         <div className="flex items-center space-x-3 mb-2 sm:mb-3">
-                          <div className="w-2.5 h-2.5 rounded-full bg-primaryOrange/50 group-hover:bg-primaryOrange group-hover:scale-125 transition-all duration-300 flex-shrink-0 shadow-[0_0_8px_rgba(240,89,31,0)] group-hover:shadow-[0_0_8px_rgba(240,89,31,0.6)]" />
+                          <div className="w-2.5 h-2.5 rounded-full bg-primaryOrange/50 group-hover:bg-primaryOrange group-hover:scale-150 group-hover:-translate-y-1 transition-all duration-300 flex-shrink-0 shadow-[0_0_8px_rgba(240,89,31,0)] group-hover:shadow-[0_0_8px_rgba(240,89,31,0.6)]" />
                           <h4 className="text-sm sm:text-base font-bold text-white tracking-tight group-hover:text-primaryOrange transition-colors duration-300">{feat.title}</h4>
                         </div>
                         <p className="text-xs sm:text-sm text-bodyGrayText group-hover:text-[#d4d4d8] leading-relaxed font-medium transition-colors duration-300 pl-5">{feat.desc}</p>
@@ -214,10 +245,9 @@ export default function ForInstitutionsPage() {
 
               {/* Graphical Portal Widget Card */}
               <div className="lg:col-span-5">
-                <div className="theme-card p-6 sm:p-8 rounded-[2rem] border border-lightBorder relative overflow-hidden backdrop-blur-xl bg-[rgba(255,255,255,0.03)] card-3d">
+                <div className="theme-card p-6 sm:p-8 rounded-[2rem] border border-lightBorder relative overflow-hidden backdrop-blur-xl bg-[rgba(255,255,255,0.03)] hover:-translate-y-4 hover:shadow-[0_30px_60px_-15px_rgba(240,89,31,0.3)] transition-all duration-500 group/main">
                   <div className="absolute inset-0 bg-gradient-to-br from-primaryOrange/5 to-transparent pointer-events-none" />
 
-                  {/* Section Heading */}
                   <div className="space-y-2 mb-4">
                     <h3 className="text-lg sm:text-xl font-bold text-[#e2e8f0]">
                       Institution Overview
@@ -227,67 +257,35 @@ export default function ForInstitutionsPage() {
                     </p>
                   </div>
 
-                  {/* Plans Container */}
                   <div className="rounded-2xl border border-[#1e3a5f]/60 bg-gradient-to-br from-[#0f1d32] to-[#0a1628] p-5 sm:p-6 space-y-4 shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
 
-                    {/* Header Row */}
                     <div className="flex items-center justify-between border-b border-[#1e3a5f]/50 pb-4">
                       <span className="text-[11px] uppercase tracking-[0.2em] text-[#4b6a8f] font-semibold">
                         Active Student Access
                       </span>
 
-                      <span className="text-xs font-bold bg-gradient-to-r from-[#ea580c] to-[#f97316] text-white px-3 py-1 rounded-full shadow-[0_0_12px_rgba(249,115,22,0.3)]">
+                      <span className="text-xs font-bold bg-gradient-to-r from-[#ea580c] to-[#f97316] text-white px-3 py-1 rounded-full shadow-[0_0_12px_rgba(249,115,22,0.3)] group-hover/main:scale-110 group-hover/main:-translate-y-1 transition-all duration-300">
                         250 Allocated
                       </span>
                     </div>
 
-                    {/* Items */}
                     <div className="space-y-2.5">
 
-                      {/* School Access */}
-                      <div className="group flex items-center justify-between rounded-xl border border-[#1e3a5f]/50 bg-[#0f1d32]/60 pl-4 pr-4 py-3.5 transition-all duration-300 hover:bg-[#162544] hover:border-[#f97316]/40 hover:shadow-[0_0_16px_rgba(249,115,22,0.08)] relative overflow-hidden">
-                        <div className="absolute left-0 top-0 bottom-0 w-[3px] rounded-l-xl bg-gradient-to-b from-[#f97316] to-[#ea580c] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        <div className="flex items-center gap-3">
-                          <span className="w-2 h-2 rounded-full bg-[#f97316] shadow-[0_0_6px_rgba(249,115,22,0.5)]" />
-                          <p className="text-sm font-semibold text-[#cbd5e1]">
-                            School Access
-                          </p>
+                      {['School Access', 'College Access', 'University Access'].map((access, i) => (
+                        <div key={access} className="group flex items-center justify-between rounded-xl border border-[#1e3a5f]/50 bg-[#0f1d32]/60 pl-4 pr-4 py-3.5 transition-all duration-300 hover:bg-[#162544] hover:border-[#f97316]/40 hover:shadow-[0_0_16px_rgba(249,115,22,0.08)] relative overflow-hidden">
+                          <div className="absolute left-0 top-0 bottom-0 w-[3px] rounded-l-xl bg-gradient-to-b from-[#f97316] to-[#ea580c] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                          <div className="flex items-center gap-3">
+                            <span className="w-2 h-2 rounded-full bg-[#f97316] shadow-[0_0_6px_rgba(249,115,22,0.5)] group-hover:scale-125 group-hover:-translate-y-0.5 transition-all duration-300" />
+                            <p className="text-sm font-semibold text-[#cbd5e1]">
+                              {access}
+                            </p>
+                          </div>
+
+                          <span className="text-sm font-bold text-[#fb923c] tabular-nums group-hover:scale-110 group-hover:-translate-y-0.5 transition-transform duration-300">
+                            {[120, 85, 45][i]} Active
+                          </span>
                         </div>
-
-                        <span className="text-sm font-bold text-[#fb923c] tabular-nums">
-                          120 Active
-                        </span>
-                      </div>
-
-                      {/* College Access */}
-                      <div className="group flex items-center justify-between rounded-xl border border-[#1e3a5f]/50 bg-[#0f1d32]/60 pl-4 pr-4 py-3.5 transition-all duration-300 hover:bg-[#162544] hover:border-[#f97316]/40 hover:shadow-[0_0_16px_rgba(249,115,22,0.08)] relative overflow-hidden">
-                        <div className="absolute left-0 top-0 bottom-0 w-[3px] rounded-l-xl bg-gradient-to-b from-[#f97316] to-[#ea580c] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        <div className="flex items-center gap-3">
-                          <span className="w-2 h-2 rounded-full bg-[#f97316] shadow-[0_0_6px_rgba(249,115,22,0.5)]" />
-                          <p className="text-sm font-semibold text-[#cbd5e1]">
-                            College Access
-                          </p>
-                        </div>
-
-                        <span className="text-sm font-bold text-[#fb923c] tabular-nums">
-                          85 Active
-                        </span>
-                      </div>
-
-                      {/* University Access */}
-                      <div className="group flex items-center justify-between rounded-xl border border-[#1e3a5f]/50 bg-[#0f1d32]/60 pl-4 pr-4 py-3.5 transition-all duration-300 hover:bg-[#162544] hover:border-[#f97316]/40 hover:shadow-[0_0_16px_rgba(249,115,22,0.08)] relative overflow-hidden">
-                        <div className="absolute left-0 top-0 bottom-0 w-[3px] rounded-l-xl bg-gradient-to-b from-[#f97316] to-[#ea580c] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        <div className="flex items-center gap-3">
-                          <span className="w-2 h-2 rounded-full bg-[#f97316] shadow-[0_0_6px_rgba(249,115,22,0.5)]" />
-                          <p className="text-sm font-semibold text-[#cbd5e1]">
-                            University Access
-                          </p>
-                        </div>
-
-                        <span className="text-sm font-bold text-[#fb923c] tabular-nums">
-                          45 Active
-                        </span>
-                      </div>
+                      ))}
 
                     </div>
 
@@ -305,7 +303,7 @@ export default function ForInstitutionsPage() {
           <div className="mb-24 p-6 sm:p-12 md:p-16 rounded-[2.5rem] sm:rounded-[3rem] bg-[#020617] border border-lightBorder relative overflow-hidden shadow-2xl">
             <div className="absolute bottom-0 left-0 w-80 h-80 secondary-glow opacity-10 pointer-events-none" />
             <div className="text-center mb-12 space-y-4 relative z-10">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 text-primaryOrange text-xs font-black uppercase tracking-widest">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 text-primaryOrange text-xs font-black uppercase tracking-widest hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">
                 <BarChart3 className="w-3.5 h-3.5" /> Academic Visibility
               </div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight text-3d">
@@ -321,8 +319,8 @@ export default function ForInstitutionsPage() {
                 { value: '70%', title: 'Certificate progress', desc: 'Track learners moving from course completion to verified certification.' },
                 { value: '85%', title: 'Skill improvement', desc: 'Compare assessments over time to show measurable academic growth.' },
               ].map((metric) => (
-                <div key={metric.title} className="theme-card card-3d p-6 sm:p-7 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-primaryOrange/35 hover:bg-white/[0.055] transition-all duration-500 hover:-translate-y-2 group">
-                  <div className="text-4xl sm:text-5xl font-black text-primaryOrange text-3d-orange mb-4 leading-none">{metric.value}</div>
+                <div key={metric.title} className="theme-card p-6 sm:p-7 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-primaryOrange/35 hover:bg-white/[0.055] transition-all duration-500 hover:-translate-y-6 hover:scale-[1.02] hover:shadow-[0_30px_60px_-15px_rgba(240,89,31,0.4)] group">
+                  <div className="text-4xl sm:text-5xl font-black text-primaryOrange text-3d-orange mb-4 leading-none group-hover:scale-110 group-hover:-translate-y-2 transition-transform duration-500">{metric.value}</div>
                   <h3 className="text-lg sm:text-xl font-black text-white tracking-tight mb-3">{metric.title}</h3>
                   <p className="text-sm text-bodyGrayText font-medium leading-relaxed">{metric.desc}</p>
                 </div>
@@ -346,10 +344,10 @@ export default function ForInstitutionsPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
               {pricing.map((plan) => (
                 <div key={plan.level} className="relative group">
-                  <div className="pricing-card p-6 sm:p-8 rounded-[2.25rem] border border-white/10 flex flex-col items-center text-center space-y-5 bg-cardBg hover:bg-primaryOrange hover:border-primaryOrange hover:text-white transition-all duration-500 hover:-translate-y-3 hover:scale-[1.02] shadow-2xl relative overflow-hidden h-full">
+                  <div className="pricing-card p-6 sm:p-8 rounded-[2.25rem] border border-white/10 flex flex-col items-center text-center space-y-5 bg-cardBg hover:bg-primaryOrange hover:border-primaryOrange hover:text-white transition-all duration-500 hover:-translate-y-6 hover:scale-[1.03] hover:shadow-[0_30px_60px_-15px_rgba(240,89,31,0.5)] relative overflow-hidden h-full">
                     <div className="absolute top-0 right-0 w-20 h-20 bg-white/5 rounded-full blur-xl group-hover:bg-white/20 transition-all pointer-events-none" />
 
-                    <h3 className="text-base sm:text-lg font-black text-white group-hover:text-white uppercase tracking-wider">{plan.level}</h3>
+                    <h3 className="text-base sm:text-lg font-black text-white group-hover:text-white uppercase tracking-wider group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300">{plan.level}</h3>
 
                     <div className="flex flex-col items-center">
                       <div className="flex items-baseline justify-center">
@@ -363,7 +361,7 @@ export default function ForInstitutionsPage() {
 
                     <Link
                       href="/contact?type=institution"
-                      className="w-full py-3 sm:py-3.5 bg-white/5 border border-white/10 rounded-2xl text-white font-bold hover:bg-white hover:text-primaryOrange group-hover:bg-white group-hover:text-primaryOrange transition-all text-center text-xs sm:text-sm"
+                      className="w-full py-3 sm:py-3.5 bg-white/5 border border-white/10 rounded-2xl text-white font-bold hover:bg-white hover:text-primaryOrange group-hover:bg-white group-hover:text-primaryOrange transition-all duration-300 text-center text-xs sm:text-sm hover:-translate-y-1 hover:scale-110 active:scale-95 active:translate-y-0 hover:shadow-[0_10px_20px_rgba(255,255,255,0.2)]"
                     >
                       Get Started
                     </Link>
@@ -381,7 +379,7 @@ export default function ForInstitutionsPage() {
             <div className="flex justify-center">
               <Link
                 href="/contact?type=institution"
-                className="group inline-flex items-center space-x-2 px-6 py-3.5 sm:px-8 sm:py-4 bg-primaryOrange hover:bg-opacity-95 text-white font-black text-sm sm:text-base rounded-xl shadow-lg shadow-primaryOrange/20 transition-all hover:scale-105 active:scale-95"
+                className="group inline-flex items-center space-x-2 px-6 py-3.5 sm:px-8 sm:py-4 bg-primaryOrange hover:bg-opacity-95 text-white font-black text-sm sm:text-base rounded-xl shadow-lg shadow-primaryOrange/20 transition-all duration-300 hover:-translate-y-1 hover:scale-110 active:scale-95 active:translate-y-0 hover:shadow-[0_15px_30px_-8px_rgba(240,89,31,0.4)]"
               >
                 <span>Request Institution Demo</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

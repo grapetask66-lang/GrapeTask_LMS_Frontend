@@ -1,5 +1,4 @@
 'use client';
-
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import {
@@ -7,7 +6,7 @@ import {
   TrendingUp, Users, BookOpen, CheckCircle2, Briefcase,
   Play, Pause, Star, Zap, Shield, Globe, Monitor, Palette, LineChart, Video, Megaphone, Camera, ChevronRight,
   ShieldCheck, Laptop, DollarSign, ChevronDown, HelpCircle,
-  Cpu, ShoppingBag, Code, Layers
+  Cpu, ShoppingBag, Code, Layers, PiggyBank, BarChart3, Building2
 } from 'lucide-react';
 
 function useScrollReveal() {
@@ -23,10 +22,10 @@ function useScrollReveal() {
 }
 
 const TRENDING = [
-  { id: 1, title: 'Advanced Web Development', level: 'University', trainer: 'Ikram Tech', students: '2.4k', thumbnail: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&auto=format&fit=crop&q=80' },
+  { id: 1, title: 'Advanced Web Development', level: 'University', trainer: 'Ikram Tech', students: '2.4k', thumbnail: 'https://images.unsplash.com/photo-1547658719-da2b51169166?w=600&auto=format&fit=crop&q=80' },
   { id: 2, title: 'Graphic Design Mastery', level: 'College', trainer: 'Qavi Arts', students: '1.8k', thumbnail: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&auto=format&fit=crop&q=80' },
-  { id: 3, title: 'Digital Marketing Pro', level: 'Individual', trainer: 'Market Experts', students: '3.1k', thumbnail: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=600&auto=format&fit=crop&q=80' },
-  { id: 4, title: 'AI for Beginners', level: 'School', trainer: 'Future Academy', students: '900', thumbnail: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&auto=format&fit=crop&q=80' },
+  { id: 3, title: 'Digital Marketing Pro', level: 'Individual', trainer: 'Market Experts', students: '3.1k', thumbnail: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&auto=format&fit=crop&q=80' },
+  { id: 4, title: 'AI for Beginners', level: 'School', trainer: 'Future Academy', students: '900', thumbnail: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=600&auto=format&fit=crop&q=80' },
 ];
 
 const CATEGORIES = [
@@ -38,6 +37,7 @@ const CATEGORIES = [
     icon: <Layers className="w-5 h-5" />,
     glowColor: 'from-purple-500/10 to-pink-500/10',
     accentColor: 'text-purple-400 group-hover:text-purple-300',
+    image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&auto=format&fit=crop&q=80'
   },
   {
     title: 'Digital Marketing',
@@ -47,6 +47,7 @@ const CATEGORIES = [
     icon: <Megaphone className="w-5 h-5" />,
     glowColor: 'from-amber-500/10 to-orange-500/10',
     accentColor: 'text-amber-400 group-hover:text-amber-300',
+    image: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=400&auto=format&fit=crop&q=80'
   },
   {
     title: 'Video Edit & VFX',
@@ -56,6 +57,7 @@ const CATEGORIES = [
     icon: <Video className="w-5 h-5" />,
     glowColor: 'from-red-500/10 to-orange-600/10',
     accentColor: 'text-red-400 group-hover:text-red-300',
+    image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=400&auto=format&fit=crop&q=80'
   },
   {
     title: 'AI & Machine Learning',
@@ -65,6 +67,7 @@ const CATEGORIES = [
     icon: <Cpu className="w-5 h-5" />,
     glowColor: 'from-cyan-500/10 to-blue-500/10',
     accentColor: 'text-cyan-400 group-hover:text-cyan-300',
+    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&auto=format&fit=crop&q=80'
   },
   {
     title: 'Data Science & Stats',
@@ -74,6 +77,7 @@ const CATEGORIES = [
     icon: <LineChart className="w-5 h-5" />,
     glowColor: 'from-teal-500/10 to-emerald-500/10',
     accentColor: 'text-teal-400 group-hover:text-teal-300',
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&auto=format&fit=crop&q=80'
   },
   {
     title: 'Freelance Mastery',
@@ -83,6 +87,7 @@ const CATEGORIES = [
     icon: <Briefcase className="w-5 h-5" />,
     glowColor: 'from-primaryOrange/10 to-orange-500/10',
     accentColor: 'text-primaryOrange group-hover:text-orange-300',
+    image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&auto=format&fit=crop&q=80'
   },
   {
     title: 'E-Commerce Retail',
@@ -92,6 +97,7 @@ const CATEGORIES = [
     icon: <ShoppingBag className="w-5 h-5" />,
     glowColor: 'from-indigo-500/10 to-blue-600/10',
     accentColor: 'text-indigo-400 group-hover:text-indigo-300',
+    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&auto=format&fit=crop&q=80'
   },
   {
     title: 'Web Development',
@@ -101,6 +107,7 @@ const CATEGORIES = [
     icon: <Code className="w-5 h-5" />,
     glowColor: 'from-blue-500/10 to-violet-500/10',
     accentColor: 'text-blue-400 group-hover:text-blue-300',
+    image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&auto=format&fit=crop&q=80'
   },
 ];
 
@@ -119,12 +126,12 @@ const HERO_STATS = [
 ];
 
 const CAREERS = [
-  { name: 'Web Developer', icon: <Monitor className="w-8 h-8" /> },
-  { name: 'Graphic Designer', icon: <Palette className="w-8 h-8" /> },
-  { name: 'Data Analyst', icon: <LineChart className="w-8 h-8" /> },
-  { name: 'Video Editor', icon: <Video className="w-8 h-8" /> },
-  { name: 'Digital Marketer', icon: <Megaphone className="w-8 h-8" /> },
-  { name: 'Content Creator', icon: <Camera className="w-8 h-8" /> },
+  { name: 'Web Developer', icon: <Monitor className="w-8 h-8" />, image: 'https://images.unsplash.com/photo-1547658719-da2b51169166?w=400&auto=format&fit=crop&q=80' },
+  { name: 'Graphic Designer', icon: <Palette className="w-8 h-8" />, image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&auto=format&fit=crop&q=80' },
+  { name: 'Data Analyst', icon: <LineChart className="w-8 h-8" />, image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&auto=format&fit=crop&q=80' },
+  { name: 'Video Editor', icon: <Video className="w-8 h-8" />, image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=400&auto=format&fit=crop&q=80' },
+  { name: 'Digital Marketer', icon: <Megaphone className="w-8 h-8" />, image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&auto=format&fit=crop&q=80' },
+  { name: 'Content Creator', icon: <Camera className="w-8 h-8" />, image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&auto=format&fit=crop&q=80' },
 ];
 
 // Rich Premium Video Slides configuration for Hero Section
@@ -257,7 +264,6 @@ export default function HomePage() {
   useScrollReveal();
 
   useEffect(() => {
-    // Autoplay video slider every 5 seconds as per request
     const t = setInterval(() => {
       handleNextSlide();
     }, 5000);
@@ -283,7 +289,7 @@ export default function HomePage() {
     setTimeout(() => {
       setActiveSlide(s => (s + 1) % HERO_SLIDES.length);
       setIsTransitioning(false);
-    }, 4000); // 400ms CSS animation timeout
+    }, 4000);
   };
 
   const handlePrevSlide = () => {
@@ -297,7 +303,7 @@ export default function HomePage() {
   return (
     <div className="overflow-hidden bg-[#020617] text-white">
 
-      {/* ── HERO VIDEO SLIDER ── */}
+      {/* ── HERO VIDEO SLIDER ── (NO CHANGES) */}
       <section className="relative min-h-0 sm:min-h-[80vh] lg:min-h-screen flex items-start sm:items-center px-4 sm:px-6 pt-0 sm:pt-28 pb-4 sm:pb-20 overflow-hidden">
 
         {/* Absolute Video Background Container: z-0 */}
@@ -331,11 +337,8 @@ export default function HomePage() {
           ))}
 
           {/* Custom Theme Color Overlays - Orange + Navy Blue blending: z-20 */}
-          {/* Left-aligned deep navy screen for text readability */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#020617]/85 via-[#020617]/40 to-transparent z-20" />
-          {/* Dynamic orange ambient theme tint */}
           <div className="absolute inset-0 bg-gradient-to-tr from-[#020617]/60 via-transparent to-[#f0591f]/10 mix-blend-screen opacity-50 z-20" />
-          {/* Moving background grid */}
           <div className="absolute inset-0 hero-grid opacity-15 pointer-events-none z-20" />
         </div>
 
@@ -368,7 +371,7 @@ export default function HomePage() {
                 <span className="text-[#e4e4e7] hidden sm:inline">| {HERO_SLIDES[activeSlide].highlight}</span>
               </div>
 
-              {/* Main Heading - Slightly smaller as requested & 3D text styled */}
+              {/* Main Heading */}
               <h1 className="text-[1.65rem] sm:text-5xl md:text-6xl font-black leading-[1.04] sm:leading-[1.1] tracking-tight text-white transition-all duration-700 transform translate-y-0 text-3d max-w-[17rem] sm:max-w-none">
                 {HERO_SLIDES[activeSlide].title}
               </h1>
@@ -377,7 +380,7 @@ export default function HomePage() {
                 {HERO_SLIDES[activeSlide].desc}
               </p>
 
-              {/* Action Buttons - Size adjusted to normal button standard */}
+              {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row items-start gap-2 sm:gap-4 pt-0.5 sm:pt-2">
                 <Link href={HERO_SLIDES[activeSlide].ctaLink}
                   className="group w-auto min-w-[180px] sm:min-w-0 sm:w-auto flex items-center justify-center gap-1.5 sm:gap-2 px-4 py-1.5 sm:px-6 sm:py-2.5 bg-gradient-to-r from-[#f0591f] to-[#ff7a45] text-white font-bold text-[11px] sm:text-sm rounded-lg sm:rounded-xl shadow-[0_6px_20px_rgba(240,89,31,0.2)] hover:shadow-[0_0_25px_rgba(240,89,31,0.4)] transition-all duration-200 hover:-translate-y-0.5 hover:scale-105 active:scale-95 text-center">
@@ -456,7 +459,7 @@ export default function HomePage() {
             {HERO_SLIDES.map((_, idx) => (
               <button
                 key={idx}
-                onClick={() => setActiveSlide(idx)} // Map tab click
+                onClick={() => setActiveSlide(idx)}
                 className={`h-2 sm:h-2.5 rounded-full transition-all duration-500 ${activeSlide === idx
                   ? 'w-8 sm:w-10 bg-primaryOrange shadow-md shadow-primaryOrange/30'
                   : 'w-2 sm:w-2.5 bg-white/20 hover:bg-white/40'
@@ -480,32 +483,24 @@ export default function HomePage() {
       </section>
 
       {/* ── SKILL PATHS SHOWCASE SECTION ── */}
-      {/* Mobile Stats Section — separate transparent panel for strong 3D depth */}
+      {/* Mobile Stats Section */}
       <section className="block md:hidden px-4 pb-8 bg-transparent">
-        <div className="grid grid-cols-2 gap-3 p-4 rounded-[2.5rem] glass-card border border-[rgba(255,255,255,0.12)] backdrop-blur-xl shadow-[0_25px_60px_rgba(0,0,0,0.25)]">
+        <div className="grid grid-cols-2 gap-3 p-5 rounded-[2rem] glass-card border border-[rgba(255,255,255,0.12)] backdrop-blur-xl shadow-[0_25px_60px_rgba(0,0,0,0.25)]">
           {HERO_STATS.map((stat, i) => (
-            <div key={i} className="card-3d bg-white/[0.04] border border-[rgba(255,255,255,0.08)] p-4 rounded-3xl text-center py-5 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_45px_rgba(0,0,0,0.22)]">
-              <div className="flex justify-center mb-2 text-[#f0591f]">{stat.icon}</div>
-              <div className="text-lg font-black text-white leading-tight">{stat.value}</div>
-              <div className="text-[9px] text-[#a1a1aa] uppercase tracking-wider font-extrabold">{stat.label}</div>
+            <div key={i} className="card-3d bg-white/[0.04] border border-[rgba(255,255,255,0.08)] p-5 rounded-2xl text-center py-6 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_45px_rgba(0,0,0,0.22)] hover:bg-white/[0.06]">
+              <div className="flex justify-center mb-3 text-[#f0591f]">{stat.icon}</div>
+              <div className="text-xl font-black text-white leading-tight">{stat.value}</div>
+              <div className="text-[9px] text-[#a1a1aa] uppercase tracking-wider font-extrabold mt-1">{stat.label}</div>
             </div>
           ))}
         </div>
       </section>
 
       <section className="relative py-20 sm:py-28 lg:py-32 overflow-hidden bg-[#020617] border-y border-[rgba(255,255,255,0.04)] z-10">
-        {/* Enhanced background elements */}
         <div className="absolute inset-0 hero-grid opacity-[0.02] pointer-events-none" />
-        
-        {/* Soft gradient overlays for depth */}
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-[#f0591f]/[0.03] to-transparent rounded-full blur-[100px] pointer-events-none" />
         <div className="absolute -bottom-40 left-1/4 w-[500px] h-[300px] bg-gradient-to-t from-blue-500/[0.02] to-transparent rounded-full blur-[80px] pointer-events-none" />
-        <div className="absolute top-1/2 right-0 w-[400px] h-[400px] bg-gradient-to-l from-[#f0591f]/[0.02] to-transparent rounded-full blur-[90px] pointer-events-none" />
         
-        {/* Decorative blurred circles */}
-        <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-[#f0591f]/[0.03] blur-3xl pointer-events-none animate-float-slow" />
-        <div className="absolute bottom-20 right-10 w-40 h-40 rounded-full bg-blue-500/[0.03] blur-3xl pointer-events-none animate-float-reverse" />
-
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-12 sm:mb-16 relative z-20">
           <div className="mx-auto max-w-4xl text-center lg:text-left space-y-6">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#f0591f]/20 bg-[#f0591f]/5 text-[#f0591f] text-xs font-black uppercase tracking-widest backdrop-blur-sm">
@@ -523,43 +518,35 @@ export default function HomePage() {
 
         {/* ── PREMIUM INTERACTIVE CAROUSEL ── */}
         <div className="relative w-full overflow-hidden py-6 sm:py-8 marquee-wrap">
-          {/* Gradient Edge Masks for visual blending */}
           <div className="absolute left-0 top-0 bottom-0 w-24 sm:w-48 lg:w-56 bg-gradient-to-r from-[#020617] via-[#020617]/80 to-transparent pointer-events-none z-20" />
           <div className="absolute right-0 top-0 bottom-0 w-24 sm:w-48 lg:w-56 bg-gradient-to-l from-[#020617] via-[#020617]/80 to-transparent pointer-events-none z-20" />
 
-          {/* Scrolling Container */}
           <div className="flex w-max">
-            {/* The animation container. We loop categories multiple times for seamless scrolling */}
             <div className="animate-marquee-premium flex gap-5 sm:gap-6 lg:gap-8 shrink-0 px-4 sm:px-6">
               {[...CATEGORIES, ...CATEGORIES, ...CATEGORIES].map((cat, idx) => (
                 <Link
                   key={idx}
                   href={`/courses?category=${cat.slug}`}
                   className="group relative flex items-center gap-4 sm:gap-5 p-5 sm:p-6 rounded-2xl bg-white/[0.02] hover:bg-white/[0.05] border border-white/[0.06] hover:border-[#f0591f]/30 transition-all duration-500 ease-out min-w-[260px] sm:min-w-[300px] lg:min-w-[320px] overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_50px_rgba(240,89,31,0.15)] hover:-translate-y-2"
-                  style={{
-                    transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)'
-                  }}
+                  style={{ transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}
                 >
-                  {/* Hover ambient backdrop glow */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${cat.glowColor} opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl pointer-events-none`} />
+                  {/* BG Image */}
+                  {cat.image && (
+                    <>
+                      <img src={cat.image} alt={cat.title} className="absolute inset-0 w-full h-full object-cover opacity-[0.08] group-hover:opacity-[0.18] transition-opacity duration-700 rounded-2xl" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-[#020617]/95 to-[#020617]/80 group-hover:from-[#020617]/90 group-hover:to-[#020617]/70 transition-all duration-500 rounded-2xl z-10" />
+                    </>
+                  )}
                   
-                  {/* Hover ambient colored border accent */}
-                  <div className={`absolute -inset-px rounded-2xl bg-gradient-to-r ${cat.glowColor} opacity-0 group-hover:opacity-60 transition-opacity duration-500 blur-sm pointer-events-none`} />
+                  <div className={`absolute inset-0 bg-gradient-to-br ${cat.glowColor} opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl pointer-events-none z-0`} />
                   
-                  {/* Premium border glow on hover */}
-                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{
-                    boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1), 0 0 20px rgba(240,89,31,0.1)'
-                  }} />
-
-                  {/* Icon Badge - Enhanced */}
-                  <div className={`relative z-10 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-white/[0.05] border border-white/[0.1] ${cat.accentColor} group-hover:scale-110 group-hover:border-[#f0591f]/30 transition-all duration-500 shadow-inner group-hover:shadow-[0_0_20px_rgba(240,89,31,0.2)]`}>
+                  <div className={`relative z-20 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-white/[0.05] border border-white/[0.1] ${cat.accentColor} group-hover:scale-110 group-hover:border-[#f0591f]/30 transition-all duration-500 shadow-inner group-hover:shadow-[0_0_20px_rgba(240,89,31,0.2)]`}>
                     <div className="w-6 h-6 sm:w-7 sm:h-7">
                       {cat.icon}
                     </div>
                   </div>
 
-                  {/* Content */}
-                  <div className="relative z-10 flex flex-col flex-1 text-left min-w-0">
+                  <div className="relative z-20 flex flex-col flex-1 text-left min-w-0">
                     <span className="text-[10px] font-black uppercase tracking-widest text-[#a1a1aa] group-hover:text-white/90 transition-colors duration-300">
                       {cat.tag}
                     </span>
@@ -571,13 +558,11 @@ export default function HomePage() {
                     </span>
                   </div>
 
-                  {/* Arrow indicator - Enhanced */}
-                  <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300 text-[#f0591f]">
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300 text-[#f0591f] z-20">
                     <ChevronRight className="w-5 h-5" />
                   </div>
                   
-                  {/* Bottom accent line on hover */}
-                  <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#f0591f] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#f0591f] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20" />
                 </Link>
               ))}
             </div>
@@ -619,7 +604,8 @@ export default function HomePage() {
                 desc: 'Learn directly from handpicked industry professionals and certified institutions. Our trainers must pass a rigorous verification process to teach.',
                 icon: <ShieldCheck className="w-6 h-6 text-[#f0591f] transition-transform duration-500 group-hover:scale-110" />,
                 num: '01',
-                delay: 0
+                delay: 0,
+                image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600&auto=format&fit=crop&q=80'
               },
               {
                 title: 'Study Anywhere',
@@ -627,7 +613,8 @@ export default function HomePage() {
                 desc: 'Access your courses anytime, on any device. Master high-demand digital skills at your own pace with our beautiful, responsive ecosystem.',
                 icon: <Laptop className="w-6 h-6 text-[#f0591f] transition-transform duration-500 group-hover:scale-110" />,
                 num: '02',
-                delay: 150
+                delay: 150,
+                image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&auto=format&fit=crop&q=80'
               },
               {
                 title: 'Start Earning',
@@ -635,24 +622,30 @@ export default function HomePage() {
                 desc: 'Complete your path, claim your verified badge, and launch your freelance career. We connect certified learners directly with global contracts.',
                 icon: <DollarSign className="w-6 h-6 text-[#f0591f] transition-transform duration-500 group-hover:scale-110" />,
                 num: '03',
-                delay: 300
+                delay: 300,
+                image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&auto=format&fit=crop&q=80'
               },
             ].map((f) => (
               <div
                 key={f.title}
-                className="group relative rounded-3xl p-6 sm:p-8 md:p-10 flex flex-col justify-between items-start text-left reveal backdrop-blur-xl border border-white/[0.08] bg-[#020617]/40 hover:bg-[#020617]/70 hover:-translate-y-2.5 hover:scale-[1.02] transition-all duration-500 overflow-hidden shadow-2xl hover:shadow-[0_30px_60px_rgba(240,89,31,0.12)]"
+                className="group relative rounded-3xl flex flex-col justify-between items-start text-left reveal overflow-hidden shadow-2xl hover:shadow-[0_30px_60px_rgba(240,89,31,0.12)] hover:-translate-y-2.5 transition-all duration-500"
                 style={{ transitionDelay: `${f.delay}ms` }}
               >
-                {/* Accent border highlight on hover */}
-                <div className="absolute -inset-px rounded-3xl bg-gradient-to-r from-[#f0591f]/35 to-purple-500/35 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm pointer-events-none" />
-                <div className="absolute inset-[1px] rounded-[22px] bg-[#020617] group-hover:bg-[#020617]/95 transition-colors duration-500 pointer-events-none" />
+                {/* BG Image */}
+                <img src={f.image} alt={f.title} className="absolute inset-0 w-full h-full object-cover opacity-[0.15] group-hover:opacity-[0.25] group-hover:scale-105 transition-all duration-700" />
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/95 to-[#020617]/80 z-10 group-hover:via-[#020617]/90 transition-all duration-500" />
+                
+                {/* Border Glow */}
+                <div className="absolute -inset-px rounded-3xl bg-gradient-to-r from-[#f0591f]/35 to-purple-500/35 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm pointer-events-none z-20" />
+                <div className="absolute inset-[1px] rounded-[22px] bg-transparent pointer-events-none z-20" />
 
-                {/* Ambient background glows */}
-                <div className="absolute -right-12 -top-12 w-32 h-32 rounded-full bg-[#f0591f]/8 blur-2xl group-hover:bg-[#f0591f]/15 transition-all duration-700 pointer-events-none" />
-                <div className="absolute -left-12 -bottom-12 w-32 h-32 rounded-full bg-purple-500/8 blur-2xl group-hover:bg-purple-500/15 transition-all duration-700 pointer-events-none" />
+                {/* Ambient Glows */}
+                <div className="absolute -right-12 -top-12 w-32 h-32 rounded-full bg-[#f0591f]/8 blur-2xl group-hover:bg-[#f0591f]/15 transition-all duration-700 pointer-events-none z-0" />
+                <div className="absolute -left-12 -bottom-12 w-32 h-32 rounded-full bg-purple-500/8 blur-2xl group-hover:bg-purple-500/15 transition-all duration-700 pointer-events-none z-0" />
 
-                <div className="relative z-10 w-full">
-                  {/* Card Header */}
+                {/* Content */}
+                <div className="relative z-30 w-full p-6 sm:p-8 md:p-10">
                   <div className="flex justify-between items-center mb-6">
                     <div className="w-12 h-12 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center relative overflow-hidden transition-all duration-500 group-hover:border-[#f0591f]/40 group-hover:bg-[#f0591f]/5 group-hover:shadow-[0_0_15px_rgba(240,89,31,0.2)]">
                       {f.icon}
@@ -662,7 +655,6 @@ export default function HomePage() {
                     </span>
                   </div>
 
-                  {/* Card Content */}
                   <span className="text-[10px] font-black tracking-widest text-[#f0591f] bg-[#f0591f]/10 border border-[#f0591f]/20 px-2.5 py-0.5 rounded-full inline-block mb-3.5">
                     {f.badge}
                   </span>
@@ -675,10 +667,6 @@ export default function HomePage() {
                     {f.desc}
                   </p>
                 </div>
-
-                {/* Sleek footer link */}
-                <div className="relative z-10 flex items-center gap-1.5 text-xs font-black text-[#f0591f] mt-6 pt-4 border-t border-white/[0.04] w-full transform translate-y-1 opacity-80 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                </div>
               </div>
             ))}
           </div>
@@ -686,74 +674,121 @@ export default function HomePage() {
       </section>
 
       {/* ── WHY GRAPETASK (THE SYSTEM) ── */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 relative overflow-hidden">
-        <div className="absolute -right-20 top-1/2 -translate-y-1/2 w-80 h-80 secondary-glow opacity-10 pointer-events-none" />
-        <div className="container mx-auto max-w-6xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+      <section className="py-20 sm:py-28 px-4 sm:px-6 relative overflow-hidden">
+        <div className="absolute -right-20 top-1/2 -translate-y-1/2 w-96 h-96 secondary-glow opacity-10 pointer-events-none" />
+        <div className="absolute -left-20 bottom-0 w-72 h-72 bg-[#f0591f]/5 blur-[120px] rounded-full pointer-events-none" />
+        
+        <div className="container mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20 items-center">
 
-            <div className="lg:col-span-7 space-y-6 sm:space-y-8 reveal-left">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight tracking-tight text-3d">
+            {/* Left Column - Content */}
+            <div className="lg:col-span-7 space-y-8 sm:space-y-10 reveal-left">
+              
+              <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#f0591f]/10 border border-[#f0591f]/20">
+                <div className="w-1.5 h-1.5 rounded-full bg-[#f0591f] animate-pulse" />
+                <span className="text-xs font-bold text-[#f0591f] uppercase tracking-widest">Zero Gap Education</span>
+              </div>
+
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.1] tracking-tight text-3d">
                 The Complete <br />
                 <span className="text-[#f0591f] text-3d-orange">Learning Ecosystem</span>
               </h2>
-              <div className="space-y-4 text-sm sm:text-base text-[#a1a1aa] leading-relaxed">
+
+              <div className="space-y-5 text-base sm:text-lg text-[#a1a1aa] leading-relaxed max-w-2xl">
                 <p>GrapeTask LMS is not just another online learning platform. It is a complete pipeline from learning to earning.</p>
-                <p>Once you complete your course and pass your assessments, you receive a <span className="text-white font-bold">GrapeTask LMS Certified badge</span> and you can immediately create your profile and start getting paid on the GrapeTask freelance marketplace.</p>
-                <p className="text-white font-bold text-base sm:text-lg">No wasted time. No gap between learning and earning.</p>
+                <p>Once you complete your course and pass your assessments, you receive a <span className="text-white font-bold">GrapeTask LMS Certified badge</span> and can immediately create your profile and start getting paid on the GrapeTask freelance marketplace.</p>
+                <div className="pt-2 pb-4 pl-4 border-l-4 border-[#f0591f] bg-white/[0.02] rounded-r-lg">
+                  <p className="text-white font-bold text-lg sm:text-xl italic">"No wasted time. No gap between learning and earning."</p>
+                </div>
               </div>
-              <div className="space-y-3.5 pt-2">
+
+              <div className="space-y-4 pt-2">
                 {[
                   'Structured assessment after every video',
                   'Trainer-reviewed submissions — not auto-graded',
                   'Certificate directly linked to your freelancer profile',
                 ].map((item, i) => (
-                  <div key={i} className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-[#f0591f]/10 flex items-center justify-center shrink-0 mt-0.5 border border-[#f0591f]/20">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#f0591f]" />
+                  <div key={i} className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.03] border border-white/5 hover:border-[#f0591f]/30 transition-all duration-300 group/item cursor-default">
+                    <div className="w-8 h-8 rounded-lg bg-[#f0591f]/10 flex items-center justify-center shrink-0 border border-[#f0591f]/20 group-hover/item:bg-[#f0591f]/20 transition-colors">
+                      <CheckCircle2 className="w-4 h-4 text-[#f0591f]" />
                     </div>
-                    <span className="text-[#e4e4e7] font-semibold text-sm sm:text-base">{item}</span>
+                    <span className="text-[#e4e4e7] font-semibold text-base">{item}</span>
                   </div>
                 ))}
               </div>
-              <div className="pt-4">
-                <Link href="/how-it-works" className="inline-flex items-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 bg-white/5 border border-white/10 hover:border-[#f0591f]/50 text-white font-bold text-sm sm:text-base rounded-xl transition-all duration-300 hover:bg-[#f0591f]/10 group hover:-translate-y-1 shadow-lg">
+
+              <div className="pt-4 flex flex-wrap gap-4">
+                <Link href="/how-it-works" className="inline-flex items-center gap-2.5 px-8 py-4 bg-[#f0591f] hover:bg-[#d94f17] text-white font-bold text-base rounded-xl transition-all duration-300 group hover:-translate-y-1 shadow-[0_10px_30px_-10px_rgba(240,89,31,0.5)]">
                   <span>See how it works</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link href="/courses" className="inline-flex items-center gap-2.5 px-8 py-4 bg-white/5 border border-white/10 hover:border-white/20 text-white font-bold text-base rounded-xl transition-all duration-300 hover:-translate-y-1 shadow-lg">
+                  Browse Courses
                 </Link>
               </div>
             </div>
 
-            {/* Right Side 3D Glass Card */}
+            {/* Right Column - Professional UI Mockup */}
             <div className="lg:col-span-5 reveal-right" style={{ transitionDelay: '150ms' }}>
-              <div className="relative rounded-2xl sm:rounded-[2.5rem] bg-[#020617]/40 backdrop-blur-xl border border-white/10 p-6 sm:p-10 overflow-hidden shadow-2xl group hover:border-[#f0591f]/30 transition-all duration-500 card-3d">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#f0591f]/5 to-transparent pointer-events-none" />
+              <div className="relative rounded-[2rem] overflow-hidden shadow-2xl group hover:border-[#f0591f]/20 transition-all duration-500 card-3d border border-white/[0.08]">
+                {/* BG Image */}
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&auto=format&fit=crop&q=80" alt="Learning Ecosystem" className="absolute inset-0 w-full h-full object-cover opacity-[0.15] group-hover:opacity-[0.25] group-hover:scale-105 transition-all duration-700" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#020617]/95 to-[#020617]/90 z-10 group-hover:from-[#020617]/90 group-hover:to-[#020617]/85 transition-all duration-500" />
+                
+                <div className="relative z-20 p-8 sm:p-10 space-y-6">
+                  
+                  {/* Decorative Top Bar */}
+                  <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#f0591f] via-orange-400 to-[#f0591f]/50 z-30" />
 
-                <div className="relative z-10 flex flex-col items-center justify-center space-y-6">
-                  {/* Premium Certificate Icon */}
-                  <div className="relative z-10 w-24 h-24 sm:w-28 sm:h-28 bg-[#020617]/90 backdrop-blur-xl rounded-2xl flex flex-col items-center justify-center border border-[#f0591f]/50 shadow-[0_15px_30px_rgba(0,0,0,0.8)] animate-float-slow group-hover:scale-105 transition-transform duration-500">
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#f0591f] rounded-full flex items-center justify-center mb-1.5 shadow-[0_0_15px_rgba(240,89,31,0.5)]">
-                      <Award className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                  {/* Window Header Mockup */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-red-500/80" />
+                      <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                      <div className="w-3 h-3 rounded-full bg-green-500/80" />
                     </div>
-                    <span className="text-white font-black text-[9px] tracking-widest">CERTIFIED</span>
+                    <span className="text-[10px] text-[#a1a1aa] uppercase tracking-widest font-bold">GrapeTask LMS</span>
                   </div>
 
-                  <div className="w-full space-y-3">
-                    <div className="p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm shadow-inner transition-colors group-hover:bg-white/10">
-                      <div className="flex items-center gap-2 mb-1">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-[#f0591f]" />
-                        <span className="text-[10px] text-[#a1a1aa] font-semibold uppercase tracking-widest">Official Credential</span>
+                  {/* Certificate Display Area */}
+                  <div className="bg-white/[0.03] rounded-2xl p-6 border border-white/5 text-center relative overflow-hidden backdrop-blur-md">
+                    <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#f0591f]/10 blur-3xl rounded-full pointer-events-none" />
+                    <div className="relative z-10">
+                      <div className="w-20 h-20 mx-auto bg-[#020617] rounded-full flex items-center justify-center mb-5 border-4 border-[#f0591f]/30 shadow-[0_0_30px_rgba(240,89,31,0.3)] animate-float-slow">
+                        <Award className="w-10 h-10 text-[#f0591f]" />
                       </div>
-                      <div className="text-base font-bold text-white">GrapeTask Certified</div>
-                    </div>
-
-                    <div className="p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm shadow-inner transition-colors group-hover:bg-white/10">
-                      <div className="flex items-center gap-2 mb-1">
-                        <Globe className="w-3.5 h-3.5 text-blue-400" />
-                        <span className="text-[10px] text-[#a1a1aa] font-semibold uppercase tracking-widest">Marketplace Ready</span>
+                      <h4 className="text-white font-extrabold text-xl tracking-tight">Certificate of Completion</h4>
+                      <p className="text-[#a1a1aa] text-sm mt-1 font-medium">Full Stack Development</p>
+                      <div className="mt-5 inline-flex items-center gap-2 bg-[#f0591f]/10 text-[#f0591f] text-xs font-extrabold px-4 py-1.5 rounded-full border border-[#f0591f]/20 uppercase tracking-wider">
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        Verified Credential
                       </div>
-                      <div className="text-xs sm:text-sm text-[#e4e4e7] font-medium leading-relaxed">Directly syncs to your public freelancer profile</div>
                     </div>
                   </div>
+
+                  {/* Profile Sync UI Area */}
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.04] border border-white/5 hover:border-blue-400/30 transition-colors cursor-default group/card">
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-600/10 flex items-center justify-center shrink-0 border border-blue-500/20">
+                        <Globe className="w-6 h-6 text-blue-400" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between mb-1.5">
+                          <span className="text-sm font-bold text-white">Freelancer Profile Sync</span>
+                          <span className="text-[10px] text-[#f0591f] font-extrabold uppercase">Active</span>
+                        </div>
+                        <div className="w-full bg-white/5 rounded-full h-2 overflow-hidden">
+                          <div className="bg-gradient-to-r from-[#f0591f] to-orange-400 h-2 rounded-full w-full transition-all duration-1000" />
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-white/[0.02] border border-dashed border-white/10">
+                      <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                      <span className="text-[11px] text-[#a1a1aa] font-medium">Ready to receive paid tasks</span>
+                    </div>
+                  </div>
+
                 </div>
               </div>
             </div>
@@ -776,26 +811,27 @@ export default function HomePage() {
               <Link
                 href={`/courses/${course.id}`}
                 key={course.id}
-                className="theme-card card-3d p-4 sm:p-5 rounded-[2rem] space-y-4 sm:space-y-5 group reveal block"
+                className="theme-card card-3d rounded-[2rem] group reveal block overflow-hidden border border-white/5 hover:border-primaryOrange/30 bg-white/[0.02] hover:bg-white/[0.04] transition-all duration-500 shadow-lg hover:shadow-[0_20px_45px_rgba(0,0,0,0.25)]"
                 style={{ transitionDelay: `${i * 100}ms` }}
               >
-                <div className="aspect-video bg-[rgba(255,255,255,0.04)] rounded-2xl relative overflow-hidden">
-                  <img src={course.thumbnail} alt={course.title} className="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="absolute top-3 left-3 px-3 py-1 rounded-full glass-card text-[9px] font-black text-[#f0591f] uppercase border border-[rgba(240,89,31,0.2)] z-10">{course.level}</div>
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all bg-black/40 backdrop-blur-sm z-20">
-                    <div className="px-4 py-2 bg-[#f0591f] text-white text-xs font-black rounded-full">View Course</div>
+                <div className="aspect-video relative overflow-hidden rounded-t-[2rem]">
+                  <img src={course.thumbnail} alt={course.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent opacity-60 group-hover:opacity-30 transition-opacity duration-500" />
+                  <div className="absolute top-3 left-3 px-3 py-1 rounded-full glass-card text-[9px] font-black text-[#f0591f] uppercase border border-[rgba(240,89,31,0.2)] z-10 backdrop-blur-md">{course.level}</div>
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all bg-black/30 backdrop-blur-[2px] z-20">
+                    <div className="px-5 py-2.5 bg-[#f0591f] text-white text-xs font-black rounded-full shadow-lg shadow-primaryOrange/30 transform scale-90 group-hover:scale-100 transition-transform duration-300">View Course</div>
                   </div>
-                  <div className="absolute inset-0 flex items-center justify-center z-10">
-                    <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center border border-white/10 group-hover:scale-110 transition-transform shadow-lg">
-                      <Play className="w-4 h-4 text-white ml-0.5" />
+                  <div className="absolute inset-0 flex items-center justify-center z-10 group-hover:opacity-0 transition-opacity duration-300">
+                    <div className="w-12 h-12 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/10 shadow-lg">
+                      <Play className="w-5 h-5 text-white ml-0.5" />
                     </div>
                   </div>
                 </div>
-                <div className="space-y-1.5 text-left">
+                <div className="p-5 sm:p-6 space-y-2 text-left">
                   <h4 className="text-base sm:text-lg font-black text-white group-hover:text-[#f0591f] transition-colors line-clamp-2 tracking-tight leading-snug">{course.title}</h4>
-                  <div className="flex justify-between items-center text-xs text-[#a1a1aa] font-medium">
-                    <span className="flex items-center gap-1"><Users className="w-3.5 h-3.5" />{course.students} Learners</span>
-                    <span className="text-[rgba(255,255,255,0.25)]">{course.trainer}</span>
+                  <div className="flex justify-between items-center text-xs text-[#a1a1aa] font-medium pt-1 border-t border-white/5">
+                    <span className="flex items-center gap-1.5"><Users className="w-3.5 h-3.5 text-primaryOrange/50" />{course.students} Learners</span>
+                    <span className="text-[rgba(255,255,255,0.35)]">{course.trainer}</span>
                   </div>
                 </div>
               </Link>
@@ -812,8 +848,10 @@ export default function HomePage() {
       </section>
 
       {/* ── EXPLORE CAREERS ── */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 bg-[#010411]">
-        <div className="container mx-auto max-w-6xl">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 bg-[#010411] relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-[#f0591f]/[0.03] to-transparent rounded-full blur-[120px] pointer-events-none" />
+        
+        <div className="container mx-auto max-w-6xl relative z-10">
           <div className="text-center mb-12 sm:mb-16 reveal">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight mb-3 text-3d">
               Explore <span className="text-primaryOrange text-3d-orange">Careers</span>
@@ -826,15 +864,17 @@ export default function HomePage() {
               <Link
                 key={career.name}
                 href="/courses"
-                className="theme-card card-3d p-5 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] text-center group flex flex-col items-center justify-center space-y-3 sm:space-y-4 min-h-[160px] reveal backdrop-blur-xl border border-white/10 bg-[rgba(255,255,255,0.03)] hover:bg-[#020617]/85 hover:-translate-y-2.5 hover:scale-105 hover:shadow-[0_20px_50px_rgba(240,89,31,0.12)] transition-all duration-500 relative overflow-hidden"
+                className="theme-card card-3d rounded-[1.5rem] sm:rounded-[2rem] text-center group flex flex-col items-center justify-center space-y-3 sm:space-y-4 min-h-[160px] reveal overflow-hidden relative hover:-translate-y-2.5 hover:scale-105 hover:shadow-[0_20px_50px_rgba(240,89,31,0.12)] transition-all duration-500 border border-white/5 hover:border-primaryOrange/30"
                 style={{ transitionDelay: `${i * 80}ms` }}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-[#f0591f]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-                <div className="relative z-10 w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-[#f0591f]/10 border border-[#f0591f]/20 flex items-center justify-center text-[#f0591f] group-hover:bg-[#f0591f] group-hover:text-white transition-colors duration-500 shadow-inner">
+                {/* BG Image */}
+                <img src={career.image} alt={career.name} className="absolute inset-0 w-full h-full object-cover opacity-[0.15] group-hover:opacity-[0.3] group-hover:scale-110 transition-all duration-700" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/90 to-[#020617]/60 z-10 group-hover:via-[#020617]/80 transition-all duration-500" />
+                
+                <div className="relative z-20 w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-[#f0591f]/10 border border-[#f0591f]/20 flex items-center justify-center text-[#f0591f] group-hover:bg-[#f0591f] group-hover:text-white transition-colors duration-500 shadow-inner group-hover:shadow-[0_0_20px_rgba(240,89,31,0.3)]">
                   {career.icon}
                 </div>
-                <div className="relative z-10 text-xs sm:text-sm font-black text-white group-hover:text-[#f0591f] transition-colors leading-snug">{career.name}</div>
+                <div className="relative z-20 text-xs sm:text-sm font-black text-white group-hover:text-[#f0591f] transition-colors leading-snug">{career.name}</div>
               </Link>
             ))}
           </div>
@@ -844,9 +884,7 @@ export default function HomePage() {
               href="/courses" 
               className="group relative inline-flex items-center gap-2 px-8 py-4 bg-[#f0591f]/10 hover:bg-[#f0591f] text-[#f0591f] hover:text-white font-black text-sm sm:text-base rounded-2xl border border-[#f0591f]/30 hover:border-[#f0591f] transition-all duration-500 overflow-hidden shadow-[0_0_20px_rgba(240,89,31,0.15)] hover:shadow-[0_15px_40px_rgba(240,89,31,0.4)] hover:-translate-y-1.5"
             >
-              {/* Shine effect on hover */}
               <div className="absolute inset-0 -translate-x-[150%] group-hover:translate-x-[150%] transition-transform duration-1000 ease-out bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12" />
-              
               <span className="relative z-10">Explore All Careers</span>
               <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1.5 transition-transform duration-300" />
             </Link>
@@ -854,64 +892,78 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* LMS STATS SECTION */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6">
-        <div className="container mx-auto max-w-5xl">
-          <div className="p-6 sm:p-10 md:p-14 rounded-[2rem] sm:rounded-[3rem] glass-card border border-[rgba(255,255,255,0.06)] relative overflow-hidden shadow-[0_24px_80px_rgba(0,0,0,0.28)] reveal">
+      {/* LMS STATS SECTION - ENHANCED WITH IMAGES */}
+      <section className="py-16 sm:py-24 px-4 sm:px-6 relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-gradient-to-b from-[#f0591f]/[0.04] to-transparent rounded-full blur-[120px] pointer-events-none" />
+        
+        <div className="container mx-auto max-w-6xl relative z-10">
+          <div className="p-8 sm:p-12 md:p-16 rounded-[2rem] sm:rounded-[3rem] glass-card border border-[rgba(255,255,255,0.06)] relative overflow-hidden shadow-[0_24px_80px_rgba(0,0,0,0.28)] reveal backdrop-blur-xl">
             <div className="absolute top-0 right-0 w-80 h-80 secondary-glow opacity-10 -mr-24 -mt-24 pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-64 h-64 orange-gradient opacity-[0.04] blur-3xl -ml-24 -mb-24 pointer-events-none" />
 
-            <div className="text-center mb-10 sm:mb-12 relative z-10">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 text-primaryOrange text-xs font-black uppercase tracking-widest mb-5">
-                <LineChart className="w-3.5 h-3.5" /> LMS Outcomes
+            <div className="text-center mb-12 sm:mb-16 relative z-10">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 text-primaryOrange text-xs font-black uppercase tracking-widest mb-5 shadow-sm">
+                <LineChart className="w-3.5 h-3.5" /> Industry Insights
               </div>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-3 tracking-tight text-3d">
-                Learning Impact <span className="text-primaryOrange text-3d-orange">That Shows</span>
+                The LMS Market Is <span className="text-primaryOrange text-3d-orange">Booming</span>
               </h2>
               <p className="text-sm sm:text-base text-[#a1a1aa] max-w-2xl mx-auto font-medium leading-relaxed">
-                Clear LMS performance signals for institutions, trainers, and learners.
+                Data-driven reasons why institutions and enterprises are shifting to learning management systems.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 text-left items-stretch relative z-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 text-left items-stretch relative z-10">
               {[
                 {
-                  val: '92%',
-                  title: 'Course Completion Rate',
-                  label: 'students completed assigned modules.',
-                  icon: <BookOpen className="w-5 h-5" />,
+                  val: '$40B+',
+                  title: 'Global LMS Market',
+                  label: 'projected market value by 2029, signaling massive worldwide adoption.',
+                  icon: <BarChart3 className="w-6 h-6" />,
+                  image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&auto=format&fit=crop&q=80'
                 },
                 {
-                  val: '70%',
-                  title: 'Certification Earned',
-                  label: 'learners earned industry-recognized certificates.',
-                  icon: <Award className="w-5 h-5" />,
+                  val: '70%+',
+                  title: 'Corporate Adoption',
+                  label: 'of organizations now rely on LMS platforms for employee training and skill development.',
+                  icon: <Building2 className="w-6 h-6" />,
+                  image: 'https://images.unsplash.com/photo-1556761175-4b46a572b786?w=600&auto=format&fit=crop&q=80'
                 },
                 {
-                  val: '85%',
-                  title: 'Skill Improvement',
-                  label: 'learners improved grades after 3 months.',
-                  icon: <TrendingUp className="w-5 h-5" />,
+                  val: '60%',
+                  title: 'E-Learning Retention',
+                  label: 'more knowledge retained through LMS-based learning compared to traditional classrooms.',
+                  icon: <BookOpen className="w-6 h-6" />,
+                  image: 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=600&auto=format&fit=crop&q=80'
                 },
               ].map((s, i) => (
                 <div
                   key={i}
-                  className="group p-6 sm:p-7 rounded-2xl bg-[rgba(255,255,255,0.035)] border border-[rgba(255,255,255,0.07)] reveal card-3d hover:-translate-y-2 hover:border-primaryOrange/35 transition-all hover:bg-white/[0.055] duration-500 flex flex-col h-full shadow-[0_12px_34px_rgba(0,0,0,0.18)] hover:shadow-[0_22px_55px_rgba(0,0,0,0.24),0_0_24px_rgba(240,89,31,0.08)]"
-                  style={{ transitionDelay: `${i * 150}ms` }}
+                  className="group relative rounded-3xl overflow-hidden border border-[rgba(255,255,255,0.07)] reveal card-3d hover:-translate-y-2 hover:border-primaryOrange/35 transition-all duration-500 flex flex-col h-full shadow-[0_12px_34px_rgba(0,0,0,0.18)] hover:shadow-[0_22px_55px_rgba(0,0,0,0.24),0_0_24px_rgba(240,89,31,0.08)]"
+                  style={{ transitionDelay: `${i * 100}ms` }}
                 >
-                  <div className="flex items-center justify-between gap-4 mb-8">
-                    <div className="w-11 h-11 rounded-xl bg-primaryOrange/10 border border-primaryOrange/25 text-primaryOrange flex items-center justify-center group-hover:bg-primaryOrange group-hover:text-white transition-colors duration-300">
-                      {s.icon}
+                  {/* Background Image */}
+                  <img src={s.image} alt={s.title} className="absolute inset-0 w-full h-full object-cover opacity-[0.15] group-hover:opacity-[0.25] group-hover:scale-105 transition-all duration-700" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/95 to-[#020617]/70 z-10 group-hover:via-[#020617]/90 transition-all duration-500" />
+                  
+                  <div className="relative z-20 p-6 sm:p-8 flex flex-col h-full justify-between">
+                    <div className="flex items-center justify-between gap-3 mb-8">
+                      <div className="w-12 h-12 rounded-xl bg-primaryOrange/10 border border-primaryOrange/25 text-primaryOrange flex items-center justify-center group-hover:bg-primaryOrange group-hover:text-white transition-colors duration-300 shadow-[0_0_15px_rgba(240,89,31,0.1)] group-hover:shadow-[0_0_25px_rgba(240,89,31,0.3)]">
+                        {s.icon}
+                      </div>
+                      <div className="inline-flex items-center gap-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 px-2.5 py-1 text-[9px] font-black uppercase tracking-widest text-primaryOrange">
+                        <CheckCircle2 className="w-2.5 h-2.5" /> Verified
+                      </div>
                     </div>
-                    <div className="inline-flex items-center gap-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-primaryOrange">
-                      <CheckCircle2 className="w-3 h-3" /> Verified
+                    
+                    <div className="mt-auto">
+                      <div className="text-5xl sm:text-6xl font-black tracking-tight text-primaryOrange text-3d-orange mb-3 leading-none drop-shadow-[0_0_15px_rgba(240,89,31,0.3)]">{s.val}</div>
+                      <h3 className="text-lg sm:text-xl font-black text-white tracking-tight mb-2 leading-snug">{s.title}</h3>
+                      <p className="text-sm sm:text-base text-[#a1a1aa] font-medium leading-relaxed">
+                        <span className="text-primaryOrange font-bold">{s.val}</span> {s.label}
+                      </p>
                     </div>
                   </div>
-                  <div className="text-5xl sm:text-6xl font-black tracking-tight text-primaryOrange text-3d-orange mb-4 leading-none">{s.val}</div>
-                  <h3 className="text-lg sm:text-xl font-black text-white tracking-tight mb-2 leading-snug">{s.title}</h3>
-                  <p className="text-sm text-[#a1a1aa] font-semibold leading-relaxed">
-                    <span className="text-primaryOrange">{s.val}</span> {s.label}
-                  </p>
                 </div>
               ))}
             </div>
@@ -920,10 +972,13 @@ export default function HomePage() {
       </section>
 
       {/* ── FAQ SECTION ── */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 bg-[#010411]">
-        <div className="container mx-auto max-w-5xl">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 bg-[#010411] relative overflow-hidden">
+        {/* Subtle Section Image Background */}
+        <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200&auto=format&fit=crop&q=80" alt="FAQ Background" className="absolute inset-0 w-full h-full object-cover opacity-[0.05] pointer-events-none" />
+        <div className="absolute inset-0 bg-[#010411]/95 z-0 pointer-events-none" />
 
-          {/* Header Section */}
+        <div className="container mx-auto max-w-5xl relative z-10">
+
           <div className="text-center mb-16 space-y-4">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 text-primaryOrange text-xs font-black uppercase tracking-widest shadow-sm">
               <HelpCircle className="w-3.5 h-3.5 animate-bounce" /> Support Center
@@ -936,8 +991,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Categories Tab Navigation */}
-          <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-12 p-2 rounded-2xl sm:rounded-3xl glass-card border border-lightBorder max-w-3xl mx-auto">
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-12 p-2 rounded-2xl sm:rounded-3xl glass-card border border-lightBorder max-w-3xl mx-auto backdrop-blur-xl">
             {FAQ_CATEGORIES.map((category) => (
               <button
                 key={category.id}
@@ -952,24 +1006,22 @@ export default function HomePage() {
             ))}
           </div>
 
-          {/* Dynamic Accordion list */}
           <div className="space-y-4 max-w-4xl mx-auto">
             {currentFaqCategory.questions.map((item, index) => {
               const isOpen = openFaqIndex === index;
               return (
                 <div
                   key={index}
-                  className={`theme-card p-5 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl border transition-all duration-500 relative overflow-hidden group ${isOpen
+                  className={`theme-card p-5 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl border transition-all duration-500 relative overflow-hidden group backdrop-blur-xl ${isOpen
                     ? 'border-primaryOrange/40 bg-cardBgActive/20 shadow-[0_15px_30px_rgba(240,89,31,0.06)]'
                     : 'border-lightBorder hover:border-orangeBorderActive/30 hover:bg-cardBgActive/10'
                     }`}
                 >
-                  {/* Visual hover splash */}
                   <div className="absolute inset-0 bg-gradient-to-br from-primaryOrange/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
                   <button
                     onClick={() => handleFaqToggle(index)}
-                    className="w-full flex items-center justify-between text-left focus:outline-none"
+                    className="w-full flex items-center justify-between text-left focus:outline-none relative z-10"
                   >
                     <div className="flex items-center gap-4 sm:gap-6 pr-4">
                       <span className={`w-8 h-8 rounded-lg sm:rounded-xl flex items-center justify-center text-sm flex-shrink-0 transition-all duration-300 ${isOpen
@@ -987,13 +1039,12 @@ export default function HomePage() {
                       }`} />
                   </button>
 
-                  {/* Expanded smooth accordion content */}
                   <div
                     className={`grid transition-all duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100 mt-4 sm:mt-6' : 'grid-rows-[0fr] opacity-0 pointer-events-none'
                       }`}
                   >
                     <div className="overflow-hidden">
-                      <div className="pl-12 border-l border-primaryOrange/20 py-2">
+                      <div className="pl-12 sm:pl-14 border-l-2 border-primaryOrange/20 py-2 ml-1">
                         <p className="text-sm sm:text-base text-bodyGrayText leading-relaxed font-medium">
                           {item.a}
                         </p>
@@ -1010,10 +1061,17 @@ export default function HomePage() {
 
       {/* ── FINAL CTA ── */}
       <section className="py-16 sm:py-24 px-4 sm:px-6 relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[800px] h-[600px] sm:h-[800px] orange-gradient rounded-full opacity-5 blur-[100px] sm:blur-[120px] pointer-events-none" />
-        <div className="container mx-auto max-w-5xl">
+        {/* Background Image */}
+        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&auto=format&fit=crop&q=80" alt="CTA Background" className="absolute inset-0 w-full h-full object-cover opacity-[0.1] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#020617] via-[#020617]/98 to-[#020617] z-0 pointer-events-none" />
+        
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[800px] h-[600px] sm:h-[800px] orange-gradient rounded-full opacity-5 blur-[100px] sm:blur-[120px] pointer-events-none z-0" />
+        
+        <div className="container mx-auto max-w-5xl relative z-10">
           <div className="p-8 sm:p-12 md:p-20 rounded-[2rem] sm:rounded-[3rem] bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] relative overflow-hidden text-center reveal shadow-2xl backdrop-blur-xl">
             <div className="absolute inset-0 bg-gradient-to-br from-[rgba(240,89,31,0.08)] to-transparent pointer-events-none" />
+            <div className="absolute top-0 left-0 w-32 h-32 bg-[#f0591f]/5 blur-3xl rounded-full -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+            <div className="absolute bottom-0 right-0 w-40 h-40 bg-purple-500/5 blur-3xl rounded-full translate-x-1/3 translate-y-1/3 pointer-events-none" />
 
             <div className="relative z-10 space-y-6 sm:space-y-8">
               <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-white leading-tight tracking-tight text-3d">
@@ -1025,11 +1083,11 @@ export default function HomePage() {
               </p>
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-4">
-                <Link href="/register" className="group w-full sm:w-auto px-5 py-2.5 sm:px-6 sm:py-2.5 bg-[#f0591f] text-white font-bold text-sm rounded-xl shadow-lg shadow-[rgba(240,89,31,0.2)] hover:bg-[#d94d19] hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2">
+                <Link href="/register" className="group w-full sm:w-auto px-5 py-2.5 sm:px-8 sm:py-4 bg-[#f0591f] text-white font-bold text-sm sm:text-base rounded-xl shadow-lg shadow-[rgba(240,89,31,0.2)] hover:bg-[#d94d19] hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2">
                   <span>Join Now for Free</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
-                <Link href="/courses" className="w-full sm:w-auto px-5 py-2.5 sm:px-6 sm:py-2.5 bg-[rgba(255,255,255,0.03)] text-white font-semibold text-sm rounded-xl border border-[rgba(255,255,255,0.08)] hover:bg-[rgba(255,255,255,0.08)] hover:scale-105 active:scale-95 transition-all flex items-center justify-center">
+                <Link href="/courses" className="w-full sm:w-auto px-5 py-2.5 sm:px-8 sm:py-4 bg-[rgba(255,255,255,0.03)] text-white font-semibold text-sm sm:text-base rounded-xl border border-[rgba(255,255,255,0.08)] hover:bg-[rgba(255,255,255,0.08)] hover:scale-105 active:scale-95 transition-all flex items-center justify-center">
                   Browse Courses
                 </Link>
               </div>
@@ -1039,5 +1097,5 @@ export default function HomePage() {
       </section>
 
     </div>
-  );
+  ); 
 }

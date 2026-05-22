@@ -4,36 +4,29 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { coursesApi } from '@/services/api';
 import {
-  Search,
-  Star,
-  Users,
-  ArrowRight,
-  CheckCircle2,
-  Filter,
-  BookOpen,
-  Briefcase,
-  Award,
-  Play,
-  Pause
+  Search, Star, Users, ArrowRight, CheckCircle2, Filter, BookOpen, Briefcase, Award, Play, Pause,
+  Sparkles, TrendingUp, Clock, Shield, Zap, ChevronRight, Layers, Target, Calendar, MessageCircle,
+  Code, Palette, Megaphone, Video, Bot, ShoppingBag, FileText, Trophy, Globe, Headphones, ThumbsUp,
+  Eye, Rocket, Heart, GitBranch, LineChart, Settings, UserPlus, Mail, Crown, Flame, Compass,
+  GraduationCap, Building2, Users2, VideoIcon, FileCheck, MessageSquare, Download, Share2, BookMarked,
+  FolderKanban, BarChart, LifeBuoy, LayoutDashboard, CircleDot, Mic
 } from 'lucide-react';
 
 const MOCK_COURSES = [
-  { id: 1, title: 'Advanced Web Development', level: 'University', trainer_name: 'Ikram Tech', students: '2.4k', rating: '4.9', total_students: '2.4k', thumbnail: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&auto=format&fit=crop&q=80' },
-  { id: 2, title: 'Graphic Design Mastery', level: 'College', trainer_name: 'Qavi Arts', students: '1.8k', rating: '4.8', total_students: '1.8k', thumbnail: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&auto=format&fit=crop&q=80' },
-  { id: 3, title: 'Digital Marketing Pro', level: 'Individual', trainer_name: 'Market Experts', students: '3.1k', rating: '4.7', total_students: '3.1k', thumbnail: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=600&auto=format&fit=crop&q=80' },
-  { id: 4, title: 'AI for Beginners', level: 'School', trainer_name: 'Future Academy', students: '900', rating: '4.9', total_students: '900', thumbnail: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&auto=format&fit=crop&q=80' },
-  { id: 5, title: 'UI/UX Design Essentials', level: 'College', trainer_name: 'Design Experts', students: '1.5k', rating: '4.8', total_students: '1.5k', thumbnail: 'https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=600&auto=format&fit=crop&q=80' },
-  { id: 6, title: 'Python Programming Masterclass', level: 'University', trainer_name: 'Code Academy', students: '2.9k', rating: '4.9', total_students: '2.9k', thumbnail: 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=600&auto=format&fit=crop&q=80' },
-  { id: 7, title: 'Video Editing Pro (Premiere/After Effects)', level: 'Individual', trainer_name: 'Visual Arts', students: '2.1k', rating: '4.8', total_students: '2.1k', thumbnail: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&auto=format&fit=crop&q=80' },
-  { id: 8, title: 'E-Commerce Business Blueprint', level: 'Individual', trainer_name: 'Commerce Experts', students: '1.2k', rating: '4.6', total_students: '1.2k', thumbnail: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&auto=format&fit=crop&q=80' },
+  { id: 1, title: 'The Complete Web Development Bootcamp', level: 'Beginner', trainer_name: 'Dr. Angela Yu', students: '2.4k', rating: '4.9', total_students: '2.4k', duration: '45 hours', lectures: 287, thumbnail: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&auto=format&fit=crop&q=80' },
+  { id: 2, title: 'Graphic Design Masterclass - Learn Photoshop, Illustrator', level: 'Intermediate', trainer_name: 'Lindsay Marsh', students: '1.8k', rating: '4.8', total_students: '1.8k', duration: '32 hours', lectures: 156, thumbnail: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&auto=format&fit=crop&q=80' },
+  { id: 3, title: 'The Digital Marketing Complete Course', level: 'All Levels', trainer_name: 'Phil Ebiner', students: '3.1k', rating: '4.7', total_students: '3.1k', duration: '28 hours', lectures: 189, thumbnail: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=600&auto=format&fit=crop&q=80' },
+  { id: 4, title: 'Artificial Intelligence A-Z 2024', level: 'Advanced', trainer_name: 'Kirill Eremenko', students: '900', rating: '4.9', total_students: '900', duration: '52 hours', lectures: 324, thumbnail: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&auto=format&fit=crop&q=80' },
+  { id: 5, title: 'UI/UX Design Specialization', level: 'Intermediate', trainer_name: 'Brad Frost', students: '1.5k', rating: '4.8', total_students: '1.5k', duration: '38 hours', lectures: 198, thumbnail: 'https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=600&auto=format&fit=crop&q=80' },
+  { id: 6, title: 'Python for Data Science and Machine Learning', level: 'Intermediate', trainer_name: 'Jose Portilla', students: '2.9k', rating: '4.9', total_students: '2.9k', duration: '42 hours', lectures: 267, thumbnail: 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=600&auto=format&fit=crop&q=80' },
 ];
 
 const CoursesPage = () => {
-  // Pre-seed with mock courses so page loads INSTANTLY without waiting for API timeouts
   const [courses, setCourses] = useState(MOCK_COURSES);
   const [loading, setLoading] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const videoRef = useRef(null);
+  const [activeCategory, setActiveCategory] = useState('all');
 
   const togglePlayPause = () => {
     const newIsPlaying = !isPlaying;
@@ -56,29 +49,29 @@ const CoursesPage = () => {
 
   useEffect(() => {
     const fetchCourses = async () => {
-      // Keep loading false on initial render to prevent blank layouts, then fetch
       const data = await coursesApi.getAll(filters);
       if (data && data.length > 0) {
         setCourses(data);
       } else if (filters.search || filters.level !== 'All' || filters.category !== 'All') {
-        // Only empty list if user is actively searching/filtering and nothing matches
         setCourses([]);
       } else {
-        // Fall back to robust mock data if offline or network fails
         setCourses(MOCK_COURSES);
       }
     };
     fetchCourses();
   }, [filters]);
 
-  const levels = ['All', 'School', 'College', 'University', 'Individual'];
-  const categories = ['All', 'Web Dev', 'Design', 'Marketing', 'Video', 'AI', 'Business', 'Writing'];
-  const sortOptions = ['Most Popular', 'Newest', 'Top Rated'];
+  const categories = ['All', 'Development', 'Design', 'Marketing', 'AI', 'Business', 'Photography'];
 
   return (
-    <div className="relative min-h-screen bg-[#020617] text-white">
+    <div className="relative min-h-screen bg-[#020617] text-white overflow-x-hidden">
+      {/* Background Elements */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute top-0 -left-48 w-96 h-96 bg-primaryOrange/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 -right-48 w-96 h-96 bg-primaryOrange/5 rounded-full blur-[120px]" />
+      </div>
 
-      {/* ── HERO VIDEO BACKGROUND ── */}
+      {/* Hero Video Background */}
       <div className="absolute top-0 inset-x-0 h-[500px] sm:h-[600px] pointer-events-none overflow-hidden z-0">
         <video
           autoPlay
@@ -91,155 +84,304 @@ const CoursesPage = () => {
             if (el) {
               el.muted = true;
               el.defaultMuted = true;
-              if (isPlaying) {
-                el.play().catch(() => { });
-              } else {
-                el.pause();
-              }
+              if (isPlaying) el.play().catch(() => {});
+              else el.pause();
             }
           }}
-          className="absolute inset-0 w-full h-full object-cover opacity-75 sm:opacity-85 z-10"
+          className="absolute inset-0 w-full h-full object-cover opacity-60 sm:opacity-75 z-10"
         >
           <source src="/videos/Master the Skills that Drive CareersForward.mp4" type="video/mp4" />
         </video>
-        {/* Navy + Orange thematic overlays */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#020617]/25 via-[#020617]/55 to-[#020617] z-20" />
-        <div className="absolute inset-0 bg-gradient-to-tr from-[#020617]/60 via-transparent to-[#f0591f]/15 mix-blend-screen opacity-60 z-20" />
-        <div className="absolute top-0 right-1/4 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-primaryOrange/10 blur-[100px] sm:blur-[150px] rounded-full z-20" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#020617]/30 via-[#020617]/70 to-[#020617] z-20" />
       </div>
 
-      {/* Play/Pause Button */}
       <button
         onClick={togglePlayPause}
-        className="absolute top-[400px] sm:top-[450px] right-8 z-40 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md flex items-center justify-center text-white transition-all duration-300 hover:scale-110 shadow-lg"
-        aria-label={isPlaying ? "Pause video" : "Play video"}
+        className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white transition-all duration-300 hover:scale-125 hover:rotate-12 shadow-lg"
       >
         {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-1" />}
       </button>
 
-      <div className="pt-28 sm:pt-40 pb-20 px-4 sm:px-6 relative z-30">
-        <div className="container mx-auto max-w-6xl">
-
-          {/* Header Info */}
-          <div className="text-center mb-16 sm:mb-24 space-y-4 sm:space-y-6 max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 text-primaryOrange text-xs font-bold uppercase tracking-widest shadow-sm">
-              <Star className="w-3.5 h-3.5" /> Premium Catalog
+      <div className="pt-28 sm:pt-40 pb-20 px-4 sm:px-6 lg:px-8 relative z-30">
+        <div className="container mx-auto max-w-7xl">
+          
+          {/* Header Section */}
+          <div className="text-center mb-12 space-y-4 max-w-3xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 text-primaryOrange text-xs font-bold uppercase tracking-widest backdrop-blur-sm hover:scale-110 hover:rotate-3 transition-all duration-300 cursor-default">
+              <Sparkles className="w-3.5 h-3.5" /> Start Learning Today
             </div>
-            {/* Slightly smaller text with 3D styled header */}
-            <h1 className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight leading-tight text-3d">
-              Master the Skills that <br className="hidden md:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primaryOrange to-[#ff7a45] text-3d-orange">Drive Careers Forward</span>
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight leading-tight">
+              Master the Skills that <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primaryOrange to-[#ff7a45]">Drive Careers Forward</span>
             </h1>
-            <p className="text-sm sm:text-base md:text-lg text-[#a1a1aa] mx-auto font-medium leading-relaxed max-w-2xl">
-              Explore practical, level-based courses taught by verified industry experts. Built to get you certified and earning immediately.
+            <p className="text-sm sm:text-base text-[#a1a1aa] max-w-2xl mx-auto text-left sm:text-center">
+              Join millions of learners worldwide. Learn from industry experts with real-world projects and certificates.
             </p>
           </div>
 
-          {/* Filter Bar */}
-          <div className="mb-12 p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-cardBg border border-lightBorder space-y-6 sm:space-y-8 backdrop-blur-md">
-            <div className="flex flex-col md:flex-row gap-4 sm:gap-6 items-center">
-              <div className="relative w-full md:flex-grow">
-                <input
-                  type="text"
-                  placeholder="Search for courses (e.g. Web Development)..."
-                  className="w-full bg-[#020617]/90 border border-lightBorder rounded-xl sm:rounded-2xl py-4 sm:py-5 px-6 sm:px-8 text-white focus:outline-none focus:border-primaryOrange transition-all focus:ring-4 focus:ring-primaryOrange/10 text-base sm:text-lg"
-                  value={filters.search}
-                  onChange={(e) => setFilters({ ...filters, search: e.target.value })}
-                />
-                <Search className="absolute right-6 sm:right-8 top-1/2 -translate-y-1/2 text-bodyGrayText w-5 sm:w-6 h-5 sm:h-6" />
-              </div>
-              <div className="flex items-center space-x-3 sm:space-x-4 w-full md:w-auto">
-                <label className="text-xs sm:text-sm text-mediumGrayTitle whitespace-nowrap">Sort By:</label>
-                <select
-                  className="bg-[#020617] border border-lightBorder rounded-xl py-3 px-4 text-white focus:outline-none focus:border-primaryOrange text-xs sm:text-sm w-full md:w-48 [&>option]:bg-[#111827] [&>option]:text-white"
-                  value={filters.sort}
-                  onChange={(e) => setFilters({ ...filters, sort: e.target.value })}
-                >
-                  {sortOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                </select>
-              </div>
+          {/* Search Bar */}
+          <div className="max-w-3xl mx-auto mb-16">
+            <div className="relative group">
+              <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-[#a1a1aa] w-5 h-5 group-hover:scale-110 group-hover:text-primaryOrange transition-all duration-300" />
+              <input
+                type="text"
+                placeholder="Search for any skill..."
+                className="w-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-full py-4 pl-14 pr-24 text-white focus:outline-none focus:border-primaryOrange/50 focus:shadow-[0_0_25px_rgba(240,89,31,0.15)] transition-all text-base"
+                value={filters.search}
+                onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+              />
+              <button className="absolute right-2 top-1/2 -translate-y-1/2 px-5 py-2 bg-primaryOrange rounded-full text-sm font-semibold hover:bg-orange-600 transition-all duration-300 hover:scale-110 hover:-translate-y-1 active:scale-95 active:translate-y-0 hover:shadow-[0_10px_20px_rgba(240,89,31,0.3)]">
+                Search
+              </button>
             </div>
+            <div className="flex flex-wrap justify-center gap-2 mt-4">
+              {['Python', 'UI/UX', 'Marketing', 'Data Science', 'Business', 'Photography'].map(tag => (
+                <button key={tag} className="px-3 py-1.5 rounded-full bg-white/5 border border-white/5 text-xs text-[#a1a1aa] hover:bg-primaryOrange/10 hover:border-primaryOrange/20 hover:text-white hover:scale-110 hover:-translate-y-1 active:scale-95 transition-all duration-300">
+                  {tag}
+                </button>
+              ))}
+            </div>
+          </div>
 
-            <div className="flex flex-wrap gap-6 sm:gap-8">
-              <div className="space-y-2">
-                <span className="text-[10px] uppercase tracking-widest text-darkGrayNumber font-extrabold">Level</span>
-                <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                  {levels.map(lvl => (
-                    <button
-                      key={lvl}
-                      onClick={() => setFilters({ ...filters, level: lvl })}
-                      className={`px-3.5 py-1.5 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider transition-all ${filters.level === lvl
-                          ? 'bg-primaryOrange text-white shadow-md shadow-primaryOrange/25'
-                          : 'bg-cardBg text-[#a1a1aa] border border-lightBorder hover:border-mediumBorder hover:text-white'
-                        }`}
-                    >
-                      {lvl}
-                    </button>
-                  ))}
+          {/* Trust Bar */}
+          <div className="bg-[#0f172a]/50 backdrop-blur-md border border-white/5 rounded-2xl p-5 mb-16 hover:scale-[1.01] hover:shadow-xl transition-all duration-300">
+            <div className="flex flex-wrap justify-center items-center gap-6 md:gap-10 text-sm text-[#94a3b8]">
+              {[
+                { icon: Users2, text: '25M+ learners' },
+                { icon: VideoIcon, text: '75+ languages' },
+                { icon: Award, text: 'Industry certificates' },
+                { icon: Building2, text: '10K+ enterprise clients' },
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-2 group cursor-default">
+                  <item.icon className="w-4 h-4 text-primaryOrange group-hover:scale-150 group-hover:rotate-12 group-hover:-translate-y-1 transition-all duration-300" />
+                  <span className="font-medium group-hover:text-white transition-colors">{item.text}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Categories Strip */}
+          <div className="mb-12 overflow-x-auto pb-2 scrollbar-hide">
+            <div className="flex gap-2 min-w-max">
+              {categories.map(cat => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat.toLowerCase())}
+                  className={`px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 whitespace-nowrap hover:-translate-y-1 hover:shadow-lg ${
+                    activeCategory === cat.toLowerCase()
+                      ? 'bg-primaryOrange text-white shadow-lg shadow-primaryOrange/25 scale-105 hover:scale-110'
+                      : 'bg-white/5 text-[#94a3b8] hover:bg-white/10 border border-white/5 hover:border-white/10 hover:scale-105'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Featured Courses Section - Bento Layout with 3D */}
+          <div className="mb-24">
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-white">Top courses in Development</h2>
+                <p className="text-sm text-[#94a3b8] mt-1">Most popular among our learners</p>
+              </div>
+              <Link href="/courses" className="text-primaryOrange text-sm font-semibold hover:underline flex items-center gap-1 group hover:scale-110 transition-transform duration-300">
+                View all <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
+              </Link>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 auto-rows-[280px]">
+              {/* Main Featured - Large Card */}
+              <div className="lg:col-span-3 lg:row-span-2 relative rounded-2xl overflow-hidden border border-white/5 group cursor-pointer hover:scale-[1.03] hover:-translate-y-6 hover:rotate-1 hover:shadow-[0_30px_60px_-15px_rgba(240,89,31,0.4)] transition-all duration-500 ease-out">
+                <img src={courses[0].thumbnail} alt={courses[0].title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/60 to-transparent"></div>
+                <div className="absolute top-4 left-4 px-2.5 py-1 rounded-lg bg-primaryOrange text-xs font-bold shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">Bestseller</div>
+                <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 z-10">
+                  <span className="text-xs font-semibold text-primaryOrange uppercase tracking-widest">{courses[0].level} • {courses[0].duration}</span>
+                  <h3 className="text-xl sm:text-2xl font-extrabold text-white mt-2 mb-3 group-hover:text-primaryOrange transition-colors">{courses[0].title}</h3>
+                  <div className="flex items-center gap-3 mb-5">
+                    <div className="flex items-center gap-1"><Star className="w-4 h-4 fill-yellow-400 text-yellow-400 group-hover:scale-125 group-hover:rotate-12 transition-transform duration-300"/><span className="text-sm font-bold text-white">{courses[0].rating}</span></div>
+                    <span className="text-sm text-[#94a3b8]">({courses[0].students} students)</span>
+                    <span className="text-sm text-[#94a3b8]">• {courses[0].trainer_name}</span>
+                  </div>
+                  <button className="px-6 py-2.5 bg-primaryOrange rounded-lg text-white font-semibold hover:bg-orange-600 transition-all duration-300 shadow-lg shadow-primaryOrange/20 group-hover:scale-110 active:scale-95 hover:shadow-[0_10px_20px_rgba(240,89,31,0.4)]">
+                    Enroll Now
+                  </button>
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <span className="text-[10px] uppercase tracking-widest text-darkGrayNumber font-extrabold">Category</span>
-                <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                  {categories.map(cat => (
-                    <button
-                      key={cat}
-                      onClick={() => setFilters({ ...filters, category: cat })}
-                      className={`px-3.5 py-1.5 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider transition-all ${filters.category === cat
-                          ? 'bg-primaryOrange text-white shadow-md shadow-primaryOrange/25'
-                          : 'bg-cardBg text-[#a1a1aa] border border-lightBorder hover:border-mediumBorder hover:text-white'
-                        }`}
-                    >
-                      {cat}
-                    </button>
-                  ))}
+              {/* Secondary Feature - Wide Card */}
+              <div className="lg:col-span-2 flex bg-[#0f172a] border border-white/5 rounded-2xl overflow-hidden group cursor-pointer hover:scale-[1.05] hover:-translate-y-6 hover:-rotate-1 hover:shadow-[0_25px_50px_-12px_rgba(240,89,31,0.3)] transition-all duration-500 ease-out">
+                <div className="w-2/5 relative">
+                  <img src={courses[1].thumbnail} alt={courses[1].title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                </div>
+                <div className="w-3/5 p-5 flex flex-col justify-center text-left relative z-10">
+                  <span className="text-[10px] font-bold text-primaryOrange uppercase tracking-widest mb-1">{courses[1].level}</span>
+                  <h3 className="text-base font-bold text-white mb-2 line-clamp-2 group-hover:text-primaryOrange transition-colors">{courses[1].title}</h3>
+                  <p className="text-xs text-[#94a3b8] mb-3">{courses[1].trainer_name}</p>
+                  <div className="flex items-center gap-2">
+                    <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400 group-hover:scale-125 group-hover:rotate-12 transition-transform duration-300"/><span className="text-xs font-bold text-white">{courses[1].rating}</span>
+                    <span className="text-xs text-[#94a3b8]">({courses[1].students})</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Secondary Feature - Wide Card */}
+              <div className="lg:col-span-2 flex bg-[#0f172a] border border-white/5 rounded-2xl overflow-hidden group cursor-pointer hover:scale-[1.05] hover:-translate-y-6 hover:rotate-1 hover:shadow-[0_25px_50px_-12px_rgba(240,89,31,0.3)] transition-all duration-500 ease-out">
+                <div className="w-2/5 relative">
+                  <img src={courses[2].thumbnail} alt={courses[2].title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                </div>
+                <div className="w-3/5 p-5 flex flex-col justify-center text-left relative z-10">
+                  <span className="text-[10px] font-bold text-primaryOrange uppercase tracking-widest mb-1">{courses[2].level}</span>
+                  <h3 className="text-base font-bold text-white mb-2 line-clamp-2 group-hover:text-primaryOrange transition-colors">{courses[2].title}</h3>
+                  <p className="text-xs text-[#94a3b8] mb-3">{courses[2].trainer_name}</p>
+                  <div className="flex items-center gap-2">
+                    <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400 group-hover:scale-125 group-hover:rotate-12 transition-transform duration-300"/><span className="text-xs font-bold text-white">{courses[2].rating}</span>
+                    <span className="text-xs text-[#94a3b8]">({courses[2].students})</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Guided Paths */}
-          <div className="mb-16 sm:mb-20 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-stretch">
-            <div className="lg:col-span-5 p-8 sm:p-10 rounded-[2.25rem] bg-[#020617] border border-lightBorder relative overflow-hidden shadow-[0_20px_65px_rgba(0,0,0,0.24)]">
-              <div className="absolute top-0 right-0 w-64 h-64 orange-gradient opacity-[0.06] blur-3xl pointer-events-none" />
-              <div className="relative z-10 space-y-5 sm:space-y-6">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 text-primaryOrange text-[10px] sm:text-xs font-black uppercase tracking-widest">
-                  <Filter className="w-3.5 h-3.5" /> Pick Faster
-                </div>
-                <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight text-3d leading-tight">
-                  Choose the right <span className="text-primaryOrange text-3d-orange">learning path</span>
-                </h2>
-                <p className="text-base sm:text-lg text-[#a1a1aa] font-medium leading-relaxed max-w-xl">
-                  Start with your current level, then move into portfolio-ready modules, trainer-reviewed tasks, and certification.
-                </p>
+          {/* Learning Paths - Split Layout + Dashboard UI */}
+          <div className="mb-24 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            <div className="space-y-6 text-left">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                Curated <span className="text-primaryOrange">Learning Paths</span>
+              </h2>
+              <p className="text-[#94a3b8] text-base leading-relaxed">
+                From beginner to professional, follow structured paths designed by industry experts to get job-ready faster.
+              </p>
+              <div className="space-y-3 pt-2">
+                {[
+                  { title: 'Web Developer', icon: Code, courses: 12, level: 'Beginner to Advanced' },
+                  { title: 'Data Scientist', icon: BarChart, courses: 8, level: 'Intermediate' },
+                  { title: 'UI/UX Designer', icon: Palette, courses: 10, level: 'All Levels' },
+                  { title: 'Digital Marketer', icon: Megaphone, courses: 9, level: 'Beginner Friendly' },
+                ].map((path) => {
+                  const IconComp = path.icon;
+                  return (
+                    <div key={path.title} className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5 hover:border-primaryOrange/30 hover:bg-white/[0.04] transition-all duration-300 group cursor-pointer hover:scale-[1.03] hover:-translate-y-2 hover:rotate-1 hover:shadow-[0_20px_40px_-10px_rgba(240,89,31,0.2)]">
+                      <div className="w-12 h-12 rounded-xl bg-white/5 group-hover:bg-primaryOrange text-white/60 group-hover:text-white flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-125 group-hover:rotate-12 group-hover:shadow-[0_0_15px_rgba(240,89,31,0.3)]">
+                        <IconComp className="w-6 h-6" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-sm font-bold text-white mb-0.5">{path.title}</h3>
+                        <p className="text-xs text-[#94a3b8]">{path.level} • {path.courses} Courses</p>
+                      </div>
+                      <ChevronRight className="w-5 h-5 text-[#94a3b8] group-hover:text-primaryOrange group-hover:translate-x-2 group-hover:scale-125 transition-all duration-300" />
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
-            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6">
-              {[
-                { title: 'Foundation', desc: 'Short lessons, guided practice, and beginner-friendly checks.', level: 'School', icon: BookOpen },
-                { title: 'Career Track', desc: 'Practical projects for college learners building job skills.', level: 'College', icon: Briefcase },
-                { title: 'Pro Portfolio', desc: 'Advanced work, reviews, and certification-ready outcomes.', level: 'University', icon: Award },
-              ].map((path) => {
-                const IconComponent = path.icon;
-                return (
-                  <div key={path.title} className="theme-card card-3d flex flex-col justify-between p-6 sm:p-7 rounded-[2.25rem] bg-white/[0.03] border border-white/10 hover:border-primaryOrange/35 hover:bg-white/[0.055] transition-all duration-500 hover:-translate-y-2 group min-h-[260px]">
-                    <div className="flex items-center justify-between gap-4 mb-5">
-                      <div className="w-12 h-12 rounded-2xl bg-primaryOrange/10 border border-primaryOrange/25 text-primaryOrange flex items-center justify-center group-hover:bg-primaryOrange group-hover:text-white transition-colors">
-                        <IconComponent className="w-6 h-6" />
+            {/* Mock Dashboard UI */}
+            <div className="relative group">
+              <div className="absolute -inset-4 bg-gradient-to-bl from-primaryOrange/10 to-transparent rounded-3xl blur-2xl opacity-40 pointer-events-none group-hover:opacity-70 transition-opacity duration-500"></div>
+              <div className="relative bg-[#0f172a] border border-white/5 rounded-2xl p-5 shadow-2xl space-y-4 hover:scale-[1.02] hover:-translate-y-4 hover:rotate-1 hover:shadow-[0_30px_60px_-15px_rgba(240,89,31,0.3)] transition-all duration-500">
+                <div className="flex items-center justify-between pb-3 border-b border-white/5">
+                  <div className="flex items-center gap-2 group/icon cursor-default">
+                    <LayoutDashboard className="w-4 h-4 text-primaryOrange group-hover/icon:scale-125 group-hover/icon:rotate-12 transition-transform duration-300"/>
+                    <span className="text-xs font-semibold text-white">My Learning Path</span>
+                  </div>
+                  <span className="text-[10px] px-2 py-0.5 rounded bg-green-500/10 text-green-400 font-bold group-hover/icon:scale-110 transition-transform duration-300">In Progress</span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-xl bg-white/5 flex items-center justify-center text-primaryOrange group-hover:scale-110 group-hover:rotate-6 group-hover:bg-primaryOrange/20 transition-all duration-300">
+                    <Code className="w-8 h-8"/>
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-white">Full-Stack Web Development</p>
+                    <p className="text-xs text-[#94a3b8]">7 of 12 Courses Completed</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div>
+                    <div className="flex justify-between text-xs mb-1"><span className="text-[#94a3b8]">Overall Progress</span><span className="text-white font-medium">58%</span></div>
+                    <div className="h-2 bg-white/5 rounded-full overflow-hidden"><div className="h-full w-[58%] bg-gradient-to-r from-primaryOrange to-orange-400 rounded-full group-hover:w-[70%] transition-all duration-1000"></div></div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between text-xs mb-1"><span className="text-[#94a3b8]">Projects Built</span><span className="text-white font-medium">4/6</span></div>
+                    <div className="h-2 bg-white/5 rounded-full overflow-hidden"><div className="h-full w-[66%] bg-white/30 rounded-full group-hover:w-[80%] transition-all duration-1000"></div></div>
+                  </div>
+                </div>
+                <button className="w-full mt-2 py-2.5 bg-primaryOrange/10 text-primaryOrange text-sm font-semibold rounded-lg hover:bg-primaryOrange hover:text-white transition-all duration-300 flex items-center justify-center gap-2 group/btn hover:scale-105 hover:shadow-lg active:scale-95">
+                  Continue Learning <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300"/>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Recommended Courses - Horizontal Scroll with 3D */}
+          <div className="mb-24">
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-white">Recommended for you</h2>
+                <p className="text-sm text-[#94a3b8] mt-1">Based on your interests</p>
+              </div>
+              <Link href="/recommended" className="text-primaryOrange text-sm font-semibold hover:underline flex items-center gap-1 group hover:scale-110 transition-transform duration-300">
+                View all <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
+              </Link>
+            </div>
+            
+            <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide -mx-4 px-4">
+              {courses.slice(3, 6).map((course) => (
+                <div key={course.id} className="min-w-[300px] w-80 rounded-2xl overflow-hidden bg-[#0f172a] border border-white/5 group cursor-pointer hover:scale-[1.05] hover:-translate-y-6 hover:rotate-1 hover:shadow-[0_30px_60px_-15px_rgba(240,89,31,0.4)] transition-all duration-500 ease-out flex-shrink-0">
+                  <div className="aspect-video relative overflow-hidden">
+                    <img src={course.thumbnail} alt={course.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                    <div className="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-black/60 backdrop-blur-sm text-xs font-semibold text-white flex items-center gap-1 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
+                      <Clock className="w-3 h-3 text-primaryOrange"/> {course.duration}
+                    </div>
+                  </div>
+                  <div className="p-5 text-left">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-xs text-primaryOrange font-bold bg-primaryOrange/10 px-2 py-0.5 rounded group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 inline-block">{course.level}</span>
+                      <span className="text-xs text-[#94a3b8]">{course.lectures} lectures</span>
+                    </div>
+                    <h3 className="font-bold text-white mb-2 line-clamp-2 group-hover:text-primaryOrange transition-colors h-12">{course.title}</h3>
+                    <p className="text-sm text-[#94a3b8] mb-4">{course.trainer_name}</p>
+                    <div className="flex items-center justify-between pt-3 border-t border-white/5">
+                      <div className="flex items-center gap-1">
+                        <Star className="w-4 h-4 fill-yellow-400 text-yellow-400 group-hover:scale-125 group-hover:rotate-12 transition-transform duration-300"/>
+                        <span className="text-sm font-bold text-white">{course.rating}</span>
+                        <span className="text-xs text-[#94a3b8]">({course.students})</span>
                       </div>
-                      <span className="text-[10px] font-black uppercase tracking-widest text-primaryOrange">{path.level}</span>
+                      <button className="text-xs font-semibold text-primaryOrange hover:text-white hover:bg-primaryOrange px-3 py-1.5 rounded-lg border border-primaryOrange/30 hover:border-primaryOrange transition-all duration-300 hover:scale-110 hover:-translate-y-1 active:scale-95 active:translate-y-0 hover:shadow-[0_10px_20px_rgba(240,89,31,0.3)]">
+                        Enroll
+                      </button>
                     </div>
-                    <div className="space-y-4 flex-grow">
-                      <h3 className="text-xl font-black text-white tracking-tight leading-snug">{path.title}</h3>
-                      <p className="text-sm text-bodyGrayText font-medium leading-relaxed">{path.desc}</p>
-                    </div>
-                    <div className="mt-6">
-                      <span className="inline-flex items-center gap-2 text-sm font-bold text-primaryOrange uppercase tracking-[0.2em]">
-                        Explore
-                        <ArrowRight className="w-4 h-4" />
-                      </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Student Success Stats - Modern 3D Cards */}
+          <div className="mb-24">
+            <div className="text-center mb-10">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Trusted by learners globally</h2>
+              <p className="text-sm text-[#94a3b8] mt-2">Real numbers, real impact.</p>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+              {[
+                { number: '25M+', label: 'Active Learners', icon: Users2, color: 'from-blue-500/20 to-transparent' },
+                { number: '1,800+', label: 'Expert Courses', icon: BookOpen, color: 'from-primaryOrange/20 to-transparent' },
+                { number: '75+', label: 'Languages', icon: Globe, color: 'from-green-500/20 to-transparent' },
+                { number: '85%', label: 'Career Impact', icon: TrendingUp, color: 'from-purple-500/20 to-transparent' },
+              ].map((stat) => {
+                const IconComp = stat.icon;
+                return (
+                  <div key={stat.label} className="relative p-6 rounded-2xl bg-[#0f172a] border border-white/5 group cursor-default hover:scale-110 hover:-translate-y-6 hover:rotate-2 hover:shadow-[0_25px_50px_-12px_rgba(240,89,31,0.3)] transition-all duration-500 ease-out overflow-hidden">
+                    <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`}></div>
+                    <div className="relative z-10 text-left">
+                      <div className="w-10 h-10 rounded-xl bg-white/5 group-hover:bg-primaryOrange text-white/60 group-hover:text-white flex items-center justify-center mb-4 transition-all duration-300 group-hover:scale-150 group-hover:rotate-12 group-hover:shadow-[0_0_20px_rgba(240,89,31,0.4)]">
+                        <IconComp className="w-5 h-5" />
+                      </div>
+                      <div className="text-3xl font-extrabold text-white mb-1 group-hover:text-primaryOrange transition-colors duration-300">{stat.number}</div>
+                      <div className="text-sm text-[#94a3b8] font-medium">{stat.label}</div>
                     </div>
                   </div>
                 );
@@ -247,118 +389,46 @@ const CoursesPage = () => {
             </div>
           </div>
 
-          {/* Course Grid */}
-          {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
-              {[1, 2, 3, 4].map(n => (
-                <div key={n} className="theme-card h-80 rounded-3xl animate-pulse bg-cardBgActive/10" />
-              ))}
-            </div>
-          ) : courses.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
-              {courses.map((course: any) => (
-                <Link
-                  href={`/courses/${course.id}`}
-                  key={course.id}
-                  className="theme-card card-3d rounded-[2rem] overflow-hidden flex flex-col group hover:-translate-y-2.5 hover:shadow-[0_20px_50px_rgba(240,89,31,0.12)] transition-all duration-500"
-                >
-                  <div className="aspect-video bg-[#020617] relative overflow-hidden">
-                    {course.thumbnail ? (
-                      <img src={course.thumbnail} alt={course.title} className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
-                    ) : (
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#020617] to-transparent opacity-60" />
-                    )}
-                    <div className="absolute top-3 left-3 px-2.5 py-1 rounded-lg glass-navbar text-[9px] font-black text-primaryOrange uppercase tracking-widest z-10 border border-primaryOrange/20">
-                      {course.level || 'All Levels'}
-                    </div>
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all bg-black/40 backdrop-blur-sm z-20">
-                      <div className="px-4 py-2 bg-primaryOrange text-white text-xs font-black rounded-full shadow-lg">View Course</div>
-                    </div>
-                  </div>
-                  <div className="p-5 sm:p-6 md:p-8 flex-grow flex flex-col space-y-4">
-                    <div className="flex items-center space-x-2 text-xs sm:text-sm text-mediumGrayTitle font-semibold">
-                      <div className="w-5 h-5 rounded-full orange-gradient flex items-center justify-center">
-                        <CheckCircle2 className="w-3 h-3 text-white" />
-                      </div>
-                      <span>{course.trainer_name || course.trainer || 'Verified Trainer'}</span>
-                    </div>
-                    <h3 className="text-base sm:text-lg font-black text-white group-hover:text-primaryOrange transition-colors line-clamp-2 leading-snug tracking-tight">
-                      {course.title}
-                    </h3>
-                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/5">
-                      <div className="flex items-center space-x-1.5">
-                        <Star className="w-3.5 h-3.5 text-primaryOrange fill-primaryOrange" />
-                        <span className="text-sm font-bold text-white">{course.rating || '4.8'}</span>
-                        <span className="text-[10px] text-darkGrayNumber font-extrabold">({course.total_students || course.students || '1.2k'})</span>
-                      </div>
-                      <div className="group flex items-center space-x-0.5 text-xs font-black text-primaryOrange uppercase tracking-wider">
-                        <span>Details</span>
-                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-20 space-y-4 bg-cardBg rounded-[2rem] border border-lightBorder max-w-xl mx-auto">
-              <div className="text-5xl">🔍</div>
-              <h3 className="text-xl font-bold text-white">No courses found</h3>
-              <p className="text-sm text-bodyGrayText px-6">We couldn't find any courses matching your search terms or filters.</p>
-              <button
-                onClick={() => setFilters({ level: 'All', category: 'All', sort: 'Most Popular', search: '' })}
-                className="px-6 py-2.5 bg-primaryOrange rounded-xl text-white font-bold text-sm transition-all hover:scale-105 active:scale-95 shadow-md shadow-primaryOrange/20"
-              >
-                Reset Filters
-              </button>
-            </div>
-          )}
-
-          {/* Learning Experience */}
-          <div className="mt-20 sm:mt-24 grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
-            {[
-              { value: '01', title: 'Learn in focused modules', desc: 'Each course is broken into clear lessons so students can make progress without feeling lost.' },
-              { value: '02', title: 'Practice with checkpoints', desc: 'Assessments and tasks help learners prove they understood the skill before moving ahead.' },
-              { value: '03', title: 'Earn visible proof', desc: 'Completion signals, trainer feedback, and certificates make achievements easy to share.' },
-            ].map((item) => (
-              <div key={item.value} className="theme-card card-3d p-6 sm:p-7 rounded-[2rem] bg-[#020617] border border-white/10 hover:border-primaryOrange/35 hover:bg-white/[0.04] transition-all duration-500 hover:-translate-y-2 relative overflow-hidden group">
-                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primaryOrange/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="text-5xl font-black text-primaryOrange/25 group-hover:text-primaryOrange/45 leading-none mb-5 transition-colors">{item.value}</div>
-                <h3 className="text-lg sm:text-xl font-black text-white tracking-tight mb-3">{item.title}</h3>
-                <p className="text-sm text-[#a1a1aa] font-medium leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Comparison Section */}
-          <div className="mt-24 md:mt-32 p-6 sm:p-12 md:p-20 rounded-[2.5rem] sm:rounded-[3rem] bg-cardBg border border-lightBorder relative overflow-hidden shadow-2xl">
-            <div className="absolute -left-20 top-0 w-64 h-64 secondary-glow opacity-10" />
-            <div className="max-w-4xl mx-auto space-y-8 sm:space-y-12">
-              <div className="text-center">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-3 tracking-tight text-3d">
-                  How Our Courses Are <span className="text-primaryOrange text-3d-orange">Different</span>
+          {/* Instructor CTA - Glassmorphism & 3D */}
+          <div className="relative mb-16 rounded-3xl overflow-hidden border border-white/5 bg-[#0f172a] shadow-2xl hover:scale-[1.01] hover:-translate-y-2 hover:shadow-[0_30px_60px_-15px_rgba(240,89,31,0.2)] transition-all duration-500 group/main">
+            <div className="absolute -top-20 -right-20 w-60 h-60 bg-primaryOrange/10 rounded-full blur-3xl pointer-events-none group-hover/main:opacity-80 transition-opacity"></div>
+            <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-primaryOrange/5 rounded-full blur-3xl pointer-events-none group-hover/main:opacity-80 transition-opacity"></div>
+            
+            <div className="relative z-10 grid md:grid-cols-2 gap-10 p-8 md:p-12 items-center">
+              <div className="space-y-5 text-left">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primaryOrange/10 border border-primaryOrange/20 text-primaryOrange text-xs font-bold uppercase tracking-widest hover:scale-110 hover:rotate-3 transition-transform duration-300 cursor-default">
+                  <Crown className="w-3.5 h-3.5" /> Become an Instructor
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                  Teach what you <span className="text-primaryOrange">love</span>
                 </h2>
-                <p className="text-sm sm:text-base text-[#a1a1aa] font-medium max-w-2xl mx-auto leading-relaxed">
-                  Most online courses give you a video and a certificate. GrapeTask LMS gives you a complete learning system connected to active freelance contracts.
+                <p className="text-[#94a3b8] text-base leading-relaxed">
+                  Share your expertise with millions of learners worldwide. Join our community of instructors and earn money doing what you enjoy.
                 </p>
+                <button className="px-6 py-3 bg-primaryOrange rounded-xl text-white font-semibold hover:bg-orange-600 transition-all duration-300 shadow-lg shadow-primaryOrange/20 hover:scale-110 hover:-translate-y-1 active:scale-95 active:translate-y-0 hover:shadow-[0_10px_20px_rgba(240,89,31,0.3)] group/btn flex items-center gap-2 w-fit">
+                  Start Teaching Today <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300"/>
+                </button>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-                {[
-                  'Every video is followed by a structured assessment',
-                  'You cannot skip ahead without passing each test',
-                  'Your trainer reviews every submission personally',
-                  'You graduate with a certificate backed by real verified performance'
-                ].map((item, i) => (
-                  <div key={i} className="flex items-start space-x-4">
-                    <div className="w-5 h-5 rounded-full bg-primaryOrange/20 border border-orangeBorderActive flex items-center justify-center flex-shrink-0 mt-1">
-                      <div className="w-1.5 h-1.5 rounded-full bg-primaryOrange" />
-                    </div>
-                    <p className="text-sm sm:text-base text-[#e4e4e7] font-semibold leading-relaxed">{item}</p>
-                  </div>
-                ))}
+              
+              <div className="relative flex justify-center items-center py-6">
+                {/* Floating 3D Elements */}
+                <div className="absolute w-24 h-24 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm flex items-center justify-center animate-bounce shadow-xl group-hover/main:scale-125 group-hover/main:rotate-12 transition-transform duration-500" style={{ animationDuration: '3s' }}>
+                  <Video className="w-8 h-8 text-primaryOrange group-hover/main:scale-110 transition-transform"/>
+                </div>
+                <div className="absolute top-0 right-8 w-16 h-16 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm flex items-center justify-center animate-bounce shadow-xl group-hover/main:scale-125 group-hover/main:-rotate-12 transition-transform duration-500" style={{ animationDuration: '4s', animationDelay: '1s' }}>
+                  <Mic className="w-6 h-6 text-blue-400"/>
+                </div>
+                <div className="absolute bottom-0 left-8 w-20 h-20 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm flex items-center justify-center animate-bounce shadow-xl group-hover/main:scale-125 group-hover/main:rotate-6 transition-transform duration-500" style={{ animationDuration: '3.5s', animationDelay: '0.5s' }}>
+                  <Palette className="w-7 h-7 text-green-400"/>
+                </div>
+                <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primaryOrange/20 to-transparent border border-primaryOrange/20 backdrop-blur-md flex items-center justify-center shadow-2xl group-hover/main:scale-110 group-hover/main:rotate-6 transition-transform duration-500">
+                  <span className="text-2xl font-black text-white">5K+</span>
+                </div>
+                <p className="absolute -bottom-4 text-sm text-[#94a3b8] font-medium">Active Instructors</p>
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>
