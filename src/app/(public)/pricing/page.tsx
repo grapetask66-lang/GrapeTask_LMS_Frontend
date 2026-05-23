@@ -315,45 +315,60 @@ export default function PricingPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-              {[
-                { level: 'School Students', price: '200', desc: 'Beginner-friendly content', icon: School },
-                { level: 'College Students', price: '300', desc: 'Intermediate practical content', icon: BookOpen },
-                { level: 'University Students', price: '500', desc: 'Advanced professional content', icon: GraduationCap },
-              ].map((plan) => {
-                const IconComponent = plan.icon;
-                return (
-                  <div key={plan.level} className="relative group">
-                    <div className="pricing-card p-6 sm:p-8 rounded-[2.5rem] border border-white/10 flex flex-col items-center text-center space-y-5 bg-cardBg hover:bg-primaryOrange hover:border-primaryOrange hover:text-white transition-all duration-500 hover:-translate-y-6 hover:scale-[1.03] hover:shadow-[0_30px_60px_-15px_rgba(240,89,31,0.4)] relative overflow-hidden h-full">
-                      <div className="absolute top-0 right-0 w-20 h-20 bg-white/5 rounded-full blur-xl group-hover:bg-white/20 transition-all pointer-events-none" />
 
-                      <div className="w-14 h-14 rounded-2xl bg-primaryOrange/10 border border-primaryOrange/25 text-primaryOrange flex items-center justify-center group-hover:bg-white group-hover:text-primaryOrange group-hover:scale-110 group-hover:rotate-6 group-hover:-translate-y-1 transition-all duration-300 relative z-10 flex-shrink-0">
-                        <IconComponent className="w-6 h-6" />
-                      </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6 max-w-5xl mx-auto px-4 sm:px-6">
+  {[
+    { level: 'School Students', price: '200', desc: 'Beginner-friendly content', icon: School },
+    { level: 'College Students', price: '300', desc: 'Intermediate practical content', icon: BookOpen },
+    { level: 'University Students', price: '500', desc: 'Advanced professional content', icon: GraduationCap },
+  ].map((plan) => {
+    const IconComponent = plan.icon;
+    return (
+      <div key={plan.level} className="relative group">
+        <div className="pricing-card p-4 sm:p-5 rounded-2xl border border-white/10 flex flex-col items-center text-center space-y-3 bg-cardBg hover:bg-primaryOrange hover:border-primaryOrange hover:text-white transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_-10px_rgba(240,89,31,0.3)] relative overflow-hidden h-full">
+          
+          {/* Background Effect - Subtle */}
+          <div className="absolute top-0 right-0 w-16 h-16 bg-white/5 rounded-full blur-xl group-hover:bg-white/20 transition-all pointer-events-none" />
 
-                      <h3 className="text-base sm:text-lg font-black text-white group-hover:text-white uppercase tracking-wider relative z-10 break-words">{plan.level}</h3>
+          {/* Icon - Smaller */}
+          <div className="w-12 h-12 rounded-xl bg-primaryOrange/10 border border-primaryOrange/25 text-primaryOrange flex items-center justify-center group-hover:bg-white group-hover:text-primaryOrange group-hover:scale-105 transition-all duration-300 relative z-10 flex-shrink-0">
+            <IconComponent className="w-5 h-5" />
+          </div>
 
-                      <div className="flex flex-col items-center relative z-10">
-                        <div className="flex items-baseline justify-center gap-1">
-                          <span className="font-sans text-sm sm:text-base font-semibold text-primaryOrange group-hover:text-white transition-colors">PKR</span>
-                          <span className="text-3xl sm:text-4xl font-black text-white group-hover:text-white transition-colors">{plan.price}</span>
-                        </div>
-                        <span className="text-[10px] sm:text-[11px] text-darkGrayNumber group-hover:text-white/60 transition-colors font-black uppercase tracking-[0.18em] mt-2">Per Student / Month</span>
-                      </div>
+          {/* Title */}
+          <h3 className="text-sm sm:text-base font-black text-white group-hover:text-white uppercase tracking-wider relative z-10 break-words">
+            {plan.level}
+          </h3>
 
-                      <p className="text-sm sm:text-base text-bodyGrayText group-hover:text-white/80 transition-colors leading-relaxed font-semibold relative z-10 max-w-[18rem]">{plan.desc}</p>
-
-                      <Link
-                        href="/contact?type=institution"
-                        className="w-full py-3 sm:py-3.5 bg-white/5 border border-white/10 rounded-2xl text-white font-bold hover:bg-white hover:text-primaryOrange group-hover:bg-white group-hover:text-primaryOrange transition-all duration-300 text-center text-xs sm:text-sm relative z-10 hover:-translate-y-1 hover:scale-110 active:scale-95 active:translate-y-0 hover:shadow-[0_10px_20px_rgba(255,255,255,0.2)]"
-                      >
-                        Get Started
-                      </Link>
-                    </div>
-                  </div>
-                );
-              })}
+          {/* Price */}
+          <div className="flex flex-col items-center relative z-10">
+            <div className="flex items-baseline justify-center gap-0.5">
+              <span className="font-sans text-xs font-semibold text-primaryOrange group-hover:text-white transition-colors">PKR</span>
+              <span className="text-2xl sm:text-3xl font-black text-white group-hover:text-white transition-colors">{plan.price}</span>
             </div>
+            <span className="text-[9px] sm:text-[10px] text-darkGrayNumber group-hover:text-white/60 transition-colors font-black uppercase tracking-wider mt-1">
+              Per Student / Month
+            </span>
+          </div>
+
+          {/* Description */}
+          <p className="text-xs sm:text-sm text-bodyGrayText group-hover:text-white/80 transition-colors leading-relaxed font-medium relative z-10 px-2">
+            {plan.desc}
+          </p>
+
+          {/* Button - Smaller */}
+          <Link
+            href="/contact?type=institution"
+            className="w-full py-2.5 sm:py-3 bg-white/5 border border-white/10 rounded-xl text-white font-semibold hover:bg-white hover:text-primaryOrange group-hover:bg-white group-hover:text-primaryOrange transition-all duration-300 text-center text-xs relative z-10 hover:-translate-y-0.5"
+          >
+            Get Started
+          </Link>
+        </div>
+      </div>
+    );
+  })}
+</div>
+            
           </div>
 
           {/* Long Term Packages - FIXED LAYOUT NO EXTRA SPACE */}
