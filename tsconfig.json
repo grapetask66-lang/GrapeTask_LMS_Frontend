@@ -12,7 +12,6 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "baseUrl": ".",
-    "ignoreDeprecations": "6.0",
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
