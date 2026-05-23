@@ -102,7 +102,7 @@ export default function PricingPage() {
       {/* Play/Pause Button */}
       <button
         onClick={togglePlayPause}
-        className="absolute top-[400px] sm:top-[450px] right-8 z-40 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md flex items-center justify-center text-white transition-all duration-300 hover:scale-125 hover:-translate-y-2 shadow-lg hover:shadow-[0_15px_30px_rgba(240,89,31,0.3)]"
+        className="absolute top-[400px] sm:top-[450px] right-4 sm:right-8 z-40 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md flex items-center justify-center text-white transition-all duration-300 hover:scale-125 hover:-translate-y-2 shadow-lg hover:shadow-[0_15px_30px_rgba(240,89,31,0.3)]"
         aria-label={isPlaying ? "Pause video" : "Play video"}
       >
         {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-1" />}
@@ -176,7 +176,7 @@ export default function PricingPage() {
 
             {/* Right Card */}
             <div className="p-7 sm:p-8 rounded-[2.5rem] bg-[#0b1223]/80 border border-lightBorder shadow-2xl hover:-translate-y-4 hover:scale-[1.01] hover:shadow-[0_30px_60px_-15px_rgba(240,89,31,0.4)] transition-all duration-500 group flex flex-col">
-              <div className="uppercase tracking-[0.3em] text-primaryOrange text-[10px] font-black mb-6">What makes GrapeTask different</div>
+              <div className="uppercase tracking-[0.18em] sm:tracking-[0.3em] text-primaryOrange text-[10px] font-black mb-6">What makes GrapeTask different</div>
               <div className="space-y-5 flex-1">
                 {[
                   { title: 'Clear outcome tracks', desc: 'Each pathway is aligned to skills, certification, and freelance readiness rather than vague plan labels.' },
@@ -416,7 +416,7 @@ export default function PricingPage() {
                         }
                       `}
                     >
-                      <div className="flex items-center justify-between gap-3">
+                      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div className="flex items-center gap-3">
                           <div className={`
                             w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 border
@@ -444,13 +444,13 @@ export default function PricingPage() {
                       </div>
 
                       <p className={`
-                        mt-3 text-xs sm:text-sm leading-relaxed pl-12
+                        mt-3 text-xs sm:text-sm leading-relaxed sm:pl-12
                         ${plan.best ? 'text-[#d4d4d8] font-medium' : 'text-[#71717a]'}
                       `}>
                         {plan.highlight}
                       </p>
 
-                      <div className="mt-3 pl-12">
+                      <div className="mt-3 sm:pl-12">
                         <div className="h-1 rounded-full bg-white/[0.06] overflow-hidden">
                           <div
                             className={`

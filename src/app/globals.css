@@ -29,6 +29,7 @@ body {
   background: var(--main-bg);
   color: var(--pure-white);
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -39,6 +40,27 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+button,
+span,
+li {
+  overflow-wrap: break-word;
 }
 
 button,
@@ -59,6 +81,7 @@ textarea {
 .theme-card {
   background: var(--card-bg);
   border: 1px solid var(--light-border);
+  min-width: 0;
   transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   backdrop-filter: blur(16px);
   box-shadow: 0 6px 28px rgba(0, 0, 0, 0.12), 0 1px 0 rgba(255,255,255,0.02) inset;
@@ -83,6 +106,7 @@ textarea {
 .card-3d {
   background: var(--card-bg);
   border: 1px solid var(--light-border);
+  min-width: 0;
   backdrop-filter: blur(16px);
   transform: perspective(1200px) translateZ(0);
   transform-style: preserve-3d;
@@ -116,6 +140,7 @@ textarea {
 .pricing-card {
   background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
   border: 1px solid rgba(255,255,255,0.07);
+  min-width: 0;
   backdrop-filter: blur(20px);
   transform-style: preserve-3d;
   will-change: transform, box-shadow, border-color;
@@ -438,6 +463,7 @@ textarea {
   backface-visibility: hidden;
   will-change: transform, box-shadow, border-color;
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease, border-color 0.5s ease, background 0.5s ease;
+  min-width: 0;
 }
 
 .glass-card:hover {
@@ -449,6 +475,24 @@ textarea {
 @media (hover: none) {
   .glass-card {
     transform: perspective(1000px) translateY(0) translateZ(0);
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .theme-card:hover,
+  .card-3d:hover,
+  .pricing-card:hover,
+  .glass-card:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .theme-card,
+  .card-3d,
+  .pricing-card,
+  .glass-card {
+    border-radius: 1.25rem;
   }
 }
 

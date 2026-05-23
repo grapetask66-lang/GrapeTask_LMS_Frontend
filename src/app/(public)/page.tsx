@@ -372,7 +372,7 @@ export default function HomePage() {
               </div>
 
               {/* Main Heading */}
-              <h1 className="text-[1.65rem] sm:text-5xl md:text-6xl font-black leading-[1.04] sm:leading-[1.1] tracking-tight text-white transition-all duration-700 transform translate-y-0 text-3d max-w-[17rem] sm:max-w-none">
+              <h1 className="text-[1.85rem] sm:text-5xl md:text-6xl font-black leading-[1.06] sm:leading-[1.1] tracking-tight text-white transition-all duration-700 transform translate-y-0 text-3d max-w-none">
                 {HERO_SLIDES[activeSlide].title}
               </h1>
 
@@ -527,7 +527,7 @@ export default function HomePage() {
                 <Link
                   key={idx}
                   href={`/courses?category=${cat.slug}`}
-                  className="group relative flex items-center gap-4 sm:gap-5 p-5 sm:p-6 rounded-2xl bg-white/[0.02] hover:bg-white/[0.05] border border-white/[0.06] hover:border-[#f0591f]/30 transition-all duration-500 ease-out min-w-[260px] sm:min-w-[300px] lg:min-w-[320px] overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_50px_rgba(240,89,31,0.15)] hover:-translate-y-2"
+                  className="group relative flex items-center gap-3 sm:gap-5 p-4 sm:p-6 rounded-2xl bg-white/[0.02] hover:bg-white/[0.05] border border-white/[0.06] hover:border-[#f0591f]/30 transition-all duration-500 ease-out min-w-[min(16rem,calc(100vw-2rem))] sm:min-w-[300px] lg:min-w-[320px] overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_50px_rgba(240,89,31,0.15)] hover:-translate-y-2"
                   style={{ transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}
                 >
                   {/* BG Image */}
@@ -550,7 +550,7 @@ export default function HomePage() {
                     <span className="text-[10px] font-black uppercase tracking-widest text-[#a1a1aa] group-hover:text-white/90 transition-colors duration-300">
                       {cat.tag}
                     </span>
-                    <h3 className="text-sm sm:text-base font-extrabold text-white group-hover:text-[#f0591f] transition-colors duration-300 mt-1 truncate">
+                    <h3 className="text-sm sm:text-base font-extrabold text-white group-hover:text-[#f0591f] transition-colors duration-300 mt-1 line-clamp-2">
                       {cat.title}
                     </h3>
                     <span className="text-xs sm:text-sm text-[#71717a] group-hover:text-[#d4d4d8] transition-colors duration-300 font-medium mt-1.5 line-clamp-1">
@@ -632,12 +632,12 @@ export default function HomePage() {
                 style={{ transitionDelay: `${f.delay}ms` }}
               >
                 {/* BG Image */}
-                <img src={f.image} alt={f.title} className="absolute inset-0 w-full h-full object-cover opacity-[0.15] group-hover:opacity-[0.25] group-hover:scale-105 transition-all duration-700" />
+                <img src={f.image} alt={f.title} className="absolute inset-0 w-full h-full object-cover opacity-[1] group-hover:opacity-[1] group-hover:scale-105 transition-all duration-700" />
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/95 to-[#020617]/80 z-10 group-hover:via-[#020617]/90 transition-all duration-500" />
                 
                 {/* Border Glow */}
-                <div className="absolute -inset-px rounded-3xl bg-gradient-to-r from-[#f0591f]/35 to-purple-500/35 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm pointer-events-none z-20" />
+                <div className="absolute -inset-px rounded-3xl bg-gradient-to-r from-[#f0591f]/35 to-purple-500/35 opacity- group-hover:opacity-100 transition-opacity duration-500 blur-sm pointer-events-none z-20" />
                 <div className="absolute inset-[1px] rounded-[22px] bg-transparent pointer-events-none z-20" />
 
                 {/* Ambient Glows */}
@@ -679,7 +679,7 @@ export default function HomePage() {
         <div className="absolute -left-20 bottom-0 w-72 h-72 bg-[#f0591f]/5 blur-[120px] rounded-full pointer-events-none" />
         
         <div className="container mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-20 items-center">
 
             {/* Left Column - Content */}
             <div className="lg:col-span-7 space-y-8 sm:space-y-10 reveal-left">
@@ -829,9 +829,9 @@ export default function HomePage() {
                 </div>
                 <div className="p-5 sm:p-6 space-y-2 text-left">
                   <h4 className="text-base sm:text-lg font-black text-white group-hover:text-[#f0591f] transition-colors line-clamp-2 tracking-tight leading-snug">{course.title}</h4>
-                  <div className="flex justify-between items-center text-xs text-[#a1a1aa] font-medium pt-1 border-t border-white/5">
+                  <div className="flex flex-col gap-1 sm:flex-row sm:justify-between sm:items-center text-xs text-[#a1a1aa] font-medium pt-1 border-t border-white/5">
                     <span className="flex items-center gap-1.5"><Users className="w-3.5 h-3.5 text-primaryOrange/50" />{course.students} Learners</span>
-                    <span className="text-[rgba(255,255,255,0.35)]">{course.trainer}</span>
+                    <span className="text-[rgba(255,255,255,0.35)] line-clamp-1">{course.trainer}</span>
                   </div>
                 </div>
               </Link>
@@ -868,7 +868,7 @@ export default function HomePage() {
                 style={{ transitionDelay: `${i * 80}ms` }}
               >
                 {/* BG Image */}
-                <img src={career.image} alt={career.name} className="absolute inset-0 w-full h-full object-cover opacity-[0.15] group-hover:opacity-[0.3] group-hover:scale-110 transition-all duration-700" />
+                <img src={career.image} alt={career.name} className="absolute inset-0 w-full h-full object-cover opacity-[1] group-hover:opacity-[1] group-hover:scale-110 transition-all duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/90 to-[#020617]/60 z-10 group-hover:via-[#020617]/80 transition-all duration-500" />
                 
                 <div className="relative z-20 w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-[#f0591f]/10 border border-[#f0591f]/20 flex items-center justify-center text-[#f0591f] group-hover:bg-[#f0591f] group-hover:text-white transition-colors duration-500 shadow-inner group-hover:shadow-[0_0_20px_rgba(240,89,31,0.3)]">
@@ -897,7 +897,7 @@ export default function HomePage() {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-gradient-to-b from-[#f0591f]/[0.04] to-transparent rounded-full blur-[120px] pointer-events-none" />
         
         <div className="container mx-auto max-w-6xl relative z-10">
-          <div className="p-8 sm:p-12 md:p-16 rounded-[2rem] sm:rounded-[3rem] glass-card border border-[rgba(255,255,255,0.06)] relative overflow-hidden shadow-[0_24px_80px_rgba(0,0,0,0.28)] reveal backdrop-blur-xl">
+          <div className="p-5 sm:p-12 md:p-16 rounded-[2rem] sm:rounded-[3rem] glass-card border border-[rgba(255,255,255,0.06)] relative overflow-hidden shadow-[0_24px_80px_rgba(0,0,0,0.28)] reveal backdrop-blur-xl">
             <div className="absolute top-0 right-0 w-80 h-80 secondary-glow opacity-10 -mr-24 -mt-24 pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-64 h-64 orange-gradient opacity-[0.04] blur-3xl -ml-24 -mb-24 pointer-events-none" />
 
@@ -943,7 +943,7 @@ export default function HomePage() {
                   style={{ transitionDelay: `${i * 100}ms` }}
                 >
                   {/* Background Image */}
-                  <img src={s.image} alt={s.title} className="absolute inset-0 w-full h-full object-cover opacity-[0.15] group-hover:opacity-[0.25] group-hover:scale-105 transition-all duration-700" />
+                  <img src={s.image} alt={s.title} className="absolute inset-0 w-full h-full object-cover opacity-[1] group-hover:opacity-[1] group-hover:scale-105 transition-all duration-700" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/95 to-[#020617]/70 z-10 group-hover:via-[#020617]/90 transition-all duration-500" />
                   
                   <div className="relative z-20 p-6 sm:p-8 flex flex-col h-full justify-between">
@@ -979,7 +979,7 @@ export default function HomePage() {
 
         <div className="container mx-auto max-w-5xl relative z-10">
 
-          <div className="text-center mb-16 space-y-4">
+          <div className="text-center mb-10 sm:mb-16 space-y-4">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 text-primaryOrange text-xs font-black uppercase tracking-widest shadow-sm">
               <HelpCircle className="w-3.5 h-3.5 animate-bounce" /> Support Center
             </div>
@@ -1044,7 +1044,7 @@ export default function HomePage() {
                       }`}
                   >
                     <div className="overflow-hidden">
-                      <div className="pl-12 sm:pl-14 border-l-2 border-primaryOrange/20 py-2 ml-1">
+                      <div className="pl-4 sm:pl-14 border-l-2 border-primaryOrange/20 py-2 ml-1">
                         <p className="text-sm sm:text-base text-bodyGrayText leading-relaxed font-medium">
                           {item.a}
                         </p>
@@ -1068,7 +1068,7 @@ export default function HomePage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[800px] h-[600px] sm:h-[800px] orange-gradient rounded-full opacity-5 blur-[100px] sm:blur-[120px] pointer-events-none z-0" />
         
         <div className="container mx-auto max-w-5xl relative z-10">
-          <div className="p-8 sm:p-12 md:p-20 rounded-[2rem] sm:rounded-[3rem] bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] relative overflow-hidden text-center reveal shadow-2xl backdrop-blur-xl">
+          <div className="p-5 sm:p-12 md:p-20 rounded-[2rem] sm:rounded-[3rem] bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] relative overflow-hidden text-center reveal shadow-2xl backdrop-blur-xl">
             <div className="absolute inset-0 bg-gradient-to-br from-[rgba(240,89,31,0.08)] to-transparent pointer-events-none" />
             <div className="absolute top-0 left-0 w-32 h-32 bg-[#f0591f]/5 blur-3xl rounded-full -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
             <div className="absolute bottom-0 right-0 w-40 h-40 bg-purple-500/5 blur-3xl rounded-full translate-x-1/3 translate-y-1/3 pointer-events-none" />

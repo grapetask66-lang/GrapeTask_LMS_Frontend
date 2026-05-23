@@ -25,7 +25,7 @@ const CoursesPage = () => {
   const [courses, setCourses] = useState(MOCK_COURSES);
   const [loading, setLoading] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
-  const videoRef = useRef(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
   const [activeCategory, setActiveCategory] = useState('all');
 
   const togglePlayPause = () => {
@@ -126,11 +126,11 @@ const CoursesPage = () => {
               <input
                 type="text"
                 placeholder="Search for any skill..."
-                className="w-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-full py-4 pl-14 pr-24 text-white focus:outline-none focus:border-primaryOrange/50 focus:shadow-[0_0_25px_rgba(240,89,31,0.15)] transition-all text-base"
+                className="w-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl sm:rounded-full py-4 pl-12 sm:pl-14 pr-4 sm:pr-24 text-white focus:outline-none focus:border-primaryOrange/50 focus:shadow-[0_0_25px_rgba(240,89,31,0.15)] transition-all text-sm sm:text-base"
                 value={filters.search}
                 onChange={(e) => setFilters({ ...filters, search: e.target.value })}
               />
-              <button className="absolute right-2 top-1/2 -translate-y-1/2 px-5 py-2 bg-primaryOrange rounded-full text-sm font-semibold hover:bg-orange-600 transition-all duration-300 hover:scale-110 hover:-translate-y-1 active:scale-95 active:translate-y-0 hover:shadow-[0_10px_20px_rgba(240,89,31,0.3)]">
+              <button className="mt-3 w-full sm:mt-0 sm:w-auto sm:absolute sm:right-2 sm:top-1/2 sm:-translate-y-1/2 px-5 py-2 bg-primaryOrange rounded-xl sm:rounded-full text-sm font-semibold hover:bg-orange-600 transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-[0_10px_20px_rgba(240,89,31,0.3)]">
                 Search
               </button>
             </div>
@@ -144,15 +144,15 @@ const CoursesPage = () => {
           </div>
 
           {/* Trust Bar */}
-          <div className="bg-[#0f172a]/50 backdrop-blur-md border border-white/5 rounded-2xl p-5 mb-16 hover:scale-[1.01] hover:shadow-xl transition-all duration-300">
-            <div className="flex flex-wrap justify-center items-center gap-6 md:gap-10 text-sm text-[#94a3b8]">
+          <div className="bg-[#0f172a]/50 backdrop-blur-md border border-white/5 rounded-2xl p-4 sm:p-5 mb-16 hover:scale-[1.01] hover:shadow-xl transition-all duration-300">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-10 text-sm text-[#94a3b8]">
               {[
                 { icon: Users2, text: '25M+ learners' },
                 { icon: VideoIcon, text: '75+ languages' },
                 { icon: Award, text: 'Industry certificates' },
                 { icon: Building2, text: '10K+ enterprise clients' },
               ].map((item, i) => (
-                <div key={i} className="flex items-center gap-2 group cursor-default">
+                <div key={i} className="flex items-center justify-center gap-2 group cursor-default text-center">
                   <item.icon className="w-4 h-4 text-primaryOrange group-hover:scale-150 group-hover:rotate-12 group-hover:-translate-y-1 transition-all duration-300" />
                   <span className="font-medium group-hover:text-white transition-colors">{item.text}</span>
                 </div>
@@ -181,7 +181,7 @@ const CoursesPage = () => {
 
           {/* Featured Courses Section - Bento Layout with 3D */}
           <div className="mb-24">
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
               <div>
                 <h2 className="text-2xl sm:text-3xl font-extrabold text-white">Top courses in Development</h2>
                 <p className="text-sm text-[#94a3b8] mt-1">Most popular among our learners</p>
@@ -191,7 +191,7 @@ const CoursesPage = () => {
               </Link>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 auto-rows-[280px]">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 auto-rows-auto sm:auto-rows-[280px]">
               {/* Main Featured - Large Card */}
               <div className="lg:col-span-3 lg:row-span-2 relative rounded-2xl overflow-hidden border border-white/5 group cursor-pointer hover:scale-[1.03] hover:-translate-y-6 hover:rotate-1 hover:shadow-[0_30px_60px_-15px_rgba(240,89,31,0.4)] transition-all duration-500 ease-out">
                 <img src={courses[0].thumbnail} alt={courses[0].title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
@@ -212,11 +212,11 @@ const CoursesPage = () => {
               </div>
 
               {/* Secondary Feature - Wide Card */}
-              <div className="lg:col-span-2 flex bg-[#0f172a] border border-white/5 rounded-2xl overflow-hidden group cursor-pointer hover:scale-[1.05] hover:-translate-y-6 hover:-rotate-1 hover:shadow-[0_25px_50px_-12px_rgba(240,89,31,0.3)] transition-all duration-500 ease-out">
-                <div className="w-2/5 relative">
+              <div className="lg:col-span-2 flex flex-col sm:flex-row bg-[#0f172a] border border-white/5 rounded-2xl overflow-hidden group cursor-pointer hover:scale-[1.05] hover:-translate-y-6 hover:-rotate-1 hover:shadow-[0_25px_50px_-12px_rgba(240,89,31,0.3)] transition-all duration-500 ease-out">
+                <div className="w-full sm:w-2/5 min-h-[160px] sm:min-h-0 relative">
                   <img src={courses[1].thumbnail} alt={courses[1].title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                 </div>
-                <div className="w-3/5 p-5 flex flex-col justify-center text-left relative z-10">
+                <div className="w-full sm:w-3/5 p-5 flex flex-col justify-center text-left relative z-10">
                   <span className="text-[10px] font-bold text-primaryOrange uppercase tracking-widest mb-1">{courses[1].level}</span>
                   <h3 className="text-base font-bold text-white mb-2 line-clamp-2 group-hover:text-primaryOrange transition-colors">{courses[1].title}</h3>
                   <p className="text-xs text-[#94a3b8] mb-3">{courses[1].trainer_name}</p>
@@ -228,11 +228,11 @@ const CoursesPage = () => {
               </div>
 
               {/* Secondary Feature - Wide Card */}
-              <div className="lg:col-span-2 flex bg-[#0f172a] border border-white/5 rounded-2xl overflow-hidden group cursor-pointer hover:scale-[1.05] hover:-translate-y-6 hover:rotate-1 hover:shadow-[0_25px_50px_-12px_rgba(240,89,31,0.3)] transition-all duration-500 ease-out">
-                <div className="w-2/5 relative">
+              <div className="lg:col-span-2 flex flex-col sm:flex-row bg-[#0f172a] border border-white/5 rounded-2xl overflow-hidden group cursor-pointer hover:scale-[1.05] hover:-translate-y-6 hover:rotate-1 hover:shadow-[0_25px_50px_-12px_rgba(240,89,31,0.3)] transition-all duration-500 ease-out">
+                <div className="w-full sm:w-2/5 min-h-[160px] sm:min-h-0 relative">
                   <img src={courses[2].thumbnail} alt={courses[2].title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                 </div>
-                <div className="w-3/5 p-5 flex flex-col justify-center text-left relative z-10">
+                <div className="w-full sm:w-3/5 p-5 flex flex-col justify-center text-left relative z-10">
                   <span className="text-[10px] font-bold text-primaryOrange uppercase tracking-widest mb-1">{courses[2].level}</span>
                   <h3 className="text-base font-bold text-white mb-2 line-clamp-2 group-hover:text-primaryOrange transition-colors">{courses[2].title}</h3>
                   <p className="text-xs text-[#94a3b8] mb-3">{courses[2].trainer_name}</p>
@@ -317,7 +317,7 @@ const CoursesPage = () => {
 
           {/* Recommended Courses - Horizontal Scroll with 3D */}
           <div className="mb-24">
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
               <div>
                 <h2 className="text-2xl sm:text-3xl font-extrabold text-white">Recommended for you</h2>
                 <p className="text-sm text-[#94a3b8] mt-1">Based on your interests</p>
@@ -329,7 +329,7 @@ const CoursesPage = () => {
             
             <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide -mx-4 px-4">
               {courses.slice(3, 6).map((course) => (
-                <div key={course.id} className="min-w-[300px] w-80 rounded-2xl overflow-hidden bg-[#0f172a] border border-white/5 group cursor-pointer hover:scale-[1.05] hover:-translate-y-6 hover:rotate-1 hover:shadow-[0_30px_60px_-15px_rgba(240,89,31,0.4)] transition-all duration-500 ease-out flex-shrink-0">
+                <div key={course.id} className="min-w-[min(18rem,calc(100vw-2rem))] w-[min(20rem,calc(100vw-2rem))] rounded-2xl overflow-hidden bg-[#0f172a] border border-white/5 group cursor-pointer hover:scale-[1.05] hover:-translate-y-6 hover:rotate-1 hover:shadow-[0_30px_60px_-15px_rgba(240,89,31,0.4)] transition-all duration-500 ease-out flex-shrink-0">
                   <div className="aspect-video relative overflow-hidden">
                     <img src={course.thumbnail} alt={course.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                     <div className="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-black/60 backdrop-blur-sm text-xs font-semibold text-white flex items-center gap-1 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
@@ -365,7 +365,7 @@ const CoursesPage = () => {
               <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Trusted by learners globally</h2>
               <p className="text-sm text-[#94a3b8] mt-2">Real numbers, real impact.</p>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5">
               {[
                 { number: '25M+', label: 'Active Learners', icon: Users2, color: 'from-blue-500/20 to-transparent' },
                 { number: '1,800+', label: 'Expert Courses', icon: BookOpen, color: 'from-primaryOrange/20 to-transparent' },
@@ -374,7 +374,7 @@ const CoursesPage = () => {
               ].map((stat) => {
                 const IconComp = stat.icon;
                 return (
-                  <div key={stat.label} className="relative p-6 rounded-2xl bg-[#0f172a] border border-white/5 group cursor-default hover:scale-110 hover:-translate-y-6 hover:rotate-2 hover:shadow-[0_25px_50px_-12px_rgba(240,89,31,0.3)] transition-all duration-500 ease-out overflow-hidden">
+                  <div key={stat.label} className="relative p-5 sm:p-6 rounded-2xl bg-[#0f172a] border border-white/5 group cursor-default hover:scale-110 hover:-translate-y-6 hover:rotate-2 hover:shadow-[0_25px_50px_-12px_rgba(240,89,31,0.3)] transition-all duration-500 ease-out overflow-hidden">
                     <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`}></div>
                     <div className="relative z-10 text-left">
                       <div className="w-10 h-10 rounded-xl bg-white/5 group-hover:bg-primaryOrange text-white/60 group-hover:text-white flex items-center justify-center mb-4 transition-all duration-300 group-hover:scale-150 group-hover:rotate-12 group-hover:shadow-[0_0_20px_rgba(240,89,31,0.4)]">
@@ -394,7 +394,7 @@ const CoursesPage = () => {
             <div className="absolute -top-20 -right-20 w-60 h-60 bg-primaryOrange/10 rounded-full blur-3xl pointer-events-none group-hover/main:opacity-80 transition-opacity"></div>
             <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-primaryOrange/5 rounded-full blur-3xl pointer-events-none group-hover/main:opacity-80 transition-opacity"></div>
             
-            <div className="relative z-10 grid md:grid-cols-2 gap-10 p-8 md:p-12 items-center">
+            <div className="relative z-10 grid md:grid-cols-2 gap-8 sm:gap-10 p-5 sm:p-8 md:p-12 items-center">
               <div className="space-y-5 text-left">
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primaryOrange/10 border border-primaryOrange/20 text-primaryOrange text-xs font-bold uppercase tracking-widest hover:scale-110 hover:rotate-3 transition-transform duration-300 cursor-default">
                   <Crown className="w-3.5 h-3.5" /> Become an Instructor

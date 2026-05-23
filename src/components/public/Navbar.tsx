@@ -237,7 +237,7 @@ const Navbar = () => {
           {/* Logo Section - Enhanced */}
           <Link 
             href="/" 
-            className="flex items-center space-x-2 sm:space-x-3 group relative"
+            className="flex min-w-0 items-center gap-2 sm:gap-3 group relative"
             onMouseEnter={() => setHoveredLink('logo')}
             onMouseLeave={() => setHoveredLink(null)}
           >
@@ -257,9 +257,9 @@ const Navbar = () => {
             </div>
             
             {/* Text section */}
-            <div className="flex flex-col">
+            <div className="flex min-w-0 flex-col">
               <div className="relative overflow-hidden">
-                <span className="text-lg sm:text-2xl font-black tracking-tighter text-white leading-none transition-all duration-300 group-hover:tracking-wide group-hover:scale-105 inline-block">
+                <span className="text-lg sm:text-2xl font-black tracking-tight text-white leading-none transition-all duration-300 group-hover:scale-105 inline-block">
                   GrapeTask{' '}
                   <span className="relative">
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-primaryOrange via-orange-400 to-amber-400">
@@ -270,7 +270,7 @@ const Navbar = () => {
                   </span>
                 </span>
               </div>
-              <span className="text-[7px] sm:text-[9px] font-bold uppercase tracking-[0.25em] sm:tracking-[0.35em] text-bodyGrayText mt-0.5 sm:mt-1 group-hover:text-primaryOrange/80 transition-all duration-300 group-hover:tracking-[0.4em]">
+              <span className="text-[7px] sm:text-[9px] font-bold uppercase tracking-[0.18em] sm:tracking-[0.32em] text-bodyGrayText mt-0.5 sm:mt-1 group-hover:text-primaryOrange/80 transition-all duration-300">
                 Skill-to-Earn
               </span>
             </div>
@@ -417,7 +417,7 @@ const Navbar = () => {
           />
           
           <aside
-            className="relative z-50 h-full w-[min(22rem,calc(100vw-1.5rem))] ml-2 overflow-hidden border-r border-primaryOrange/20 bg-gradient-to-br from-gray-900 via-mainBg to-gray-950 shadow-2xl rounded-l-3xl"
+            className="relative z-50 h-full w-[min(22rem,calc(100vw-1rem))] ml-2 overflow-hidden border-r border-primaryOrange/20 bg-gradient-to-br from-gray-900 via-mainBg to-gray-950 shadow-2xl rounded-r-3xl"
             style={{
               animation: 'fadeInUp 0.3s cubic-bezier(0.4, 0, 0.2, 1) both',
               boxShadow: '0 25px 50px -12px rgba(249, 115, 22, 0.25), 0 0 0 1px rgba(249, 115, 22, 0.1)'
@@ -435,7 +435,7 @@ const Navbar = () => {
               }}
             />
             
-            <div className="relative p-5 sm:p-8 flex flex-col space-y-2 overflow-y-auto max-h-[calc(100vh-60px)] sm:max-h-[calc(100vh-76px)]">
+            <div className="relative p-4 sm:p-8 flex flex-col space-y-2 overflow-y-auto max-h-[calc(100vh-60px)] sm:max-h-[calc(100vh-76px)]">
               {/* Menu header */}
               <div className="pb-6 mb-4 border-b border-white/5">
                 <div className="flex items-center space-x-3">
@@ -479,7 +479,7 @@ const Navbar = () => {
                           }`} />
                         </div>
                       )}
-                      <span className="text-sm sm:text-base font-bold tracking-tight">{link.name}</span>
+                      <span className="text-sm sm:text-base font-bold tracking-tight leading-snug">{link.name}</span>
                     </span>
                     
                     <div className="flex items-center space-x-2">
@@ -565,7 +565,7 @@ const Navbar = () => {
       )}
       
       {/* Enhanced Spacer */}
-      <div className="h-16 sm:h-22 lg:h-26" />
+      <div className="h-16 sm:h-[5.5rem] lg:h-[6.5rem]" />
     </>
   );
 };

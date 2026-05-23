@@ -154,7 +154,7 @@ export default function FAQPage() {
                   }`}
                 >
                   <div className="overflow-hidden">
-                    <div className="pl-12 border-l border-primaryOrange/20 py-2">
+                    <div className="pl-4 sm:pl-12 border-l border-primaryOrange/20 py-2">
                       <p className="text-sm sm:text-base text-bodyGrayText leading-relaxed font-medium">
                         {item.a}
                       </p>
@@ -167,7 +167,7 @@ export default function FAQPage() {
         </div>
 
         {/* Contact CTA */}
-        <div className="mt-24 md:mt-32 p-8 sm:p-12 md:p-20 rounded-[2.5rem] sm:rounded-[3.5rem] bg-cardBg border border-lightBorder text-center space-y-8 sm:space-y-12 relative overflow-hidden shadow-2xl">
+        <div className="mt-16 sm:mt-24 md:mt-32 p-5 sm:p-12 md:p-20 rounded-2xl sm:rounded-[3.5rem] bg-cardBg border border-lightBorder text-center space-y-8 sm:space-y-12 relative overflow-hidden shadow-2xl">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 pointer-events-none">
             <div className="absolute top-1/4 left-1/4 w-64 h-64 secondary-glow opacity-10" />
           </div>
@@ -177,30 +177,30 @@ export default function FAQPage() {
             </h2>
             <p className="text-sm sm:text-base text-[#a1a1aa] font-semibold">We're here to help you get started on your journey.</p>
           </div>
-          <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 lg:gap-24">
-            <div className="flex items-center space-x-4 sm:space-x-6 text-left w-full md:w-auto justify-center md:justify-start">
+          <div className="flex flex-col md:flex-row items-stretch md:items-center justify-center gap-5 sm:gap-8 md:gap-16 lg:gap-24">
+            <div className="flex items-center gap-4 sm:gap-6 text-left w-full md:w-auto justify-start">
               <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-[1.5rem] bg-primaryOrange/10 border border-primaryOrange/20 flex items-center justify-center text-primaryOrange">
                 <Mail className="w-6 h-6 sm:w-8 sm:h-8" />
               </div>
               <div>
                 <div className="text-[10px] text-darkGrayNumber font-black uppercase tracking-widest mb-0.5 sm:mb-1">Email Us</div>
-                <a href="mailto:info@grapetask.co" className="text-lg sm:text-xl font-black text-white hover:text-primaryOrange transition-colors">info@grapetask.co</a>
+                <a href="mailto:info@grapetask.co" className="text-base sm:text-xl font-black text-white hover:text-primaryOrange transition-colors break-all">info@grapetask.co</a>
               </div>
             </div>
-            <div className="flex items-center space-x-4 sm:space-x-6 text-left w-full md:w-auto justify-center md:justify-start">
+            <div className="flex items-center gap-4 sm:gap-6 text-left w-full md:w-auto justify-start">
               <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-[1.5rem] bg-primaryOrange/10 border border-primaryOrange/20 flex items-center justify-center text-primaryOrange">
                 <Phone className="w-6 h-6 sm:w-8 sm:h-8" />
               </div>
               <div>
                 <div className="text-[10px] text-darkGrayNumber font-black uppercase tracking-widest mb-0.5 sm:mb-1">Call Us</div>
-                <a href="tel:+923411228760" className="text-lg sm:text-xl font-black text-white hover:text-primaryOrange transition-colors">+92 341 1228760</a>
+                <a href="tel:+923411228760" className="text-base sm:text-xl font-black text-white hover:text-primaryOrange transition-colors">+92 341 1228760</a>
               </div>
             </div>
           </div>
           <div className="pt-6 sm:pt-10">
             <Link
               href="/contact"
-              className="group inline-flex items-center space-x-2 px-6 py-3.5 sm:px-8 sm:py-4 bg-primaryOrange hover:bg-opacity-90 text-white font-black text-sm sm:text-base rounded-xl shadow-lg shadow-primaryOrange/20 transition-all hover:scale-105 active:scale-95"
+              className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 px-6 py-3.5 sm:px-8 sm:py-4 bg-primaryOrange hover:bg-opacity-90 text-white font-black text-sm sm:text-base rounded-xl shadow-lg shadow-primaryOrange/20 transition-all hover:scale-105 active:scale-95"
             >
               <span>Send a Message</span>
               <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />

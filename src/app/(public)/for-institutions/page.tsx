@@ -71,7 +71,7 @@ export default function ForInstitutionsPage() {
       {/* Play/Pause Button */}
       <button
         onClick={togglePlayPause}
-        className="absolute top-[400px] sm:top-[450px] right-8 z-40 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md flex items-center justify-center text-white transition-all duration-300 hover:scale-125 hover:-translate-y-2 shadow-lg hover:shadow-[0_15px_30px_rgba(240,89,31,0.3)]"
+        className="absolute top-[400px] sm:top-[450px] right-4 sm:right-8 z-40 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md flex items-center justify-center text-white transition-all duration-300 hover:scale-125 hover:-translate-y-2 shadow-lg hover:shadow-[0_15px_30px_rgba(240,89,31,0.3)]"
         aria-label={isPlaying ? "Pause video" : "Play video"}
       >
         {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-1" />}
@@ -181,7 +181,7 @@ export default function ForInstitutionsPage() {
                 { step: '02', day: 'Week 2', title: 'Assign', desc: 'Map courses to classes by level, skill goal, or department requirement.' },
                 { step: '03', day: 'Week 3+', title: 'Track', desc: 'Review completion, assessment scores, and trainer feedback in one place.' },
               ].map((item, i) => (
-                <div key={item.day} className="theme-card p-5 sm:p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-primaryOrange/40 hover:bg-white/[0.055] transition-all duration-500 hover:-translate-y-4 hover:scale-[1.01] hover:shadow-[0_25px_50px_-12px_rgba(240,89,31,0.3)] group flex items-start gap-5 flex-1">
+                <div key={item.day} className="theme-card p-4 sm:p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-primaryOrange/40 hover:bg-white/[0.055] transition-all duration-500 hover:-translate-y-4 hover:scale-[1.01] hover:shadow-[0_25px_50px_-12px_rgba(240,89,31,0.3)] group flex items-start gap-4 sm:gap-5 flex-1">
                   
                   {/* Timeline Step Icon & Connector */}
                   <div className="flex flex-col items-center gap-2 pt-1">
@@ -274,14 +274,14 @@ export default function ForInstitutionsPage() {
                       {['School Access', 'College Access', 'University Access'].map((access, i) => (
                         <div key={access} className="group flex items-center justify-between rounded-xl border border-[#1e3a5f]/50 bg-[#0f1d32]/60 pl-4 pr-4 py-3.5 transition-all duration-300 hover:bg-[#162544] hover:border-[#f97316]/40 hover:shadow-[0_0_16px_rgba(249,115,22,0.08)] relative overflow-hidden">
                           <div className="absolute left-0 top-0 bottom-0 w-[3px] rounded-l-xl bg-gradient-to-b from-[#f97316] to-[#ea580c] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                          <div className="flex items-center gap-3">
+                    <div className="flex min-w-0 items-center gap-3">
                             <span className="w-2 h-2 rounded-full bg-[#f97316] shadow-[0_0_6px_rgba(249,115,22,0.5)] group-hover:scale-125 group-hover:-translate-y-0.5 transition-all duration-300" />
-                            <p className="text-sm font-semibold text-[#cbd5e1]">
+                            <p className="text-sm font-semibold text-[#cbd5e1] leading-snug">
                               {access}
                             </p>
                           </div>
 
-                          <span className="text-sm font-bold text-[#fb923c] tabular-nums group-hover:scale-110 group-hover:-translate-y-0.5 transition-transform duration-300">
+                          <span className="text-xs sm:text-sm font-bold text-[#fb923c] tabular-nums group-hover:scale-110 group-hover:-translate-y-0.5 transition-transform duration-300 text-right">
                             {[120, 85, 45][i]} Active
                           </span>
                         </div>

@@ -73,7 +73,7 @@ export default function ForTrainersPage() {
       {/* Play/Pause Button - Moves strictly UP */}
       <button
         onClick={togglePlayPause}
-        className="absolute top-[400px] sm:top-[450px] right-8 z-40 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md flex items-center justify-center text-white transition-all duration-300 hover:scale-125 hover:-translate-y-2 shadow-lg hover:shadow-[0_15px_30px_rgba(240,89,31,0.3)]"
+        className="absolute top-[400px] sm:top-[450px] right-4 sm:right-8 z-40 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md flex items-center justify-center text-white transition-all duration-300 hover:scale-125 hover:-translate-y-2 shadow-lg hover:shadow-[0_15px_30px_rgba(240,89,31,0.3)]"
         aria-label={isPlaying ? "Pause video" : "Play video"}
       >
         {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-1" />}
@@ -113,11 +113,11 @@ export default function ForTrainersPage() {
                     'Established offline computer training institutes looking to go online',
                     'Software development houses offering practical internship tracks'
                   ].map((text, i) => (
-                    <div key={i} className="flex items-center space-x-4 group/list hover:-translate-y-1 transition-all duration-300">
+                    <div key={i} className="flex items-start gap-3 sm:gap-4 group/list hover:-translate-y-1 transition-all duration-300">
                       <div className="w-8 h-8 rounded-xl bg-primaryOrange/10 flex items-center justify-center text-primaryOrange border border-primaryOrange/20 flex-shrink-0 group-hover/list:scale-110 group-hover/list:rotate-6 group-hover/list:-translate-y-1 transition-all duration-300">
                         <CheckCircle2 className="w-4 h-4" />
                       </div>
-                      <p className="text-sm sm:text-base text-[#e4e4e7] font-semibold">{text}</p>
+                      <p className="text-sm sm:text-base text-[#e4e4e7] font-semibold leading-relaxed">{text}</p>
                     </div>
                   ))}
                 </div>
@@ -134,7 +134,7 @@ export default function ForTrainersPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent"></div>
                   
                   {/* Floating Card over Image */}
-                  <div className="absolute bottom-6 left-6 right-6 p-4 rounded-2xl bg-[#020617]/80 backdrop-blur-md border border-white/10 flex items-center gap-4 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(240,89,31,0.3)] transition-all duration-300 group/card">
+                  <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 p-3 sm:p-4 rounded-2xl bg-[#020617]/80 backdrop-blur-md border border-white/10 flex items-center gap-3 sm:gap-4 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(240,89,31,0.3)] transition-all duration-300 group/card">
                     <div className="w-10 h-10 rounded-xl bg-primaryOrange/10 border border-primaryOrange/20 text-primaryOrange flex items-center justify-center flex-shrink-0 group-hover/card:scale-110 group-hover/card:rotate-6 transition-all duration-300">
                       <Video className="w-5 h-5" />
                     </div>

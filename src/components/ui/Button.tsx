@@ -20,7 +20,7 @@ export function Button({ variant = 'primary', size = 'md', className = '', child
 
   return (
     <button
-      className={`inline-flex items-center justify-center border font-medium active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-60 transition-all duration-100 ${sizeStyles[size]} ${variantStyles} ${className}`}
+      className={`inline-flex max-w-full min-w-0 items-center justify-center gap-1.5 border text-center font-medium leading-snug active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-60 transition-all duration-100 ${sizeStyles[size]} ${variantStyles} ${className}`}
       {...props}
     >
       {children}
