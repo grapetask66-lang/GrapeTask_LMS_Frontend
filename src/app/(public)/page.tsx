@@ -848,7 +848,7 @@ export default function HomePage() {
       </section>
 
       {/* ── EXPLORE CAREERS ── */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 bg-[#010411] relative overflow-hidden">
+     <section className="py-16 sm:py-24 px-4 sm:px-6 bg-[#010411] relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-[#f0591f]/[0.03] to-transparent rounded-full blur-[120px] pointer-events-none" />
         
         <div className="container mx-auto max-w-6xl relative z-10">
@@ -869,7 +869,12 @@ export default function HomePage() {
               >
                 {/* BG Image */}
                 <img src={career.image} alt={career.name} className="absolute inset-0 w-full h-full object-cover opacity-[1] group-hover:opacity-[1] group-hover:scale-110 transition-all duration-700" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/90 to-[#020617]/60 z-10 group-hover:via-[#020617]/80 transition-all duration-500" />
+                
+                {/* Overlay that slides up on hover to reveal the card clearly */}
+                <div className="absolute inset-0 z-10 overflow-hidden">
+                  {/* Base overlay - slides up on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/90 to-[#020617]/70 translate-y-0 group-hover:-translate-y-full transition-transform duration-500 ease-out" />
+                </div>
                 
                 <div className="relative z-20 w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-[#f0591f]/10 border border-[#f0591f]/20 flex items-center justify-center text-[#f0591f] group-hover:bg-[#f0591f] group-hover:text-white transition-colors duration-500 shadow-inner group-hover:shadow-[0_0_20px_rgba(240,89,31,0.3)]">
                   {career.icon}

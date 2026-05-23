@@ -165,11 +165,16 @@ export default function PricingPage() {
                 {/* Enlarged Image with Aspect Ratio for consistency */}
                 <div className="relative mt-6 rounded-2xl overflow-hidden border border-white/5 group/img flex-shrink-0 aspect-[16/9]">
                   <img 
-                    src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&auto=format&fit=crop&q=80" 
-                    alt="Tech workspace and learning" 
+                    src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format&fit=crop&q=80" 
+                    alt="Trainer mentoring student" 
                     className="absolute inset-0 w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-700" 
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-cardBg via-cardBg/20 to-transparent"></div>
+                  {/* Image Overlay Heading */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 via-black/30 to-transparent">
+                    <h3 className="text-white font-bold text-xl tracking-tight drop-shadow-lg">Record from Home & Office</h3>
+                    <p className="text-white/80 text-sm">Complete tutorial & receiving support</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -203,6 +208,11 @@ export default function PricingPage() {
                   className="absolute inset-0 w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-700" 
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0b1223] via-[#0b1223]/20 to-transparent"></div>
+                {/* Image Overlay Heading */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 via-black/30 to-transparent">
+                  <h3 className="text-white font-bold text-lg sm:text-xl tracking-tight drop-shadow-lg">Trainer Support & Consulting</h3>
+                  <p className="text-white/80 text-xs sm:text-sm">Expert guidance every step of the way</p>
+                </div>
               </div>
             </div>
           </div>
