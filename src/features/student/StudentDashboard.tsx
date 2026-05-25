@@ -7,6 +7,20 @@ import { EmptyState } from '@/components/ui/EmptyState';
 import { Field, SelectInput, TextArea } from '@/components/ui/Field';
 import { assessmentApi, certificatesApi, coursesApi, groupsApi, submissionsApi } from '@/lib/api';
 import type { Certificate, Course, Enrollment, ProgressiveTest } from '@/types/domain';
+import {
+  BookOpen,
+  Play,
+  CheckCircle2,
+  Lock,
+  Trophy,
+  MessageSquare,
+  Users,
+  FileText,
+  AlertCircle,
+  Zap,
+  Calendar,
+  Clock
+} from 'lucide-react';
 
 export function StudentDashboard() {
   const [courses, setCourses] = useState<Course[]>([]);
@@ -67,97 +81,394 @@ export function StudentDashboard() {
   }
 
   return (
-    <div className="space-y-6">
-      {message ? <p className="rounded-md border border-lightBorder bg-cardBgActive p-3 text-sm text-lightGrayHover">{message}</p> : null}
-
-      <Card id="courses">
-        <CardTitle title="Available Courses" caption="Select courses matched to your learning level and start progressive unlocking." />
-        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-          {courses.map((course) => (
-            <div key={course.id} className="rounded-md border border-lightBorder bg-cardBg p-4 transition hover:bg-cardBgActive">
-              <p className="font-medium text-pureWhite">{course.title}</p>
-              <p className="mt-1 text-sm text-bodyGrayText">{course.level} · {course.trainer?.name ?? 'Trainer'}</p>
-              <p className="mt-3 text-sm text-bodyGrayText">{course.description}</p>
-              <Button className="mt-4 w-full" onClick={() => enroll(course.id)}>Enroll</Button>
-            </div>
-          ))}
+    <div className="space-y-8">
+      {/* Success/Error Messages */}
+      {message && (
+        <div className={`rounded-xl border p-4 flex items-start gap-3 transition-all duration-300 ${
+          message.includes('Passed') || message.includes('submitted') || message.includes('sent') || message.includes('joined')
+            ? 'border-emerald-500/30 bg-emerald-500/10'
+            : 'border-blue-500/30 bg-blue-500/10'
+        }`}>
+          <CheckCircle2 className={`w-5 h-5 flex-shrink-0 mt-0.5 ${
+            message.includes('Passed') || message.includes('submitted') || message.includes('sent') || message.includes('joined')
+              ? 'text-emerald-400'
+              : 'text-blue-400'
+          }`} />
+          <p className={`text-sm flex-1 ${
+            message.includes('Passed') || message.includes('submitted') || message.includes('sent') || message.includes('joined')
+              ? 'text-emerald-200'
+              : 'text-blue-200'
+          }`}>{message}</p>
         </div>
-      </Card>
+      )}
 
-      <section className="grid gap-6 xl:grid-cols-[1.3fr_0.7fr]">
-        <Card id="testing">
-          <CardTitle title="Progressive Learning" caption="Each video unlocks only after passing its cumulative test." />
-          {progress?.videos?.length ? (
-            <div className="space-y-3">
-              {progress.videos.map((video) => (
-                <div key={video.id} className="rounded-md border border-lightBorder bg-cardBg p-4 transition hover:bg-cardBgActive">
-                  <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-                    <div>
-                      <p className="font-medium text-pureWhite">{video.position}. {video.title}</p>
-                      <p className="mt-1 text-sm text-bodyGrayText">{video.locked ? 'Locked' : 'Unlocked'} · {video.summary ?? 'Summary available after trainer upload'}</p>
+      {/* Page Header */}
+      {activeEnrollment ? (
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold text-white tracking-tight">My Learning Journey</h1>
+            <p className="text-sm text-gray-400 mt-1">Complete structured courses with video lessons and assessments</p>
+          </div>
+          <div className="flex items-center gap-3 px-4 py-2 rounded-lg bg-orange-500/10 border border-orange-500/20">
+            <Zap className="w-5 h-5 text-orange-400" />
+            <span className="text-sm font-medium text-orange-300">Active Learning</span>
+          </div>
+        </div>
+      ) : (
+        <div>
+          <h1 className="text-2xl font-bold text-white tracking-tight">Available Courses</h1>
+          <p className="text-sm text-gray-400 mt-1">Choose a course and start your learning journey</p>
+        </div>
+      )}
+
+      {/* Available Courses Section */}
+      {!activeEnrollment && (
+        <Card id="courses" className="border-gray-700">
+          <CardTitle 
+            title="Browse Courses" 
+            caption="Enroll in a course to start learning with progressive video unlocking." 
+          />
+          
+          {courses.length > 0 ? (
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {courses.map((course) => (
+                <div 
+                  key={course.id} 
+                  className="group rounded-xl border border-gray-700 bg-gray-800 p-5 transition-all duration-300 hover:shadow-xl hover:shadow-orange-500/10 hover:-translate-y-1 hover:border-orange-500/50"
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-orange-500/20 to-orange-500/5 flex items-center justify-center border border-orange-500/20">
+                      <BookOpen className="w-5 h-5 text-orange-400" />
                     </div>
-                    <div className="flex flex-wrap gap-2">
-                      <Button disabled={video.locked} variant="ghost" onClick={() => window.open(video.videoUrl, '_blank')}>Watch</Button>
-                      <Button disabled={video.locked} onClick={() => openTest(video.position)}>Take Test</Button>
-                    </div>
+                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border bg-blue-500/20 text-blue-300 border-blue-500/30">
+                      {course.level}
+                    </span>
                   </div>
-                  {!video.locked ? (
-                    <div className="mt-4 space-y-3">
-                      <Field label="Practical Homework">
-                        <TextArea value={homework} onChange={(event) => setHomework(event.target.value)} placeholder="Write your homework notes or submission link" />
-                      </Field>
-                      <Button variant="ghost" onClick={() => submitHomework(video.id)}>Submit Homework</Button>
-                    </div>
-                  ) : null}
+                  
+                  <h3 className="font-semibold text-white text-lg mb-1 line-clamp-2">{course.title}</h3>
+                  <p className="text-sm text-gray-400 mb-3 line-clamp-2">{course.description}</p>
+                  
+                  <div className="flex items-center gap-2 text-xs text-gray-400 mb-4">
+                    <BookOpen className="w-3.5 h-3.5" />
+                    {course.trainer?.name ?? 'Expert Trainer'}
+                  </div>
+                  
+                  <Button 
+                    onClick={() => enroll(course.id)}
+                    className="w-full bg-orange-600 hover:bg-orange-500 text-white transition-all duration-200"
+                  >
+                    <Play className="w-4 h-4 mr-2" />
+                    Enroll Now
+                  </Button>
                 </div>
               ))}
             </div>
           ) : (
-            <EmptyState title="No active course selected" detail="Enroll in a course to see video unlock progress." />
+            <EmptyState 
+              title="No courses available" 
+              detail="Check back soon for new courses matching your level." 
+            />
           )}
         </Card>
+      )}
 
-        <Card>
-          <CardTitle title="Chat With Trainer" caption="Ask private questions from the active course trainer." />
-          <Field label="Question">
-            <TextArea value={question} onChange={(event) => setQuestion(event.target.value)} placeholder="Ask a course question" />
-          </Field>
-          <Button className="mt-3 w-full" variant="ghost" onClick={() => askTrainer(activeEnrollment?.course?.trainer?.id)}>Send Question</Button>
-          <Button className="mt-3 w-full" onClick={() => groupsApi.joinGlobal().then(() => setMessage('Joined Global GrapeTask LMS Group.'))}>Join Global Group</Button>
-        </Card>
-      </section>
+      {/* Active Learning Section */}
+      {activeEnrollment && progress ? (
+        <>
+          {/* Progress Overview */}
+          <div className="grid gap-4 md:grid-cols-3">
+            <Card className="bg-gradient-to-br from-gray-800 to-gray-800/50 border-gray-700">
+              <div className="flex items-start justify-between">
+                <div>
+                  <p className="text-sm text-gray-400 mb-2">Current Course</p>
+                  <p className="text-lg font-semibold text-white">{progress.enrollment.course?.title ?? 'Active'}</p>
+                  <p className="text-xs text-gray-400 mt-2">{progress.enrollment.course?.level}</p>
+                </div>
+                <BookOpen className="w-8 h-8 text-orange-400/30" />
+              </div>
+            </Card>
+            
+            <Card className="bg-gradient-to-br from-gray-800 to-gray-800/50 border-gray-700">
+              <div className="flex items-start justify-between">
+                <div>
+                  <p className="text-sm text-gray-400 mb-2">Trainer</p>
+                  <p className="text-lg font-semibold text-white">{progress.enrollment.course?.trainer?.name ?? 'Your Trainer'}</p>
+                  <p className="text-xs text-emerald-400 mt-2">Connected</p>
+                </div>
+                <Users className="w-8 h-8 text-blue-400/30" />
+              </div>
+            </Card>
+            
+            <Card className="bg-gradient-to-br from-gray-800 to-gray-800/50 border-gray-700">
+              <div className="flex items-start justify-between">
+                <div>
+                  <p className="text-sm text-gray-400 mb-2">Unlocked</p>
+                  <p className="text-lg font-semibold text-white">
+                    {progress.videos?.filter(v => !v.locked).length}/{progress.videos?.length}
+                  </p>
+                  <p className="text-xs text-gray-400 mt-2">lessons</p>
+                </div>
+                <CheckCircle2 className="w-8 h-8 text-emerald-400/30" />
+              </div>
+            </Card>
+          </div>
 
+          {/* Video Lessons */}
+          <Card id="testing" className="border-gray-700">
+            <div className="flex items-center justify-between mb-6">
+              <CardTitle 
+                title="Video Lessons" 
+                caption="Complete each lesson and pass the test to unlock the next one." 
+              />
+              <span className="text-sm text-gray-400">
+                {progress.videos?.length} lessons
+              </span>
+            </div>
+            
+            {progress.videos && progress.videos.length > 0 ? (
+              <div className="space-y-4">
+                {progress.videos.map((video, index) => (
+                  <div 
+                    key={video.id} 
+                    className={`rounded-xl border transition-all duration-300 ${
+                      video.locked
+                        ? 'border-gray-700 bg-gray-800/50'
+                        : 'border-gray-700 bg-gray-800 hover:shadow-lg hover:shadow-orange-500/5 hover:-translate-y-0.5'
+                    }`}
+                  >
+                    <div className="p-5">
+                      <div className="flex items-start gap-4">
+                        {/* Status Icon */}
+                        <div className={`flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center border ${
+                          video.locked
+                            ? 'bg-gray-700/50 border-gray-600 text-gray-500'
+                            : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
+                        }`}>
+                          {video.locked ? (
+                            <Lock className="w-6 h-6" />
+                          ) : (
+                            <Play className="w-6 h-6" />
+                          )}
+                        </div>
+
+                        {/* Video Info */}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-3 mb-1">
+                            <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-gray-700 text-xs font-semibold text-gray-300">
+                              {index + 1}
+                            </span>
+                            <h3 className={`font-semibold ${video.locked ? 'text-gray-400' : 'text-white'}`}>
+                              {video.title}
+                            </h3>
+                            {!video.locked && (
+                              <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0" />
+                            )}
+                          </div>
+                          <p className={`text-sm ${video.locked ? 'text-gray-500' : 'text-gray-400'}`}>
+                            {video.locked ? 'Complete the previous lesson first' : video.summary || 'Lesson ready'}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Actions */}
+                      {!video.locked && (
+                        <div className="mt-4 space-y-4">
+                          <div className="flex flex-col sm:flex-row gap-3">
+                            <Button 
+                              onClick={() => window.open(video.videoUrl, '_blank')}
+                              className="flex-1 bg-orange-600 hover:bg-orange-500 text-white"
+                            >
+                              <Play className="w-4 h-4 mr-2" />
+                              Watch Video
+                            </Button>
+                            <Button 
+                              onClick={() => openTest(video.position)}
+                              variant="ghost"
+                              className="flex-1"
+                            >
+                              <Zap className="w-4 h-4 mr-2" />
+                              Take Test
+                            </Button>
+                          </div>
+
+                          {/* Homework */}
+                          <div className="pt-3 border-t border-gray-700">
+                            <label className="block text-sm font-medium text-gray-300 mb-2">
+                              <FileText className="w-4 h-4 inline mr-2" />
+                              Homework
+                            </label>
+                            <TextArea 
+                              value={homework} 
+                              onChange={(event) => setHomework(event.target.value)} 
+                              placeholder="Submit your homework notes or project link..." 
+                              className="text-sm mb-2"
+                            />
+                            <Button 
+                              variant="ghost" 
+                              onClick={() => submitHomework(video.id)}
+                              className="w-full border-gray-700 hover:bg-gray-800 text-gray-300"
+                            >
+                              Submit Homework
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <EmptyState 
+                title="No videos yet" 
+                detail="Start learning by enrolling in a course." 
+              />
+            )}
+          </Card>
+
+          {/* Chat with Trainer */}
+          <div className="grid gap-6 lg:grid-cols-2">
+            <Card id="chat" className="border-gray-700">
+              <div className="flex items-center gap-2 mb-4">
+                <MessageSquare className="w-5 h-5 text-orange-400" />
+                <CardTitle title="Ask Trainer" caption="Get help with course content." />
+              </div>
+              <div className="space-y-3">
+                <Field label="">
+                  <TextArea 
+                    value={question} 
+                    onChange={(event) => setQuestion(event.target.value)} 
+                    placeholder="Ask your question here..." 
+                    className="min-h-[120px]"
+                  />
+                </Field>
+                <Button 
+                  className="w-full bg-orange-600 hover:bg-orange-500 text-white"
+                  onClick={() => askTrainer(activeEnrollment?.course?.trainer?.id)}
+                >
+                  <MessageSquare className="w-4 h-4 mr-2" />
+                  Send Question
+                </Button>
+              </div>
+            </Card>
+
+            <Card className="border-gray-700">
+              <div className="flex items-center gap-2 mb-4">
+                <Users className="w-5 h-5 text-blue-400" />
+                <h3 className="font-semibold text-white">Community</h3>
+              </div>
+              <p className="text-sm text-gray-400 mb-4">Join the GrapeTask community to connect with other learners and discuss course topics.</p>
+              <Button 
+                className="w-full"
+                variant="ghost"
+                onClick={() => groupsApi.joinGlobal().then(() => setMessage('Successfully joined GrapeTask Community!'))}
+              >
+                <Users className="w-4 h-4 mr-2" />
+                Join Group
+              </Button>
+            </Card>
+          </div>
+        </>
+      ) : null}
+
+      {/* Test Modal */}
       {test ? (
-        <Card>
-          <CardTitle title={`Progressive Test After Video ${test.afterVideoPosition}`} caption="Questions are selected by backend-controlled assessment sets." />
-          <form className="space-y-4" onSubmit={submitTest}>
-            {test.questions.map((questionItem) => (
-              <Field key={questionItem.id} label={questionItem.prompt}>
+        <Card id="test-modal" className="border-orange-500/30 bg-gradient-to-br from-gray-800 to-gray-800/50">
+          <div className="flex items-center gap-2 mb-6">
+            <Zap className="w-5 h-5 text-orange-400" />
+            <CardTitle 
+              title={`Assessment: Video ${test.afterVideoPosition}`} 
+              caption="Answer all questions to progress. You can retake with different questions if needed." 
+            />
+          </div>
+          <form className="space-y-6" onSubmit={submitTest}>
+            {test.questions.map((questionItem, qIndex) => (
+              <div key={questionItem.id} className="pb-4 border-b border-gray-700 last:pb-0 last:border-0">
+                <div className="flex items-start gap-3 mb-3">
+                  <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-orange-500/20 text-xs font-semibold text-orange-400 flex-shrink-0">
+                    {qIndex + 1}
+                  </span>
+                  <label className="text-sm font-medium text-gray-200">
+                    {questionItem.prompt}
+                  </label>
+                </div>
                 {questionItem.options?.length ? (
-                  <SelectInput value={answers[questionItem.id] ?? ''} onChange={(event) => setAnswers({ ...answers, [questionItem.id]: event.target.value })} required>
-                    <option value="">Select answer</option>
-                    {questionItem.options.map((option) => <option key={option} value={option}>{option}</option>)}
+                  <SelectInput 
+                    value={answers[questionItem.id] ?? ''} 
+                    onChange={(event) => setAnswers({ ...answers, [questionItem.id]: event.target.value })} 
+                    required
+                  >
+                    <option value="">Select your answer...</option>
+                    {questionItem.options.map((option) => (
+                      <option key={option} value={option}>{option}</option>
+                    ))}
                   </SelectInput>
                 ) : (
-                  <TextArea value={answers[questionItem.id] ?? ''} onChange={(event) => setAnswers({ ...answers, [questionItem.id]: event.target.value })} required />
+                  <TextArea 
+                    value={answers[questionItem.id] ?? ''} 
+                    onChange={(event) => setAnswers({ ...answers, [questionItem.id]: event.target.value })} 
+                    placeholder="Type your answer..."
+                    required 
+                  />
                 )}
-              </Field>
+              </div>
             ))}
-            <Button>Submit Test</Button>
+            <div className="flex gap-3 pt-4">
+              <Button 
+                type="button"
+                variant="ghost"
+                onClick={() => setTest(null)}
+                className="flex-1"
+              >
+                Cancel
+              </Button>
+              <Button 
+                type="submit"
+                className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white"
+              >
+                <CheckCircle2 className="w-4 h-4 mr-2" />
+                Submit Test
+              </Button>
+            </div>
           </form>
         </Card>
       ) : null}
 
-      <Card id="certificates">
-        <CardTitle title="Certificates" caption="Download GrapeTask LMS certificates after final approval." />
-        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-          {certificates.length ? certificates.map((certificate) => (
-            <a key={certificate.id} className="rounded-md border border-lightBorder bg-cardBg p-4 transition hover:bg-cardBgActive" href={certificate.certificateUrl} download="grapetask-certificate.pdf">
-              <p className="font-medium text-lightGrayHover">{certificate.badge}</p>
-              <p className="mt-1 text-sm text-bodyGrayText">{new Date(certificate.certificationDate).toDateString()}</p>
-            </a>
-          )) : <EmptyState title="No certificates yet" detail="Your certificate appears here after final comprehensive test completion." />}
+      {/* Certificates */}
+      <Card id="certificates" className="border-gray-700">
+        <div className="flex items-center gap-2 mb-6">
+          <Trophy className="w-5 h-5 text-orange-400" />
+          <CardTitle 
+            title="My Certificates" 
+            caption="Certificates awarded after completing courses and passing assessments." 
+          />
         </div>
+        
+        {certificates && certificates.length > 0 ? (
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {certificates.map((certificate) => (
+              <a 
+                key={certificate.id} 
+                href={certificate.certificateUrl} 
+                download="grapetask-certificate.pdf"
+                className="group rounded-xl border border-gray-700 bg-gradient-to-br from-gray-800 to-gray-800/50 p-5 transition-all duration-300 hover:shadow-xl hover:shadow-orange-500/10 hover:-translate-y-1 hover:border-orange-500/50"
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <Trophy className="w-6 h-6 text-orange-400" />
+                  <span className="text-xs text-gray-400">PDF Download</span>
+                </div>
+                <h3 className="font-semibold text-white mb-1">{certificate.badge}</h3>
+                <p className="text-xs text-gray-400">
+                  {new Date(certificate.certificationDate).toLocaleDateString()}
+                </p>
+              </a>
+            ))}
+          </div>
+        ) : (
+          <EmptyState 
+            title="No certificates yet" 
+            detail="Complete courses to earn certificates." 
+          />
+        )}
       </Card>
     </div>
   );

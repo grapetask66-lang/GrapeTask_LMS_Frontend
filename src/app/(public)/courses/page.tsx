@@ -181,70 +181,106 @@ const CoursesPage = () => {
 
           {/* Featured Courses Section - Bento Layout with 3D */}
           <div className="mb-24">
-            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
-              <div>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-white">Top courses in Development</h2>
-                <p className="text-sm text-[#94a3b8] mt-1">Most popular among our learners</p>
-              </div>
-              <Link href="/courses" className="text-primaryOrange text-sm font-semibold hover:underline flex items-center gap-1 group hover:scale-110 transition-transform duration-300">
-                View all <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
-              </Link>
+  {/* Header Section - Cleaner Design */}
+  <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+    <div>
+      <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Top courses in Development</h2>
+      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Most popular among our learners</p>
+    </div>
+    <Link href="/courses" className="text-orange-500 dark:text-orange-400 text-sm font-semibold hover:underline flex items-center gap-1 group transition-all duration-300 hover:gap-2">
+      View all <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+    </Link>
+  </div>
+  
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 auto-rows-auto">
+    
+    {/* Main Featured Card - Larger and Clearer */}
+    <div className="lg:col-span-3 lg:row-span-2 relative rounded-xl overflow-hidden bg-gray-900 dark:bg-gray-900 group cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-orange-500/10 transition-all duration-500">
+      {/* Larger, clearer image with better quality */}
+      <img 
+        src={courses[0].thumbnail} 
+        alt={courses[0].title} 
+        className="w-full h-[420px] object-cover object-center group-hover:scale-105 transition-transform duration-700" 
+      />
+      {/* Gradient overlay for better text readability */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
+      
+      {/* Badge */}
+      <div className="absolute top-5 left-5 px-3 py-1.5 rounded-lg bg-orange-500 text-white text-xs font-bold shadow-lg z-10">
+        Bestseller
+      </div>
+      
+      {/* Content */}
+      <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 z-10">
+        <div className="space-y-3">
+          <span className="text-xs font-semibold text-orange-400 uppercase tracking-wider">
+            {courses[0].level} • {courses[0].duration}
+          </span>
+          <h3 className="text-xl sm:text-2xl font-bold text-white leading-tight group-hover:text-orange-400 transition-colors duration-300">
+            {courses[0].title}
+          </h3>
+          <div className="flex flex-wrap items-center gap-3 text-sm">
+            <div className="flex items-center gap-1">
+              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+              <span className="font-bold text-white">{courses[0].rating}</span>
             </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 auto-rows-auto sm:auto-rows-[280px]">
-              {/* Main Featured - Large Card */}
-              <div className="lg:col-span-3 lg:row-span-2 relative rounded-2xl overflow-hidden border border-white/5 group cursor-pointer hover:scale-[1.03] hover:-translate-y-6 hover:rotate-1 hover:shadow-[0_30px_60px_-15px_rgba(240,89,31,0.4)] transition-all duration-500 ease-out">
-                <img src={courses[0].thumbnail} alt={courses[0].title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/60 to-transparent"></div>
-                <div className="absolute top-4 left-4 px-2.5 py-1 rounded-lg bg-primaryOrange text-xs font-bold shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">Bestseller</div>
-                <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 z-10">
-                  <span className="text-xs font-semibold text-primaryOrange uppercase tracking-widest">{courses[0].level} • {courses[0].duration}</span>
-                  <h3 className="text-xl sm:text-2xl font-extrabold text-white mt-2 mb-3 group-hover:text-primaryOrange transition-colors">{courses[0].title}</h3>
-                  <div className="flex items-center gap-3 mb-5">
-                    <div className="flex items-center gap-1"><Star className="w-4 h-4 fill-yellow-400 text-yellow-400 group-hover:scale-125 group-hover:rotate-12 transition-transform duration-300"/><span className="text-sm font-bold text-white">{courses[0].rating}</span></div>
-                    <span className="text-sm text-[#94a3b8]">({courses[0].students} students)</span>
-                    <span className="text-sm text-[#94a3b8]">• {courses[0].trainer_name}</span>
-                  </div>
-                  <button className="px-6 py-2.5 bg-primaryOrange rounded-lg text-white font-semibold hover:bg-orange-600 transition-all duration-300 shadow-lg shadow-primaryOrange/20 group-hover:scale-110 active:scale-95 hover:shadow-[0_10px_20px_rgba(240,89,31,0.4)]">
-                    Enroll Now
-                  </button>
-                </div>
-              </div>
-
-              {/* Secondary Feature - Wide Card */}
-              <div className="lg:col-span-2 flex flex-col sm:flex-row bg-[#0f172a] border border-white/5 rounded-2xl overflow-hidden group cursor-pointer hover:scale-[1.05] hover:-translate-y-6 hover:-rotate-1 hover:shadow-[0_25px_50px_-12px_rgba(240,89,31,0.3)] transition-all duration-500 ease-out">
-                <div className="w-full sm:w-2/5 min-h-[160px] sm:min-h-0 relative">
-                  <img src={courses[1].thumbnail} alt={courses[1].title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                </div>
-                <div className="w-full sm:w-3/5 p-5 flex flex-col justify-center text-left relative z-10">
-                  <span className="text-[10px] font-bold text-primaryOrange uppercase tracking-widest mb-1">{courses[1].level}</span>
-                  <h3 className="text-base font-bold text-white mb-2 line-clamp-2 group-hover:text-primaryOrange transition-colors">{courses[1].title}</h3>
-                  <p className="text-xs text-[#94a3b8] mb-3">{courses[1].trainer_name}</p>
-                  <div className="flex items-center gap-2">
-                    <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400 group-hover:scale-125 group-hover:rotate-12 transition-transform duration-300"/><span className="text-xs font-bold text-white">{courses[1].rating}</span>
-                    <span className="text-xs text-[#94a3b8]">({courses[1].students})</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Secondary Feature - Wide Card */}
-              <div className="lg:col-span-2 flex flex-col sm:flex-row bg-[#0f172a] border border-white/5 rounded-2xl overflow-hidden group cursor-pointer hover:scale-[1.05] hover:-translate-y-6 hover:rotate-1 hover:shadow-[0_25px_50px_-12px_rgba(240,89,31,0.3)] transition-all duration-500 ease-out">
-                <div className="w-full sm:w-2/5 min-h-[160px] sm:min-h-0 relative">
-                  <img src={courses[2].thumbnail} alt={courses[2].title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                </div>
-                <div className="w-full sm:w-3/5 p-5 flex flex-col justify-center text-left relative z-10">
-                  <span className="text-[10px] font-bold text-primaryOrange uppercase tracking-widest mb-1">{courses[2].level}</span>
-                  <h3 className="text-base font-bold text-white mb-2 line-clamp-2 group-hover:text-primaryOrange transition-colors">{courses[2].title}</h3>
-                  <p className="text-xs text-[#94a3b8] mb-3">{courses[2].trainer_name}</p>
-                  <div className="flex items-center gap-2">
-                    <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400 group-hover:scale-125 group-hover:rotate-12 transition-transform duration-300"/><span className="text-xs font-bold text-white">{courses[2].rating}</span>
-                    <span className="text-xs text-[#94a3b8]">({courses[2].students})</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <span className="text-gray-300">({courses[0].students} students)</span>
+            <span className="text-gray-300">• {courses[0].trainer_name}</span>
           </div>
+          <button className="mt-2 px-6 py-2.5 bg-orange-500 hover:bg-orange-600 rounded-lg text-white font-semibold transition-all duration-300 shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-105 active:scale-95">
+            Enroll Now
+          </button>
+        </div>
+      </div>
+    </div>
 
+    {/* Course Card 1 - Clean Horizontal Design */}
+    <div className="lg:col-span-2 flex flex-col sm:flex-row bg-white dark:bg-gray-800/50 rounded-xl overflow-hidden group cursor-pointer shadow-md hover:shadow-xl hover:shadow-orange-500/10 transition-all duration-300 hover:-translate-y-1 border border-gray-100 dark:border-gray-700">
+      <div className="w-full sm:w-2/5 min-h-[160px] sm:min-h-0 relative overflow-hidden">
+        <img 
+          src={courses[1].thumbnail} 
+          alt={courses[1].title} 
+          className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500" 
+        />
+      </div>
+      <div className="w-full sm:w-3/5 p-5 flex flex-col justify-center">
+        <span className="text-[10px] font-bold text-orange-500 uppercase tracking-wider mb-1">{courses[1].level}</span>
+        <h3 className="text-base font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 group-hover:text-orange-500 transition-colors">
+          {courses[1].title}
+        </h3>
+        <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">{courses[1].trainer_name}</p>
+        <div className="flex items-center gap-2">
+          <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
+          <span className="text-xs font-bold text-gray-900 dark:text-white">{courses[1].rating}</span>
+          <span className="text-xs text-gray-500 dark:text-gray-400">({courses[1].students})</span>
+        </div>
+      </div>
+    </div>
+
+    {/* Course Card 2 - Clean Horizontal Design */}
+    <div className="lg:col-span-2 flex flex-col sm:flex-row bg-white dark:bg-gray-800/50 rounded-xl overflow-hidden group cursor-pointer shadow-md hover:shadow-xl hover:shadow-orange-500/10 transition-all duration-300 hover:-translate-y-1 border border-gray-100 dark:border-gray-700">
+      <div className="w-full sm:w-2/5 min-h-[160px] sm:min-h-0 relative overflow-hidden">
+        <img 
+          src={courses[2].thumbnail} 
+          alt={courses[2].title} 
+          className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500" 
+        />
+      </div>
+      <div className="w-full sm:w-3/5 p-5 flex flex-col justify-center">
+        <span className="text-[10px] font-bold text-orange-500 uppercase tracking-wider mb-1">{courses[2].level}</span>
+        <h3 className="text-base font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 group-hover:text-orange-500 transition-colors">
+          {courses[2].title}
+        </h3>
+        <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">{courses[2].trainer_name}</p>
+        <div className="flex items-center gap-2">
+          <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
+          <span className="text-xs font-bold text-gray-900 dark:text-white">{courses[2].rating}</span>
+          <span className="text-xs text-gray-500 dark:text-gray-400">({courses[2].students})</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
           {/* Learning Paths - Split Layout + Dashboard UI */}
           <div className="mb-24 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div className="space-y-6 text-left">
@@ -361,73 +397,131 @@ const CoursesPage = () => {
 
           {/* Student Success Stats - Modern 3D Cards */}
           <div className="mb-24">
-            <div className="text-center mb-10">
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Trusted by learners globally</h2>
-              <p className="text-sm text-[#94a3b8] mt-2">Real numbers, real impact.</p>
+  {/* Header Section - Cleaner Design */}
+  <div className="text-center mb-12">
+    <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
+      Trusted by learners globally
+    </h2>
+    <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+      Real numbers, real impact.
+    </p>
+  </div>
+  
+  {/* Stats Grid - Modern Clean Design */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 sm:gap-6">
+    {[
+      { number: '25M+', label: 'Active Learners', icon: Users2, trend: '+12%', trendColor: 'text-green-500' },
+      { number: '1,800+', label: 'Expert Courses', icon: BookOpen, trend: '+45', trendColor: 'text-orange-500' },
+      { number: '75+', label: 'Languages', icon: Globe, trend: '+8', trendColor: 'text-green-500' },
+      { number: '85%', label: 'Career Impact', icon: TrendingUp, trend: '+23%', trendColor: 'text-purple-500' },
+    ].map((stat) => {
+      const IconComp = stat.icon;
+      return (
+        <div 
+          key={stat.label} 
+          className="group relative p-6 rounded-2xl bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg hover:shadow-orange-500/5 hover:border-orange-500/30 transition-all duration-300 hover:-translate-y-1"
+        >
+          {/* Icon Section */}
+          <div className="flex items-start justify-between mb-4">
+            <div className="w-12 h-12 rounded-xl bg-orange-50 dark:bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500 transition-colors duration-300">
+              <IconComp className="w-6 h-6 text-orange-500 group-hover:text-white transition-colors duration-300" />
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5">
-              {[
-                { number: '25M+', label: 'Active Learners', icon: Users2, color: 'from-blue-500/20 to-transparent' },
-                { number: '1,800+', label: 'Expert Courses', icon: BookOpen, color: 'from-primaryOrange/20 to-transparent' },
-                { number: '75+', label: 'Languages', icon: Globe, color: 'from-green-500/20 to-transparent' },
-                { number: '85%', label: 'Career Impact', icon: TrendingUp, color: 'from-purple-500/20 to-transparent' },
-              ].map((stat) => {
-                const IconComp = stat.icon;
-                return (
-                  <div key={stat.label} className="relative p-5 sm:p-6 rounded-2xl bg-[#0f172a] border border-white/5 group cursor-default hover:scale-110 hover:-translate-y-6 hover:rotate-2 hover:shadow-[0_25px_50px_-12px_rgba(240,89,31,0.3)] transition-all duration-500 ease-out overflow-hidden">
-                    <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`}></div>
-                    <div className="relative z-10 text-left">
-                      <div className="w-10 h-10 rounded-xl bg-white/5 group-hover:bg-primaryOrange text-white/60 group-hover:text-white flex items-center justify-center mb-4 transition-all duration-300 group-hover:scale-150 group-hover:rotate-12 group-hover:shadow-[0_0_20px_rgba(240,89,31,0.4)]">
-                        <IconComp className="w-5 h-5" />
-                      </div>
-                      <div className="text-3xl font-extrabold text-white mb-1 group-hover:text-primaryOrange transition-colors duration-300">{stat.number}</div>
-                      <div className="text-sm text-[#94a3b8] font-medium">{stat.label}</div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+            {/* Trend Indicator */}
+            <span className={`text-xs font-semibold ${stat.trendColor} bg-green-50 dark:bg-green-500/10 px-2 py-1 rounded-full`}>
+              {stat.trend}
+            </span>
           </div>
-
+          
+          {/* Stats Numbers */}
+          <div>
+            <div className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-1 group-hover:text-orange-500 transition-colors duration-300">
+              {stat.number}
+            </div>
+            <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">
+              {stat.label}
+            </p>
+          </div>
+          
+          {/* Subtle Progress Bar */}
+          <div className="mt-4 h-0.5 w-full bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+            <div className="h-full w-0 bg-gradient-to-r from-orange-500 to-orange-400 rounded-full group-hover:w-full transition-all duration-700" />
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</div>
           {/* Instructor CTA - Glassmorphism & 3D */}
-          <div className="relative mb-16 rounded-3xl overflow-hidden border border-white/5 bg-[#0f172a] shadow-2xl hover:scale-[1.01] hover:-translate-y-2 hover:shadow-[0_30px_60px_-15px_rgba(240,89,31,0.2)] transition-all duration-500 group/main">
-            <div className="absolute -top-20 -right-20 w-60 h-60 bg-primaryOrange/10 rounded-full blur-3xl pointer-events-none group-hover/main:opacity-80 transition-opacity"></div>
-            <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-primaryOrange/5 rounded-full blur-3xl pointer-events-none group-hover/main:opacity-80 transition-opacity"></div>
-            
-            <div className="relative z-10 grid md:grid-cols-2 gap-8 sm:gap-10 p-5 sm:p-8 md:p-12 items-center">
-              <div className="space-y-5 text-left">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primaryOrange/10 border border-primaryOrange/20 text-primaryOrange text-xs font-bold uppercase tracking-widest hover:scale-110 hover:rotate-3 transition-transform duration-300 cursor-default">
-                  <Crown className="w-3.5 h-3.5" /> Become an Instructor
-                </div>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-                  Teach what you <span className="text-primaryOrange">love</span>
-                </h2>
-                <p className="text-[#94a3b8] text-base leading-relaxed">
-                  Share your expertise with millions of learners worldwide. Join our community of instructors and earn money doing what you enjoy.
-                </p>
-                <button className="px-6 py-3 bg-primaryOrange rounded-xl text-white font-semibold hover:bg-orange-600 transition-all duration-300 shadow-lg shadow-primaryOrange/20 hover:scale-110 hover:-translate-y-1 active:scale-95 active:translate-y-0 hover:shadow-[0_10px_20px_rgba(240,89,31,0.3)] group/btn flex items-center gap-2 w-fit">
-                  Start Teaching Today <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300"/>
-                </button>
-              </div>
-              
-              <div className="relative flex justify-center items-center py-6">
-                {/* Floating 3D Elements */}
-                <div className="absolute w-24 h-24 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm flex items-center justify-center animate-bounce shadow-xl group-hover/main:scale-125 group-hover/main:rotate-12 transition-transform duration-500" style={{ animationDuration: '3s' }}>
-                  <Video className="w-8 h-8 text-primaryOrange group-hover/main:scale-110 transition-transform"/>
-                </div>
-                <div className="absolute top-0 right-8 w-16 h-16 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm flex items-center justify-center animate-bounce shadow-xl group-hover/main:scale-125 group-hover/main:-rotate-12 transition-transform duration-500" style={{ animationDuration: '4s', animationDelay: '1s' }}>
-                  <Mic className="w-6 h-6 text-blue-400"/>
-                </div>
-                <div className="absolute bottom-0 left-8 w-20 h-20 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm flex items-center justify-center animate-bounce shadow-xl group-hover/main:scale-125 group-hover/main:rotate-6 transition-transform duration-500" style={{ animationDuration: '3.5s', animationDelay: '0.5s' }}>
-                  <Palette className="w-7 h-7 text-green-400"/>
-                </div>
-                <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primaryOrange/20 to-transparent border border-primaryOrange/20 backdrop-blur-md flex items-center justify-center shadow-2xl group-hover/main:scale-110 group-hover/main:rotate-6 transition-transform duration-500">
-                  <span className="text-2xl font-black text-white">5K+</span>
-                </div>
-                <p className="absolute -bottom-4 text-sm text-[#94a3b8] font-medium">Active Instructors</p>
-              </div>
-            </div>
+          <div className="relative mb-16 rounded-2xl overflow-hidden bg-gradient-to-br from-orange-50 to-white dark:from-gray-800 dark:to-gray-900 border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-all duration-500 group">
+  
+  {/* Decorative elements - subtle and clean */}
+  <div className="absolute top-0 right-0 w-72 h-72 bg-orange-500/5 rounded-full blur-3xl pointer-events-none" />
+  <div className="absolute bottom-0 left-0 w-72 h-72 bg-orange-500/5 rounded-full blur-3xl pointer-events-none" />
+  
+  <div className="relative z-10 grid md:grid-cols-2 gap-8 sm:gap-10 p-6 sm:p-8 md:p-12 items-center">
+    
+    {/* Left side - Content */}
+    <div className="space-y-5 text-left">
+      {/* Badge */}
+      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-100 dark:bg-orange-500/10 border border-orange-200 dark:border-orange-500/20 text-orange-600 dark:text-orange-400 text-xs font-bold uppercase tracking-wider">
+        <Crown className="w-3.5 h-3.5" />
+        Become an Instructor
+      </div>
+      
+      {/* Heading */}
+      <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
+        Teach what you <span className="text-orange-500">love</span>
+      </h2>
+      
+      {/* Description */}
+      <p className="text-gray-600 dark:text-gray-300 text-base leading-relaxed">
+        Share your expertise with millions of learners worldwide. Join our community of instructors and earn money doing what you enjoy.
+      </p>
+      
+      {/* CTA Button */}
+      <button className="group/btn px-6 py-3 bg-orange-500 hover:bg-orange-600 rounded-xl text-white font-semibold transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-orange-500/25 flex items-center gap-2 w-fit">
+        Start Teaching Today
+        <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300" />
+      </button>
+    </div>
+    
+    {/* Right side - Clean Stats Display */}
+    <div className="relative flex flex-col items-center justify-center py-8">
+      {/* Main Stat Circle */}
+      <div className="relative mb-6">
+        <div className="w-36 h-36 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-lg">
+          <div className="text-center">
+            <div className="text-3xl font-bold text-white">5K+</div>
+            <div className="text-xs text-orange-100 mt-1">Instructors</div>
           </div>
+        </div>
+        
+        {/* Orbiting elements - cleaner design */}
+        <div className="absolute -top-6 -right-6 w-14 h-14 rounded-xl bg-white dark:bg-gray-800 shadow-md border border-gray-200 dark:border-gray-700 flex items-center justify-center">
+          <Video className="w-6 h-6 text-orange-500" />
+        </div>
+        <div className="absolute -bottom-6 -left-6 w-14 h-14 rounded-xl bg-white dark:bg-gray-800 shadow-md border border-gray-200 dark:border-gray-700 flex items-center justify-center">
+          <Mic className="w-6 h-6 text-blue-500" />
+        </div>
+        <div className="absolute top-1/2 -right-10 -translate-y-1/2 w-12 h-12 rounded-lg bg-white dark:bg-gray-800 shadow-md border border-gray-200 dark:border-gray-700 flex items-center justify-center">
+          <Palette className="w-5 h-5 text-green-500" />
+        </div>
+      </div>
+      
+      {/* Stats Row */}
+      <div className="flex gap-6 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+        <div className="text-center">
+          <div className="text-xl font-bold text-gray-900 dark:text-white">$3.2M+</div>
+          <div className="text-xs text-gray-500 dark:text-gray-400">Earnings</div>
+        </div>
+        <div className="text-center">
+          <div className="text-xl font-bold text-gray-900 dark:text-white">150+</div>
+          <div className="text-xs text-gray-500 dark:text-gray-400">Countries</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
         </div>
       </div>

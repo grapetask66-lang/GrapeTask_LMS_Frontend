@@ -1,16 +1,36 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
+import React from "react";
+import Link from "next/link";
 import {
-  GraduationCap, Building2, ShieldCheck, BarChart3, Users, Clock,
-  ArrowRight, CheckCircle2, ChevronRight, Play, Pause, BookOpen, Star, HelpCircle
-} from 'lucide-react';
+  GraduationCap,
+  Building2,
+  ShieldCheck,
+  BarChart3,
+  Users,
+  Clock,
+  ArrowRight,
+  CheckCircle2,
+  ChevronRight,
+  Play,
+  Pause,
+  BookOpen,
+  Star,
+  HelpCircle,
+} from "lucide-react";
 
 const pricing = [
-  { level: 'School Students', price: '200', desc: 'Beginner-friendly content' },
-  { level: 'College Students', price: '300', desc: 'Intermediate practical content' },
-  { level: 'University Students', price: '500', desc: 'Advanced professional content' },
+  { level: "School Students", price: "200", desc: "Beginner-friendly content" },
+  {
+    level: "College Students",
+    price: "300",
+    desc: "Intermediate practical content",
+  },
+  {
+    level: "University Students",
+    price: "500",
+    desc: "Advanced professional content",
+  },
 ];
 
 export default function ForInstitutionsPage() {
@@ -30,15 +50,26 @@ export default function ForInstitutionsPage() {
   };
 
   const portalFeatures = [
-    { title: 'Student Management', desc: 'Add, view, and organize students by grade or section. Manage licenses effortlessly.' },
-    { title: 'Course Assignment', desc: 'Assign courses to classes or individual students based on their level and learning paths.' },
-    { title: 'Detailed Reports', desc: 'Generate high-quality progress reports for individual students or classes with one click.' },
-    { title: 'Grading Review', desc: 'View student test scores and check detailed grading reviews left by the course trainers.' },
+    {
+      title: "Student Management",
+      desc: "Add, view, and organize students by grade or section. Manage licenses effortlessly.",
+    },
+    {
+      title: "Course Assignment",
+      desc: "Assign courses to classes or individual students based on their level and learning paths.",
+    },
+    {
+      title: "Detailed Reports",
+      desc: "Generate high-quality progress reports for individual students or classes with one click.",
+    },
+    {
+      title: "Grading Review",
+      desc: "View student test scores and check detailed grading reviews left by the course trainers.",
+    },
   ];
 
   return (
     <div className="relative min-h-screen bg-[#020617] text-white">
-
       {/* ── HERO VIDEO BACKGROUND ── */}
       <div className="absolute top-0 inset-x-0 h-[500px] sm:h-[600px] pointer-events-none overflow-hidden z-0">
         <video
@@ -47,13 +78,13 @@ export default function ForInstitutionsPage() {
           loop
           playsInline
           preload="auto"
-          ref={el => {
+          ref={(el) => {
             videoRef.current = el;
             if (el) {
               el.muted = true;
               el.defaultMuted = true;
               if (isPlaying) {
-                el.play().catch(() => { });
+                el.play().catch(() => {});
               } else {
                 el.pause();
               }
@@ -61,7 +92,10 @@ export default function ForInstitutionsPage() {
           }}
           className="absolute inset-0 w-full h-full object-cover opacity-75 sm:opacity-85 z-10"
         >
-          <source src="/videos/Partner with GrapeTask LMS.mp4" type="video/mp4" />
+          <source
+            src="/videos/Partner with GrapeTask LMS.mp4"
+            type="video/mp4"
+          />
         </video>
         <div className="absolute inset-0 bg-gradient-to-b from-[#020617]/25 via-[#020617]/55 to-[#020617] z-20" />
         <div className="absolute inset-0 bg-gradient-to-tr from-[#020617]/60 via-transparent to-[#f0591f]/15 mix-blend-screen opacity-60 z-20" />
@@ -74,47 +108,81 @@ export default function ForInstitutionsPage() {
         className="absolute top-[400px] sm:top-[450px] right-4 sm:right-8 z-40 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md flex items-center justify-center text-white transition-all duration-300 hover:scale-125 hover:-translate-y-2 shadow-lg hover:shadow-[0_15px_30px_rgba(240,89,31,0.3)]"
         aria-label={isPlaying ? "Pause video" : "Play video"}
       >
-        {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-1" />}
+        {isPlaying ? (
+          <Pause className="w-5 h-5" />
+        ) : (
+          <Play className="w-5 h-5 ml-1" />
+        )}
       </button>
 
       <div className="pt-28 sm:pt-40 pb-20 px-4 sm:px-6 relative z-30">
         <div className="container mx-auto max-w-6xl">
-
           {/* Header Info */}
           <div className="text-center mb-16 sm:mb-24 space-y-4 sm:space-y-6 max-w-4xl mx-auto">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 text-primaryOrange text-xs font-bold uppercase tracking-widest shadow-sm hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">
               <Building2 className="w-3.5 h-3.5" /> Academic Partnerships
             </div>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-white leading-tight tracking-tight text-3d">
-              Partner with <span className="text-primaryOrange text-3d-orange">GrapeTask LMS</span>
+              Partner with{" "}
+              <span className="text-primaryOrange text-3d-orange">
+                GrapeTask LMS
+              </span>
             </h1>
             <p className="text-base sm:text-lg text-[#a1a1aa] font-medium max-w-2xl mx-auto leading-relaxed">
-              Equip your students with professional digital skills. Bring structured, trainer-graded freelance training directly to your campus.
+              Equip your students with professional digital skills. Bring
+              structured, trainer-graded freelance training directly to your
+              campus.
             </p>
           </div>
 
           {/* Benefits Grid */}
           <div className="mb-24">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-12 sm:mb-16 text-center tracking-tight text-3d">
-              Why Partner with <span className="text-primaryOrange text-3d-orange">GrapeTask LMS?</span>
+              Why Partner with{" "}
+              <span className="text-primaryOrange text-3d-orange">
+                GrapeTask LMS?
+              </span>
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 items-stretch">
               {[
-                { title: 'Level-Based Courses', desc: 'Specialized content built specifically for school, college, and university students.', icon: <GraduationCap className="w-6 h-6" /> },
-                { title: 'Dedicated Portal', desc: 'A complete dashboard to manage students, assign courses, and track performance.', icon: <Building2 className="w-6 h-6" /> },
-                { title: 'Trainer Grading', desc: 'Expert trainers grade practical submissions, leaving detailed code and design feedback.', icon: <ShieldCheck className="w-6 h-6" /> },
-                { title: 'Direct Reports', desc: 'Instant progress reports delivered directly to your portal inbox with one click.', icon: <BarChart3 className="w-6 h-6" /> },
+                {
+                  title: "Level-Based Courses",
+                  desc: "Specialized content built specifically for school, college, and university students.",
+                  icon: <GraduationCap className="w-6 h-6" />,
+                },
+                {
+                  title: "Dedicated Portal",
+                  desc: "A complete dashboard to manage students, assign courses, and track performance.",
+                  icon: <Building2 className="w-6 h-6" />,
+                },
+                {
+                  title: "Trainer Grading",
+                  desc: "Expert trainers grade practical submissions, leaving detailed code and design feedback.",
+                  icon: <ShieldCheck className="w-6 h-6" />,
+                },
+                {
+                  title: "Direct Reports",
+                  desc: "Instant progress reports delivered directly to your portal inbox with one click.",
+                  icon: <BarChart3 className="w-6 h-6" />,
+                },
               ].map((benefit) => (
-                <div key={benefit.title} className="theme-card h-full p-6 sm:p-8 rounded-[2rem] flex flex-col items-start text-left relative overflow-hidden bg-gradient-to-b from-white/[0.03] to-white/[0.01] hover:from-primaryOrange/[0.08] hover:to-transparent border border-white/10 hover:border-primaryOrange/40 transition-all duration-500 shadow-xl hover:-translate-y-6 hover:scale-[1.02] hover:shadow-[0_30px_60px_-15px_rgba(240,89,31,0.4)] group">
+                <div
+                  key={benefit.title}
+                  className="theme-card h-full p-6 sm:p-8 rounded-[2rem] flex flex-col items-start text-left relative overflow-hidden bg-gradient-to-b from-white/[0.03] to-white/[0.01] hover:from-primaryOrange/[0.08] hover:to-transparent border border-white/10 hover:border-primaryOrange/40 transition-all duration-500 shadow-xl hover:-translate-y-6 hover:scale-[1.02] hover:shadow-[0_30px_60px_-15px_rgba(240,89,31,0.4)] group"
+                >
                   <div className="absolute inset-0 bg-gradient-to-tr from-primaryOrange/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-                  
+
                   <div className="w-14 h-14 mb-6 rounded-2xl bg-white/[0.04] group-hover:bg-primaryOrange/10 text-white/80 group-hover:text-primaryOrange border border-white/10 group-hover:border-primaryOrange/30 flex items-center justify-center shadow-lg group-hover:shadow-[0_0_20px_rgba(240,89,31,0.2)] transition-all duration-500 transform group-hover:scale-110 group-hover:rotate-6 group-hover:-translate-y-1 flex-shrink-0 z-10">
                     {benefit.icon}
                   </div>
 
                   <div className="flex-1 flex flex-col justify-start z-10 w-full text-left">
-                    <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight mb-3 group-hover:text-primaryOrange transition-colors duration-300">{benefit.title}</h3>
-                    <p className="text-sm text-bodyGrayText group-hover:text-[#d4d4d8] font-medium leading-relaxed transition-colors duration-300">{benefit.desc}</p>
+                    <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight mb-3 group-hover:text-primaryOrange transition-colors duration-300">
+                      {benefit.title}
+                    </h3>
+                    <p className="text-sm text-bodyGrayText group-hover:text-[#d4d4d8] font-medium leading-relaxed transition-colors duration-300">
+                      {benefit.desc}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -125,24 +193,44 @@ export default function ForInstitutionsPage() {
           <div className="mb-24 p-6 sm:p-12 md:p-20 rounded-[2.5rem] sm:rounded-[3.5rem] bg-[#020617] border border-lightBorder relative overflow-hidden shadow-2xl">
             <div className="absolute top-0 right-0 w-80 h-80 secondary-glow opacity-10" />
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-12 sm:mb-16 text-center tracking-tight text-3d">
-              How the Partnership <span className="text-primaryOrange text-3d-orange">Works</span>
+              How the Partnership{" "}
+              <span className="text-primaryOrange text-3d-orange">Works</span>
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 relative items-stretch">
               {[
-                { step: '01', title: 'Select a Level Plan', desc: 'Choose a subscription plan matching your students\' levels (School, College, or University).' },
-                { step: '02', title: 'Register Students', desc: 'Receive dedicated portal credentials. Add your student body and assign student licenses.' },
-                { step: '03', title: 'Receive Reports', desc: 'Students complete video lessons and pass assessments. Get verified reports on their progress.' },
+                {
+                  step: "01",
+                  title: "Select a Level Plan",
+                  desc: "Choose a subscription plan matching your students' levels (School, College, or University).",
+                },
+                {
+                  step: "02",
+                  title: "Register Students",
+                  desc: "Receive dedicated portal credentials. Add your student body and assign student licenses.",
+                },
+                {
+                  step: "03",
+                  title: "Receive Reports",
+                  desc: "Students complete video lessons and pass assessments. Get verified reports on their progress.",
+                },
               ].map((step, idx) => (
-                <div key={step.step} className="theme-card h-full p-6 sm:p-8 rounded-[2rem] flex flex-col items-start text-left relative overflow-hidden bg-gradient-to-b from-white/[0.03] to-white/[0.01] hover:from-primaryOrange/[0.08] hover:to-transparent border border-white/10 hover:border-primaryOrange/40 transition-all duration-500 shadow-xl hover:-translate-y-6 hover:scale-[1.02] hover:shadow-[0_30px_60px_-15px_rgba(240,89,31,0.4)] group">
+                <div
+                  key={step.step}
+                  className="theme-card h-full p-6 sm:p-8 rounded-[2rem] flex flex-col items-start text-left relative overflow-hidden bg-gradient-to-b from-white/[0.03] to-white/[0.01] hover:from-primaryOrange/[0.08] hover:to-transparent border border-white/10 hover:border-primaryOrange/40 transition-all duration-500 shadow-xl hover:-translate-y-6 hover:scale-[1.02] hover:shadow-[0_30px_60px_-15px_rgba(240,89,31,0.4)] group"
+                >
                   <div className="absolute inset-0 bg-gradient-to-tr from-primaryOrange/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-                  
+
                   <div className="text-5xl sm:text-6xl font-black text-primaryOrange/20 group-hover:text-primaryOrange/40 tracking-tighter leading-none mb-6 transition-all duration-500 transform group-hover:scale-110 group-hover:-translate-y-2 z-10">
                     {step.step}
                   </div>
-                  
+
                   <div className="flex-1 flex flex-col justify-start z-10 w-full text-left">
-                    <h3 className="text-xl font-bold text-white tracking-tight mb-3 group-hover:text-primaryOrange transition-colors duration-300">{step.title}</h3>
-                    <p className="text-sm text-bodyGrayText group-hover:text-[#d4d4d8] font-medium leading-relaxed transition-colors duration-300">{step.desc}</p>
+                    <h3 className="text-xl font-bold text-white tracking-tight mb-3 group-hover:text-primaryOrange transition-colors duration-300">
+                      {step.title}
+                    </h3>
+                    <p className="text-sm text-bodyGrayText group-hover:text-[#d4d4d8] font-medium leading-relaxed transition-colors duration-300">
+                      {step.desc}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -151,25 +239,26 @@ export default function ForInstitutionsPage() {
 
           {/* Rollout Plan - REVAMPED SECTION */}
           <div className="mb-24 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch">
-            
             {/* Left: Large Image & Text Overlay */}
             <div className="lg:col-span-7 relative rounded-[2rem] overflow-hidden border border-lightBorder shadow-xl min-h-[450px] sm:min-h-[550px] hover:-translate-y-2 hover:shadow-[0_30px_60px_-15px_rgba(240,89,31,0.3)] transition-all duration-500 group/main">
-              <img 
-                src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&auto=format&fit=crop&q=80" 
-                alt="Classroom technology setup" 
-                className="absolute inset-0 w-full h-full object-cover group-hover/main:scale-110 transition-transform duration-700 z-0" 
+              <img
+                src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&auto=format&fit=crop&q=80"
+                alt="Classroom technology setup"
+                className="absolute inset-0 w-full h-full object-cover group-hover/main:scale-110 transition-transform duration-700 z-0"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/70 to-[#020617]/20 z-10"></div>
-              
+
               <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10 z-20 space-y-4">
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 text-primaryOrange text-[10px] font-black uppercase tracking-widest backdrop-blur-md hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">
                   <Clock className="w-3.5 h-3.5" /> 30-Day Rollout
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight drop-shadow-lg">
-                  Launch without adding <span className="text-primaryOrange">IT complexity</span>
+                  Launch without adding{" "}
+                  <span className="text-primaryOrange">IT complexity</span>
                 </h2>
                 <p className="text-sm text-[#e4e4e7] font-medium leading-relaxed max-w-lg">
-                  A guided onboarding flow helps administrators activate students, assign courses, and start tracking progress quickly.
+                  A guided onboarding flow helps administrators activate
+                  students, assign courses, and start tracking progress quickly.
                 </p>
               </div>
             </div>
@@ -177,26 +266,51 @@ export default function ForInstitutionsPage() {
             {/* Right: Stacked Timeline Cards */}
             <div className="lg:col-span-5 flex flex-col gap-4 sm:gap-5">
               {[
-                { step: '01', day: 'Week 1', title: 'Setup', desc: 'Create the institution portal, import student lists, and allocate licenses.' },
-                { step: '02', day: 'Week 2', title: 'Assign', desc: 'Map courses to classes by level, skill goal, or department requirement.' },
-                { step: '03', day: 'Week 3+', title: 'Track', desc: 'Review completion, assessment scores, and trainer feedback in one place.' },
+                {
+                  step: "01",
+                  day: "Week 1",
+                  title: "Setup",
+                  desc: "Create the institution portal, import student lists, and allocate licenses.",
+                },
+                {
+                  step: "02",
+                  day: "Week 2",
+                  title: "Assign",
+                  desc: "Map courses to classes by level, skill goal, or department requirement.",
+                },
+                {
+                  step: "03",
+                  day: "Week 3+",
+                  title: "Track",
+                  desc: "Review completion, assessment scores, and trainer feedback in one place.",
+                },
               ].map((item, i) => (
-                <div key={item.day} className="theme-card p-4 sm:p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-primaryOrange/40 hover:bg-white/[0.055] transition-all duration-500 hover:-translate-y-4 hover:scale-[1.01] hover:shadow-[0_25px_50px_-12px_rgba(240,89,31,0.3)] group flex items-start gap-4 sm:gap-5 flex-1">
-                  
+                <div
+                  key={item.day}
+                  className="theme-card p-4 sm:p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-primaryOrange/40 hover:bg-white/[0.055] transition-all duration-500 hover:-translate-y-4 hover:scale-[1.01] hover:shadow-[0_25px_50px_-12px_rgba(240,89,31,0.3)] group flex items-start gap-4 sm:gap-5 flex-1"
+                >
                   {/* Timeline Step Icon & Connector */}
                   <div className="flex flex-col items-center gap-2 pt-1">
                     <div className="w-10 h-10 rounded-xl bg-primaryOrange/10 border border-primaryOrange/20 text-primaryOrange flex items-center justify-center font-black text-base flex-shrink-0 group-hover:bg-primaryOrange group-hover:text-white group-hover:scale-110 group-hover:rotate-6 group-hover:-translate-y-1 transition-all duration-300 shadow-[0_0_15px_rgba(240,89,31,0)] group-hover:shadow-[0_0_15px_rgba(240,89,31,0.3)]">
                       {item.step}
                     </div>
                     {/* Connector Line */}
-                    {i < 2 && <div className="w-px flex-1 bg-white/5 mt-2"></div>}
+                    {i < 2 && (
+                      <div className="w-px flex-1 bg-white/5 mt-2"></div>
+                    )}
                   </div>
 
                   {/* Text Content */}
                   <div className="flex-1 pb-4">
-                    <div className="text-[10px] font-black uppercase tracking-widest text-primaryOrange/60 group-hover:text-primaryOrange mb-1 transition-colors duration-300">{item.day}</div>
-                    <h3 className="text-lg font-black text-white tracking-tight mb-2 group-hover:text-primaryOrange transition-colors duration-300">{item.title}</h3>
-                    <p className="text-sm text-bodyGrayText group-hover:text-[#d4d4d8] font-medium leading-relaxed transition-colors duration-300">{item.desc}</p>
+                    <div className="text-[10px] font-black uppercase tracking-widest text-primaryOrange/60 group-hover:text-primaryOrange mb-1 transition-colors duration-300">
+                      {item.day}
+                    </div>
+                    <h3 className="text-lg font-black text-white tracking-tight mb-2 group-hover:text-primaryOrange transition-colors duration-300">
+                      {item.title}
+                    </h3>
+                    <p className="text-sm text-bodyGrayText group-hover:text-[#d4d4d8] font-medium leading-relaxed transition-colors duration-300">
+                      {item.desc}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -207,36 +321,48 @@ export default function ForInstitutionsPage() {
           <div className="mb-24 p-6 sm:p-12 md:p-20 rounded-[2.5rem] sm:rounded-[3.5rem] bg-[#020617] border border-lightBorder relative overflow-hidden shadow-2xl">
             <div className="absolute bottom-0 left-0 w-80 h-80 secondary-glow opacity-10" />
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-
               <div className="lg:col-span-7 space-y-6 sm:space-y-8">
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white leading-tight tracking-tight text-3d">
-                  Your Institution <span className="text-primaryOrange text-3d-orange">Portal</span>
+                  Your Institution{" "}
+                  <span className="text-primaryOrange text-3d-orange">
+                    Portal
+                  </span>
                 </h2>
                 <p className="text-sm sm:text-base text-[#a1a1aa] font-medium leading-relaxed">
-                  Every partner school, college, and university receives a dedicated manager portal. No complicated IT setups required. Manage licenses, assign classes, and pull report cards from one clean interface.
+                  Every partner school, college, and university receives a
+                  dedicated manager portal. No complicated IT setups required.
+                  Manage licenses, assign classes, and pull report cards from
+                  one clean interface.
                 </p>
 
                 {/* Image added above feature grid */}
                 <div className="relative rounded-2xl overflow-hidden border border-white/5 group/img">
-                  <img 
-                    src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&auto=format&fit=crop&q=80" 
-                    alt="Team collaborating on dashboard" 
-                    className="w-full h-[220px] object-cover group-hover/img:scale-110 transition-transform duration-700" 
+                  <img
+                    src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&auto=format&fit=crop&q=80"
+                    alt="Team collaborating on dashboard"
+                    className="w-full h-[220px] object-cover group-hover/img:scale-110 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/50 to-transparent"></div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 pt-2 items-stretch">
                   {portalFeatures.map((feat) => (
-                    <div key={feat.title} className="theme-card h-full p-5 sm:p-6 rounded-2xl flex flex-col items-start text-left relative overflow-hidden bg-gradient-to-b from-white/[0.03] to-white/[0.01] hover:from-primaryOrange/[0.08] hover:to-transparent border border-white/10 hover:border-primaryOrange/40 transition-all duration-500 shadow-md hover:-translate-y-4 hover:scale-[1.02] hover:shadow-[0_20px_40px_-10px_rgba(240,89,31,0.3)] group">
+                    <div
+                      key={feat.title}
+                      className="theme-card h-full p-5 sm:p-6 rounded-2xl flex flex-col items-start text-left relative overflow-hidden bg-gradient-to-b from-white/[0.03] to-white/[0.01] hover:from-primaryOrange/[0.08] hover:to-transparent border border-white/10 hover:border-primaryOrange/40 transition-all duration-500 shadow-md hover:-translate-y-4 hover:scale-[1.02] hover:shadow-[0_20px_40px_-10px_rgba(240,89,31,0.3)] group"
+                    >
                       <div className="absolute inset-0 bg-gradient-to-tr from-primaryOrange/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-                      
+
                       <div className="flex-1 flex flex-col justify-start z-10 w-full text-left">
                         <div className="flex items-center space-x-3 mb-2 sm:mb-3">
                           <div className="w-2.5 h-2.5 rounded-full bg-primaryOrange/50 group-hover:bg-primaryOrange group-hover:scale-150 group-hover:-translate-y-1 transition-all duration-300 flex-shrink-0 shadow-[0_0_8px_rgba(240,89,31,0)] group-hover:shadow-[0_0_8px_rgba(240,89,31,0.6)]" />
-                          <h4 className="text-sm sm:text-base font-bold text-white tracking-tight group-hover:text-primaryOrange transition-colors duration-300">{feat.title}</h4>
+                          <h4 className="text-sm sm:text-base font-bold text-white tracking-tight group-hover:text-primaryOrange transition-colors duration-300">
+                            {feat.title}
+                          </h4>
                         </div>
-                        <p className="text-xs sm:text-sm text-bodyGrayText group-hover:text-[#d4d4d8] leading-relaxed font-medium transition-colors duration-300 pl-5">{feat.desc}</p>
+                        <p className="text-xs sm:text-sm text-bodyGrayText group-hover:text-[#d4d4d8] leading-relaxed font-medium transition-colors duration-300 pl-5">
+                          {feat.desc}
+                        </p>
                       </div>
                     </div>
                   ))}
@@ -245,54 +371,160 @@ export default function ForInstitutionsPage() {
 
               {/* Graphical Portal Widget Card */}
               <div className="lg:col-span-5">
-                <div className="theme-card p-6 sm:p-8 rounded-[2rem] border border-lightBorder relative overflow-hidden backdrop-blur-xl bg-[rgba(255,255,255,0.03)] hover:-translate-y-4 hover:shadow-[0_30px_60px_-15px_rgba(240,89,31,0.3)] transition-all duration-500 group/main">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primaryOrange/5 to-transparent pointer-events-none" />
+                <div className="relative rounded-2xl overflow-hidden group">
+                  {/* Premium Gradient Background */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a] via-[#020617] to-[#000000]" />
 
-                  <div className="space-y-2 mb-4">
-                    <h3 className="text-lg sm:text-xl font-bold text-[#e2e8f0]">
-                      Institution Overview
-                    </h3>
-                    <p className="text-sm text-[#64748b] leading-relaxed max-w-xl">
-                      Manage student access, monitor course participation, and keep track of active learning plans from one simple dashboard.
-                    </p>
+                  {/* Subtle Border - No hover effect */}
+                  <div className="absolute inset-0 rounded-2xl border border-white/10" />
+
+                  {/* Simple decorative dots */}
+                  <div className="absolute inset-0 opacity-10 pointer-events-none">
+                    <div className="absolute top-10 left-10 w-1 h-1 rounded-full bg-[#f0591f]/30" />
+                    <div className="absolute top-20 right-20 w-1 h-1 rounded-full bg-[#f0591f]/30" />
+                    <div className="absolute bottom-10 left-20 w-1 h-1 rounded-full bg-[#f0591f]/30" />
+                    <div className="absolute bottom-20 right-10 w-1 h-1 rounded-full bg-[#f0591f]/30" />
                   </div>
 
-                  <div className="rounded-2xl border border-[#1e3a5f]/60 bg-gradient-to-br from-[#0f1d32] to-[#0a1628] p-5 sm:p-6 space-y-4 shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
-
-                    <div className="flex items-center justify-between border-b border-[#1e3a5f]/50 pb-4">
-                      <span className="text-[11px] uppercase tracking-[0.2em] text-[#4b6a8f] font-semibold">
-                        Active Student Access
-                      </span>
-
-                      <span className="text-xs font-bold bg-gradient-to-r from-[#ea580c] to-[#f97316] text-white px-3 py-1 rounded-full shadow-[0_0_12px_rgba(249,115,22,0.3)] group-hover/main:scale-110 group-hover/main:-translate-y-1 transition-all duration-300">
-                        250 Allocated
-                      </span>
+                  {/* Content */}
+                  <div className="relative p-6 sm:p-8">
+                    {/* Header with Icon */}
+                    <div className="flex items-start justify-between mb-6">
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                          <div className="w-8 h-8 rounded-xl bg-[#f0591f]/10 flex items-center justify-center">
+                            <svg
+                              className="w-4 h-4 text-[#f0591f]"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                              />
+                            </svg>
+                          </div>
+                          <h3 className="text-xl font-bold text-white">
+                            Institution Overview
+                          </h3>
+                        </div>
+                        <p className="text-sm text-gray-400 leading-relaxed pl-10">
+                          Manage student access, monitor course participation,
+                          and keep track of active learning plans
+                        </p>
+                      </div>
                     </div>
 
-                    <div className="space-y-2.5">
-
-                      {['School Access', 'College Access', 'University Access'].map((access, i) => (
-                        <div key={access} className="group flex items-center justify-between rounded-xl border border-[#1e3a5f]/50 bg-[#0f1d32]/60 pl-4 pr-4 py-3.5 transition-all duration-300 hover:bg-[#162544] hover:border-[#f97316]/40 hover:shadow-[0_0_16px_rgba(249,115,22,0.08)] relative overflow-hidden">
-                          <div className="absolute left-0 top-0 bottom-0 w-[3px] rounded-l-xl bg-gradient-to-b from-[#f97316] to-[#ea580c] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="flex min-w-0 items-center gap-3">
-                            <span className="w-2 h-2 rounded-full bg-[#f97316] shadow-[0_0_6px_rgba(249,115,22,0.5)] group-hover:scale-125 group-hover:-translate-y-0.5 transition-all duration-300" />
-                            <p className="text-sm font-semibold text-[#cbd5e1] leading-snug">
-                              {access}
-                            </p>
-                          </div>
-
-                          <span className="text-xs sm:text-sm font-bold text-[#fb923c] tabular-nums group-hover:scale-110 group-hover:-translate-y-0.5 transition-transform duration-300 text-right">
-                            {[120, 85, 45][i]} Active
+                    {/* Stats Card */}
+                    <div className="rounded-xl bg-white/[0.02] border border-white/10 p-5 mb-4">
+                      {/* Header Row */}
+                      <div className="flex items-center justify-between mb-5 pb-3 border-b border-white/10">
+                        <div className="flex items-center gap-3">
+                          <div className="w-2 h-2 rounded-full bg-[#f0591f]" />
+                          <span className="text-xs font-bold uppercase tracking-wider text-gray-400">
+                            Active Student Access
                           </span>
                         </div>
-                      ))}
+                        <span className="px-4 text-center py-1.5 bg-gradient-to-r from-[#f0591f] to-orange-500 text-white text-xs font-bold rounded-full shadow-md">
+                          250 Allocated
+                        </span>
+                      </div>
 
+                      {/* Access Cards - Simple hover */}
+                      <div className="space-y-3">
+                        {[
+                          {
+                            name: "School Access",
+                            count: 120,
+                            percentage: 48,
+                            icon: "🏫",
+                          },
+                          {
+                            name: "College Access",
+                            count: 85,
+                            percentage: 34,
+                            icon: "🎓",
+                          },
+                          {
+                            name: "University Access",
+                            count: 45,
+                            percentage: 18,
+                            icon: "📚",
+                          },
+                        ].map((item) => (
+                          <div key={item.name} className="group/item">
+                            <div className="p-3 rounded-xl transition-all duration-200">
+                              <div className="flex items-center justify-between mb-2">
+                                <div className="flex items-center gap-3">
+                                  <span className="text-lg">{item.icon}</span>
+                                  <span className="text-sm font-medium text-gray-300">
+                                    {item.name}
+                                  </span>
+                                </div>
+                                <span className="text-sm font-bold text-[#f0591f]">
+                                  {item.count} Active
+                                </span>
+                              </div>
+
+                              {/* Progress Bar */}
+                              <div className="relative">
+                                <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                                  <div
+                                    className="h-full bg-gradient-to-r from-[#f0591f] to-orange-400 rounded-full"
+                                    style={{ width: `${item.percentage}%` }}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Total Stats */}
+                      <div className="mt-5 pt-3 border-t border-white/10">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs text-gray-500">
+                            Total Active Students
+                          </span>
+                          <div className="flex items-center gap-2">
+                            <span className="text-2xl font-bold text-white">
+                              250
+                            </span>
+                            <span className="text-xs text-gray-500">/ 500</span>
+                          </div>
+                        </div>
+                        <div className="mt-2 h-1 bg-white/5 rounded-full overflow-hidden">
+                          <div className="h-full w-[50%] bg-gradient-to-r from-[#f0591f] to-orange-500 rounded-full" />
+                        </div>
+                      </div>
                     </div>
 
-                  </div>
-
-                  <div className="pt-3 text-center text-[10px] text-darkGrayNumber font-black uppercase tracking-widest leading-none">
-                    Secured by GrapeTask LMS Guard
+                    {/* Footer */}
+                    <div className="flex items-center justify-between pt-2">
+                      <div className="flex items-center gap-2">
+                        <div className="w-5 h-5 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                          <svg
+                            className="w-3 h-3 text-emerald-400"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                            />
+                          </svg>
+                        </div>
+                        <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                          Secured by GrapeTask LMS Guard
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -307,22 +539,47 @@ export default function ForInstitutionsPage() {
                 <BarChart3 className="w-3.5 h-3.5" /> Academic Visibility
               </div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight text-3d">
-                Reports leaders can <span className="text-primaryOrange text-3d-orange">act on</span>
+                Reports leaders can{" "}
+                <span className="text-primaryOrange text-3d-orange">
+                  act on
+                </span>
               </h2>
               <p className="text-sm sm:text-base text-[#a1a1aa] font-medium max-w-2xl mx-auto leading-relaxed">
-                Keep administrators, teachers, and parents aligned with progress signals that are easy to understand.
+                Keep administrators, teachers, and parents aligned with progress
+                signals that are easy to understand.
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 relative z-10">
               {[
-                { value: '92%', title: 'Module completion', desc: 'See which classes are staying on schedule and where support is needed.' },
-                { value: '70%', title: 'Certificate progress', desc: 'Track learners moving from course completion to verified certification.' },
-                { value: '85%', title: 'Skill improvement', desc: 'Compare assessments over time to show measurable academic growth.' },
+                {
+                  value: "92%",
+                  title: "Module completion",
+                  desc: "See which classes are staying on schedule and where support is needed.",
+                },
+                {
+                  value: "70%",
+                  title: "Certificate progress",
+                  desc: "Track learners moving from course completion to verified certification.",
+                },
+                {
+                  value: "85%",
+                  title: "Skill improvement",
+                  desc: "Compare assessments over time to show measurable academic growth.",
+                },
               ].map((metric) => (
-                <div key={metric.title} className="theme-card p-6 sm:p-7 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-primaryOrange/35 hover:bg-white/[0.055] transition-all duration-500 hover:-translate-y-6 hover:scale-[1.02] hover:shadow-[0_30px_60px_-15px_rgba(240,89,31,0.4)] group">
-                  <div className="text-4xl sm:text-5xl font-black text-primaryOrange text-3d-orange mb-4 leading-none group-hover:scale-110 group-hover:-translate-y-2 transition-transform duration-500">{metric.value}</div>
-                  <h3 className="text-lg sm:text-xl font-black text-white tracking-tight mb-3">{metric.title}</h3>
-                  <p className="text-sm text-bodyGrayText font-medium leading-relaxed">{metric.desc}</p>
+                <div
+                  key={metric.title}
+                  className="theme-card p-6 sm:p-7 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-primaryOrange/35 hover:bg-white/[0.055] transition-all duration-500 hover:-translate-y-6 hover:scale-[1.02] hover:shadow-[0_30px_60px_-15px_rgba(240,89,31,0.4)] group"
+                >
+                  <div className="text-4xl sm:text-5xl font-black text-primaryOrange text-3d-orange mb-4 leading-none group-hover:scale-110 group-hover:-translate-y-2 transition-transform duration-500">
+                    {metric.value}
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-black text-white tracking-tight mb-3">
+                    {metric.title}
+                  </h3>
+                  <p className="text-sm text-bodyGrayText font-medium leading-relaxed">
+                    {metric.desc}
+                  </p>
                 </div>
               ))}
             </div>
@@ -334,10 +591,12 @@ export default function ForInstitutionsPage() {
 
             <div className="text-center mb-16 space-y-4">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight text-3d">
-                For Institutions <span className="text-primaryOrange text-3d-orange">plans</span>
+                For Institutions{" "}
+                <span className="text-primaryOrange text-3d-orange">plans</span>
               </h2>
               <p className="text-sm sm:text-base text-[#a1a1aa] font-medium max-w-xl mx-auto leading-relaxed">
-                Connect your institution and provide premium digital tech skill courses to your student body.
+                Connect your institution and provide premium digital tech skill
+                courses to your student body.
               </p>
             </div>
 
@@ -347,17 +606,27 @@ export default function ForInstitutionsPage() {
                   <div className="pricing-card p-6 sm:p-8 rounded-[2.25rem] border border-white/10 flex flex-col items-center text-center space-y-5 bg-cardBg hover:bg-primaryOrange hover:border-primaryOrange hover:text-white transition-all duration-500 hover:-translate-y-6 hover:scale-[1.03] hover:shadow-[0_30px_60px_-15px_rgba(240,89,31,0.5)] relative overflow-hidden h-full">
                     <div className="absolute top-0 right-0 w-20 h-20 bg-white/5 rounded-full blur-xl group-hover:bg-white/20 transition-all pointer-events-none" />
 
-                    <h3 className="text-base sm:text-lg font-black text-white group-hover:text-white uppercase tracking-wider group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300">{plan.level}</h3>
+                    <h3 className="text-base sm:text-lg font-black text-white group-hover:text-white uppercase tracking-wider group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300">
+                      {plan.level}
+                    </h3>
 
                     <div className="flex flex-col items-center">
                       <div className="flex items-baseline justify-center">
-                        <span className="font-sans text-sm sm:text-base font-semibold text-primaryOrange group-hover:text-white transition-colors mr-1">PKR</span>
-                        <span className="text-3xl sm:text-4xl font-black text-white group-hover:text-white transition-colors">{plan.price}</span>
+                        <span className="font-sans text-sm sm:text-base font-semibold text-primaryOrange group-hover:text-white transition-colors mr-1">
+                          PKR
+                        </span>
+                        <span className="text-3xl sm:text-4xl font-black text-white group-hover:text-white transition-colors">
+                          {plan.price}
+                        </span>
                       </div>
-                      <span className="text-[10px] sm:text-[11px] text-darkGrayNumber group-hover:text-white/60 transition-colors font-black uppercase tracking-[0.18em] mt-2">Per Student / Month</span>
+                      <span className="text-[10px] sm:text-[11px] text-darkGrayNumber group-hover:text-white/60 transition-colors font-black uppercase tracking-[0.18em] mt-2">
+                        Per Student / Month
+                      </span>
                     </div>
 
-                    <p className="text-sm sm:text-base text-bodyGrayText group-hover:text-white/80 transition-colors leading-relaxed font-medium mx-auto max-w-sm">{plan.desc}</p>
+                    <p className="text-sm sm:text-base text-bodyGrayText group-hover:text-white/80 transition-colors leading-relaxed font-medium mx-auto max-w-sm">
+                      {plan.desc}
+                    </p>
 
                     <Link
                       href="/contact?type=institution"
@@ -374,7 +643,10 @@ export default function ForInstitutionsPage() {
           {/* CTA */}
           <div className="text-center space-y-8">
             <h2 className="text-2xl sm:text-3xl font-black text-white text-3d">
-              Ready to Partner with <span className="text-primaryOrange text-3d-orange">GrapeTask LMS?</span>
+              Ready to Partner with{" "}
+              <span className="text-primaryOrange text-3d-orange">
+                GrapeTask LMS?
+              </span>
             </h2>
             <div className="flex justify-center">
               <Link
@@ -386,7 +658,6 @@ export default function ForInstitutionsPage() {
               </Link>
             </div>
           </div>
-
         </div>
       </div>
     </div>
