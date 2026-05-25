@@ -762,22 +762,29 @@ function AuthFrame({
         }
 
         /* ═══════════════════════════════════════════
-           PLACEHOLDERS — SOFT SLATE, NOT WHITE
+           PLACEHOLDERS — DARK SLATE (ALL BROWSERS)
            ═══════════════════════════════════════════ */
-        .auth-form input::placeholder,
-        .auth-form textarea::placeholder {
-          color: rgba(148, 163, 184, 0.35) !important;
-          font-size: 12px !important;
-          font-weight: 300 !important;
+        input::placeholder,
+        textarea::placeholder {
+          color: #475569 !important;
+          -webkit-text-fill-color: #475569 !important;
           opacity: 1 !important;
-          letter-spacing: 0.01em;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
         }
-        .auth-form input:focus::placeholder,
-        .auth-form textarea:focus::placeholder {
-          color: rgba(148, 163, 184, 0.2) !important;
+        input::-webkit-input-placeholder,
+        textarea::-webkit-input-placeholder {
+          color: #475569 !important;
+          -webkit-text-fill-color: #475569 !important;
+          opacity: 1 !important;
+        }
+        input::-moz-placeholder,
+        textarea::-moz-placeholder {
+          color: #475569 !important;
+          opacity: 1 !important;
+        }
+        input:-ms-input-placeholder,
+        textarea:-ms-input-placeholder {
+          color: #475569 !important;
+          opacity: 1 !important;
         }
 
         /* ═══════════════════════════════════════════

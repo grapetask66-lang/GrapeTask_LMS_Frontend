@@ -94,19 +94,22 @@ export const authApi = {
       query: `
         mutation Register($input: RegisterInput!) {
           register(input: $input) {
-            id
-            name
-            email
-            role
+            access_token
+            user {
+              id
+              name
+              email
+              role
+              learnerCategory
+            }
           }
         }
       `,
       variables: { input },
     });
     
-    // Registration in this schema doesn't seem to return a token, so we'll just return user and let them login
-    // or we can adjust AuthMutator to return a token.
-    return { accessToken: '', user: data.data.register };
+    const { access_token, user } = data.data.register;
+    return { accessToken: access_token, user };
   },
   async profile() {
     const raw = typeof window !== 'undefined' ? window.localStorage.getItem('grapetask_lms_user') : null;

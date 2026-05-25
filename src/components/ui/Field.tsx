@@ -10,7 +10,7 @@ export function Field({ label, children }: { label: string; children: ReactNode 
 }
 
 const inputClass =
-  'theme-focus min-h-11 w-full min-w-0 rounded-md border border-lightBorder bg-cardBg px-3 text-sm text-pureWhite placeholder:text-bodyGrayText';
+  'theme-focus min-h-11 w-full min-w-0 rounded-md border border-lightBorder bg-cardBg px-3 text-sm text-pureWhite';
 
 export function TextInput(props: InputHTMLAttributes<HTMLInputElement>) {
   const [showPassword, setShowPassword] = useState(false);
