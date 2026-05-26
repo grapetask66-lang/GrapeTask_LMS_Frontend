@@ -40,14 +40,14 @@ const Footer = () => {
   );
 
   const socialLinks = [
-    { Icon: FacebookIcon, label: 'Facebook', hoverBg: 'hover:bg-blue-600 hover:border-blue-600' },
-    { Icon: InstagramIcon, label: 'Instagram', hoverBg: 'hover:bg-pink-600 hover:border-pink-600' },
-    { Icon: TwitterIcon, label: 'Twitter', hoverBg: 'hover:bg-gray-800 hover:border-gray-800' },
-    { Icon: YoutubeIcon, label: 'YouTube', hoverBg: 'hover:bg-red-600 hover:border-red-600' },
+    { Icon: FacebookIcon, label: 'Facebook', href: 'https://www.facebook.com/grapetask', hoverBg: 'hover:bg-blue-600 hover:border-blue-600' },
+    { Icon: InstagramIcon, label: 'Instagram', href: 'https://www.instagram.com/grapetask', hoverBg: 'hover:bg-pink-600 hover:border-pink-600' },
+    { Icon: TwitterIcon, label: 'Twitter', href: 'https://x.com/grapetask', hoverBg: 'hover:bg-gray-800 hover:border-gray-800' },
+    { Icon: YoutubeIcon, label: 'YouTube', href: 'https://www.youtube.com/@GrapeTask', hoverBg: 'hover:bg-red-600 hover:border-red-600' },
   ];
 
   return (
-    <footer className="bg-[#030712] relative overflow-hidden">
+    <footer className="bg-navy-900 relative overflow-hidden">
       {/* Subtle ambient glow - SaaS style */}
       <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-[#f0591f]/5 blur-[120px] rounded-full pointer-events-none"></div>
 
@@ -78,7 +78,9 @@ const Footer = () => {
                 return (
                   <a
                     key={social.label}
-                    href="#"
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     aria-label={social.label}
                     className={`w-10 h-10 rounded-lg border border-white/10 flex items-center justify-center text-gray-400 transition-all duration-300 hover:text-white hover:-translate-y-1 ${social.hoverBg}`}
                   >

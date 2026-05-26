@@ -358,134 +358,188 @@ export default function ForTrainersPage() {
 
           {/* Course Creation Standards */}
           <div className="mb-24 relative">
-  {/* Main Container */}
-  <div className="relative rounded-3xl overflow-hidden">
-    
-    {/* Background */}
-    <div className="absolute inset-0 bg-gradient-to-br from-[#020617] via-[#0a0f1a] to-[#020617]" />
-    
-    {/* Left decorative large number */}
-    <div className="absolute top-10 left-10 text-8xl font-black text-[#f0591f]/5 select-none">QS</div>
-    
-    <div className="relative p-8 sm:p-12">
-      
-      {/* Header with icon row */}
-      <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12">
-        <div className="space-y-3">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#f0591f] flex items-center justify-center shadow-lg shadow-[#f0591f]/25 transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-1">
-              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <span className="text-xs font-bold text-[#f0591f] uppercase tracking-wider">Quality Assurance</span>
-          </div>
-          
-          <h2 className="text-3xl sm:text-4xl font-black text-white leading-tight text-3d">
-            Course Creation <br />
-            <span className="text-[#f0591f] text-3d-orange">Standards</span>
-          </h2>
-        </div>
-        
-        <div className="hidden lg:block w-32 h-px bg-gradient-to-r from-[#f0591f]/30 to-transparent" />
-      </div>
-      
-      {/* Cards Grid with Only 3D Animations */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {standards.map((std, idx) => {
-          const Icon = std.icon;
-          return (
-            <div
-              key={std.title}
-              className="group relative cursor-pointer transition-all duration-500 hover:-translate-y-3 hover:scale-[1.02]"
-              style={{ transitionDelay: `${idx * 100}ms` }}
-            >
-              {/* Card Content - No color changes on hover */}
-              <div className="relative p-6 rounded-2xl bg-white/[0.02] border border-white/5">
-                
-                {/* Step Number Line */}
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-px h-8 bg-gradient-to-b from-[#f0591f] to-transparent transition-all duration-300 group-hover:h-10" />
-                  <span className="text-xs font-mono font-bold text-[#f0591f]/60 transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-0.5">
-                    STEP {String(idx + 1).padStart(2, '0')}
-                  </span>
+            {/* Main Container */}
+            <div className="relative rounded-3xl overflow-hidden">
+              {/* Background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#020617] via-[#0a0f1a] to-[#020617]" />
+
+              {/* Left decorative large number */}
+              <div className="absolute top-10 left-10 text-8xl font-black text-[#f0591f]/5 select-none">
+                QS
+              </div>
+
+              <div className="relative p-8 sm:p-12">
+                {/* Header with icon row */}
+                <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12">
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-[#f0591f] flex items-center justify-center shadow-lg shadow-[#f0591f]/25 transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-1">
+                        <svg
+                          className="w-5 h-5 text-white"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                      </div>
+                      <span className="text-xs font-bold text-[#f0591f] uppercase tracking-wider">
+                        Quality Assurance
+                      </span>
+                    </div>
+
+                    <h2 className="text-3xl sm:text-4xl font-black text-white leading-tight text-3d">
+                      Course Creation <br />
+                      <span className="text-[#f0591f] text-3d-orange">
+                        Standards
+                      </span>
+                    </h2>
+                  </div>
+
+                  <div className="hidden lg:block w-32 h-px bg-gradient-to-r from-[#f0591f]/30 to-transparent" />
                 </div>
-                
-                {/* Icon with 3D rotation only - No color change */}
-                <div className="mb-5">
-                  <div className="relative">
-                    <div className="absolute inset-0 rounded-xl bg-[#f0591f]/20 blur-lg opacity-0 group-hover:opacity-100 transition-all duration-500" />
-                    <div className="relative w-12 h-12 rounded-xl bg-[#f0591f]/10 flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:-rotate-6 group-hover:-translate-y-1">
-                      <Icon className="w-5 h-5 text-[#f0591f] transition-all duration-300" />
+
+                {/* Cards Grid with Only 3D Animations */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {standards.map((std, idx) => {
+                    const Icon = std.icon;
+                    return (
+                      <div
+                        key={std.title}
+                        className="group relative cursor-pointer transition-all duration-500 hover:-translate-y-3 hover:scale-[1.02]"
+                        style={{ transitionDelay: `${idx * 100}ms` }}
+                      >
+                        {/* Card Content - No color changes on hover */}
+                        <div className="relative p-6 rounded-2xl bg-white/[0.02] border border-white/5">
+                          {/* Step Number Line */}
+                          <div className="flex items-center gap-3 mb-6">
+                            <div className="w-px h-8 bg-gradient-to-b from-[#f0591f] to-transparent transition-all duration-300 group-hover:h-10" />
+                            <span className="text-xs font-mono font-bold text-[#f0591f]/60 transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-0.5">
+                              STEP {String(idx + 1).padStart(2, "0")}
+                            </span>
+                          </div>
+
+                          {/* Icon with 3D rotation only - No color change */}
+                          <div className="mb-5">
+                            <div className="relative">
+                              <div className="absolute inset-0 rounded-xl bg-[#f0591f]/20 blur-lg opacity-0 group-hover:opacity-100 transition-all duration-500" />
+                              <div className="relative w-12 h-12 rounded-xl bg-[#f0591f]/10 flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:-rotate-6 group-hover:-translate-y-1">
+                                <Icon className="w-5 h-5 text-[#f0591f] transition-all duration-300" />
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Title - No color change, only 3D movement */}
+                          <h3 className="text-lg font-bold text-white mb-2 transition-all duration-300 group-hover:translate-x-1">
+                            {std.title}
+                          </h3>
+
+                          {/* Description - No color change */}
+                          <p className="text-sm text-[#a1a1aa] leading-relaxed">
+                            {std.desc}
+                          </p>
+
+                          {/* Learn More Link - Only appears on hover */}
+                          <div className="mt-5 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-2">
+                            <span className="text-xs text-[#f0591f] font-medium">
+                              Learn more
+                            </span>
+                            <svg
+                              className="w-3 h-3 text-[#f0591f] transition-transform duration-300 group-hover:translate-x-1"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M9 5l7 7-7 7"
+                              />
+                            </svg>
+                          </div>
+                        </div>
+
+                        {/* Connecting dot with pulse animation */}
+                        {idx < standards.length - 1 && (
+                          <div className="hidden lg:block absolute -right-4 top-1/2 -translate-y-1/2 w-4">
+                            <div className="w-2 h-2 rounded-full bg-[#f0591f]/30 transition-all duration-300 group-hover:scale-150 group-hover:animate-pulse" />
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Bottom Stats Bar - Only 3D animations, no color changes */}
+                <div className="mt-12 pt-8 border-t border-white/5">
+                  <div className="flex flex-wrap justify-between items-center gap-4">
+                    <div className="flex items-center gap-6">
+                      <div className="flex items-center gap-2 group/stat">
+                        <div className="w-8 h-8 rounded-full bg-green-500/10 flex items-center justify-center transition-all duration-300 group-hover/stat:scale-110 group-hover/stat:-translate-y-1">
+                          <svg
+                            className="w-4 h-4 text-green-500"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M5 13l4 4L19 7"
+                            />
+                          </svg>
+                        </div>
+                        <span className="text-xs text-[#a1a1aa]">
+                          100% Verified Standards
+                        </span>
+                      </div>
+                      <div className="w-px h-4 bg-white/10" />
+                      <div className="flex items-center gap-2 group/stat">
+                        <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center transition-all duration-300 group-hover/stat:scale-110 group-hover/stat:-translate-y-1">
+                          <svg
+                            className="w-4 h-4 text-blue-500"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+                        </div>
+                        <span className="text-xs text-[#a1a1aa]">
+                          Quality Checked
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="text-right group/stat">
+                      <div className="text-2xl font-black text-white transition-all duration-300 group-hover/stat:scale-110 group-hover/stat:-translate-y-1">
+                        500+
+                      </div>
+                      <div className="text-[10px] text-[#a1a1aa] uppercase tracking-wider">
+                        Courses Published
+                      </div>
                     </div>
                   </div>
                 </div>
-                
-                {/* Title - No color change, only 3D movement */}
-                <h3 className="text-lg font-bold text-white mb-2 transition-all duration-300 group-hover:translate-x-1">
-                  {std.title}
-                </h3>
-                
-                {/* Description - No color change */}
-                <p className="text-sm text-[#a1a1aa] leading-relaxed">
-                  {std.desc}
-                </p>
-                
-                {/* Learn More Link - Only appears on hover */}
-                <div className="mt-5 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-2">
-                  <span className="text-xs text-[#f0591f] font-medium">Learn more</span>
-                  <svg className="w-3 h-3 text-[#f0591f] transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </div>
               </div>
-              
-              {/* Connecting dot with pulse animation */}
-              {idx < standards.length - 1 && (
-                <div className="hidden lg:block absolute -right-4 top-1/2 -translate-y-1/2 w-4">
-                  <div className="w-2 h-2 rounded-full bg-[#f0591f]/30 transition-all duration-300 group-hover:scale-150 group-hover:animate-pulse" />
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-      
-      {/* Bottom Stats Bar - Only 3D animations, no color changes */}
-      <div className="mt-12 pt-8 border-t border-white/5">
-        <div className="flex flex-wrap justify-between items-center gap-4">
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2 group/stat">
-              <div className="w-8 h-8 rounded-full bg-green-500/10 flex items-center justify-center transition-all duration-300 group-hover/stat:scale-110 group-hover/stat:-translate-y-1">
-                <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <span className="text-xs text-[#a1a1aa]">100% Verified Standards</span>
-            </div>
-            <div className="w-px h-4 bg-white/10" />
-            <div className="flex items-center gap-2 group/stat">
-              <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center transition-all duration-300 group-hover/stat:scale-110 group-hover/stat:-translate-y-1">
-                <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <span className="text-xs text-[#a1a1aa]">Quality Checked</span>
+
+              {/* Bottom right decorative */}
+              <div className="absolute bottom-0 right-0 w-40 h-40 bg-[#f0591f]/5 rounded-tl-full transition-all duration-500 group-hover:scale-110" />
             </div>
           </div>
-          
-          <div className="text-right group/stat">
-            <div className="text-2xl font-black text-white transition-all duration-300 group-hover/stat:scale-110 group-hover/stat:-translate-y-1">500+</div>
-            <div className="text-[10px] text-[#a1a1aa] uppercase tracking-wider">Courses Published</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    {/* Bottom right decorative */}
-    <div className="absolute bottom-0 right-0 w-40 h-40 bg-[#f0591f]/5 rounded-tl-full transition-all duration-500 group-hover:scale-110" />
-  </div>
-</div>
+
 
           {/* Trainer Launch Roadmap */}
           <div className="mb-24 relative">
@@ -535,41 +589,30 @@ export default function ForTrainersPage() {
                     step: "01",
                     title: "Apply & Verify",
                     desc: "Submit your profile, portfolio, and preferred teaching category for review.",
-                    icon: "✓",
-                    color: "from-orange-500 to-red-500",
                   },
                   {
                     step: "02",
                     title: "Plan the Curriculum",
                     desc: "Map lessons, assessments, and milestones with LMS-friendly structure.",
-                    icon: "📝",
-                    color: "from-orange-500 to-amber-500",
                   },
                   {
                     step: "03",
                     title: "Publish & Support",
                     desc: "Go live, answer learner questions, and keep improving your course outcomes.",
-                    icon: "🚀",
-                    color: "from-orange-500 to-yellow-500",
                   },
                 ].map((item, idx) => (
                   <div key={item.step} className="relative group">
-                    {/* Step Circle with Gradient */}
+                    {/* Step Circle - Clean, no icon badge */}
                     <div className="relative mb-6 flex justify-center">
                       <div className="relative">
                         {/* Pulsing background */}
                         <div className="absolute inset-0 rounded-full bg-[#f0591f]/20 blur-xl group-hover:blur-2xl transition-all duration-500" />
 
-                        {/* Main Circle */}
+                        {/* Main Circle - Clean without icon badge */}
                         <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-[#f0591f] to-orange-500 flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-500">
-                          <span className="text-2xl font-black text-white">
+                          <span className="text-2xl font-black text-white tracking-wider">
                             {item.step}
                           </span>
-                        </div>
-
-                        {/* Icon badge */}
-                        <div className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-[#020617] border-2 border-[#f0591f]/30 flex items-center justify-center text-sm group-hover:scale-110 transition-all duration-300">
-                          {item.icon}
                         </div>
                       </div>
                     </div>
@@ -584,7 +627,7 @@ export default function ForTrainersPage() {
                       </p>
                     </div>
 
-                    {/* Progress indicator */}
+                    {/* Progress arrow indicator */}
                     {idx < 2 && (
                       <div className="hidden md:block absolute -right-4 top-10 w-8 h-8">
                         <div className="text-2xl text-[#f0591f]/30 group-hover:text-[#f0591f]/50 transition-all duration-300 group-hover:translate-x-1">
@@ -595,7 +638,6 @@ export default function ForTrainersPage() {
                   </div>
                 ))}
               </div>
-
               {/* Bottom CTA */}
               <div className="text-center mt-12 pt-8 border-t border-white/5">
                 <button className="group inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-[#f0591f] to-orange-500 rounded-xl text-white font-bold transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#f0591f]/25">
@@ -611,87 +653,87 @@ export default function ForTrainersPage() {
 
           {/* Trainer Support Toolkit - Added Image */}
           <div className="mb-24 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch">
-            {/* Left side - Image Card with Modern Design */}
-            <div className="lg:col-span-5 rounded-2xl bg-white dark:bg-gradient-to-br dark:from-[#1e293b] dark:to-[#0f172a] border border-gray-200 dark:border-gray-800 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col">
-              {/* Image Section - Larger and Clearer */}
-              <div className="relative group/img overflow-hidden">
-                {/* Gradient overlay for better text readability */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />
+  {/* Left side - Image Card with Modern Design */}
+  <div className="lg:col-span-5 rounded-2xl bg-gradient-to-br from-[#1e293b] to-[#0f172a] border border-gray-800 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col">
+    {/* Image Section - Larger and Clearer */}
+    <div className="relative group/img overflow-hidden">
+      {/* Gradient overlay for better text readability */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />
 
-                {/* Heading overlay on image */}
-                <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-500/20 backdrop-blur-sm border border-orange-500/30 mb-3">
-                    <HelpCircle className="w-3.5 h-3.5 text-orange-400" />
-                    <span className="text-orange-400 text-[10px] font-black uppercase tracking-widest">
-                      Support Toolkit
-                    </span>
-                  </div>
-                  <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
-                    Tools that keep trainers{" "}
-                    <span className="text-orange-400">consistent</span>
-                  </h2>
-                  <p className="text-sm text-gray-200 font-medium leading-relaxed">
-                    Trainers get workflows for feedback, student questions,
-                    lesson updates, and performance tracking.
-                  </p>
-                </div>
+      {/* Heading overlay on image */}
+      <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-500/20 backdrop-blur-sm border border-orange-500/30 mb-3">
+          <HelpCircle className="w-3.5 h-3.5 text-orange-400" />
+          <span className="text-orange-400 text-[10px] font-black uppercase tracking-widest">
+            Support Toolkit
+          </span>
+        </div>
+        <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+          Tools that keep trainers{" "}
+          <span className="text-orange-400">consistent</span>
+        </h2>
+        <p className="text-sm text-gray-200 font-medium leading-relaxed">
+          Trainers get workflows for feedback, student questions,
+          lesson updates, and performance tracking.
+        </p>
+      </div>
 
-                {/* Larger, clearer image */}
-                <img
-                  src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=1200&auto=format&fit=crop&q=90"
-                  alt="Team collaborating on dashboard"
-                  className="w-full h-[320px] sm:h-[380px] object-cover object-center group-hover/img:scale-110 transition-transform duration-700"
-                />
-              </div>
+      {/* Larger, clearer image */}
+      <img
+        src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=1200&auto=format&fit=crop&q=90"
+        alt="Team collaborating on dashboard"
+        className="w-full h-[320px] sm:h-[380px] object-cover object-center group-hover/img:scale-110 transition-transform duration-700"
+      />
+    </div>
 
-              {/* Bottom gradient accent */}
-              <div className="h-1 bg-gradient-to-r from-orange-500 via-orange-400 to-orange-500" />
-            </div>
+    {/* Bottom gradient accent */}
+    <div className="h-1 bg-gradient-to-r from-orange-500 via-orange-400 to-orange-500" />
+  </div>
 
-            {/* Right side - Tools Cards */}
-            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-              {[
-                {
-                  title: "Feedback Templates",
-                  desc: "Reusable grading notes help students understand exactly what to improve.",
-                  icon: PenTool,
-                },
-                {
-                  title: "Live Session Planner",
-                  desc: "Schedule Q&A themes, class demos, and weekly learner checkpoints.",
-                  icon: Radio,
-                },
-                {
-                  title: "Student Question Queue",
-                  desc: "Keep course discussions organized so support feels fast and professional.",
-                  icon: MessageSquare,
-                },
-                {
-                  title: "Content Refresh Prompts",
-                  desc: "Spot lessons that need updates as tools, software, and standards change.",
-                  icon: ClipboardCheck,
-                },
-              ].map((tool) => {
-                const Icon = tool.icon;
-                return (
-                  <div
-                    key={tool.title}
-                    className="group p-5 sm:p-6 rounded-2xl bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 hover:border-orange-500/50 hover:shadow-lg hover:-translate-y-2 transition-all duration-300"
-                  >
-                    <div className="w-11 h-11 rounded-xl bg-orange-50 dark:bg-orange-500/10 border border-orange-200 dark:border-orange-500/25 text-orange-500 flex items-center justify-center mb-4 group-hover:bg-orange-500 group-hover:text-white group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white tracking-tight mb-2">
-                      {tool.title}
-                    </h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 font-medium leading-relaxed">
-                      {tool.desc}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
+  {/* Right side - Tools Cards */}
+  <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+    {[
+      {
+        title: "Feedback Templates",
+        desc: "Reusable grading notes help students understand exactly what to improve.",
+        icon: PenTool,
+      },
+      {
+        title: "Live Session Planner",
+        desc: "Schedule Q&A themes, class demos, and weekly learner checkpoints.",
+        icon: Radio,
+      },
+      {
+        title: "Student Question Queue",
+        desc: "Keep course discussions organized so support feels fast and professional.",
+        icon: MessageSquare,
+      },
+      {
+        title: "Content Refresh Prompts",
+        desc: "Spot lessons that need updates as tools, software, and standards change.",
+        icon: ClipboardCheck,
+      },
+    ].map((tool) => {
+      const Icon = tool.icon;
+      return (
+        <div
+          key={tool.title}
+          className="group p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-[#1e293b] to-[#0f172a] border border-gray-800 hover:border-orange-500/50 hover:shadow-lg hover:-translate-y-2 transition-all duration-300"
+        >
+          <div className="w-11 h-11 rounded-xl bg-orange-500/10 border border-orange-500/25 text-orange-500 flex items-center justify-center mb-4 group-hover:bg-orange-500 group-hover:text-white group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+            <Icon className="w-5 h-5" />
           </div>
+          <h3 className="text-base sm:text-lg font-bold text-white tracking-tight mb-2">
+            {tool.title}
+          </h3>
+          <p className="text-sm text-gray-400 font-medium leading-relaxed">
+            {tool.desc}
+          </p>
+        </div>
+      );
+    })}
+  </div>
+</div>
 
           {/* Revenue Model Section */}
           <div className="mb-24 relative">

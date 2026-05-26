@@ -496,7 +496,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="relative py-20 sm:py-28 lg:py-32 overflow-hidden bg-[#020617] border-y border-[rgba(255,255,255,0.04)] z-10">
+      <section id="explore" className="relative py-20 sm:py-28 lg:py-32 overflow-hidden bg-[#020617] border-y border-[rgba(255,255,255,0.04)] z-10">
         <div className="absolute inset-0 hero-grid opacity-[0.02] pointer-events-none" />
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-[#f0591f]/[0.03] to-transparent rounded-full blur-[100px] pointer-events-none" />
         <div className="absolute -bottom-40 left-1/4 w-[500px] h-[300px] bg-gradient-to-t from-blue-500/[0.02] to-transparent rounded-full blur-[80px] pointer-events-none" />
@@ -916,83 +916,90 @@ export default function HomePage() {
       </section>
 
       {/* LMS STATS SECTION - ENHANCED WITH IMAGES */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 relative overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-gradient-to-b from-[#f0591f]/[0.04] to-transparent rounded-full blur-[120px] pointer-events-none" />
-        
-        <div className="container mx-auto max-w-6xl relative z-10">
-          <div className="p-5 sm:p-12 md:p-16 rounded-[2rem] sm:rounded-[3rem] glass-card border border-[rgba(255,255,255,0.06)] relative overflow-hidden shadow-[0_24px_80px_rgba(0,0,0,0.28)] reveal backdrop-blur-xl">
-            <div className="absolute top-0 right-0 w-80 h-80 secondary-glow opacity-10 -mr-24 -mt-24 pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 orange-gradient opacity-[0.04] blur-3xl -ml-24 -mb-24 pointer-events-none" />
+     <section className="py-16 sm:py-24 px-4 sm:px-6 relative overflow-hidden bg-navy-900">
+  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-gradient-to-b from-[#f0591f]/[0.04] to-transparent rounded-full blur-[120px] pointer-events-none" />
+  
+  <div className="container mx-auto max-w-6xl relative z-10">
+    <div className="p-5 sm:p-12 md:p-16 rounded-[2rem] sm:rounded-[3rem] border border-orange-500/30 relative overflow-hidden shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl bg-navy-900/50">
+      <div className="absolute top-0 right-0 w-80 h-80 bg-orange-500/5 opacity-10 -mr-24 -mt-24 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-64 h-64 bg-orange-500/5 opacity-[0.04] blur-3xl -ml-24 -mb-24 pointer-events-none" />
 
-            <div className="text-center mb-12 sm:mb-16 relative z-10">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 text-primaryOrange text-xs font-black uppercase tracking-widest mb-5 shadow-sm">
-                <LineChart className="w-3.5 h-3.5" /> Industry Insights
-              </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-3 tracking-tight text-3d">
-                The LMS Market Is <span className="text-primaryOrange text-3d-orange">Booming</span>
-              </h2>
-              <p className="text-sm sm:text-base text-[#a1a1aa] max-w-2xl mx-auto font-medium leading-relaxed">
-                Data-driven reasons why institutions and enterprises are shifting to learning management systems.
-              </p>
-            </div>
+      <div className="text-center mb-10 sm:mb-12 relative z-10">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-orange-500/20 bg-orange-500/10 text-orange-500 text-xs font-black uppercase tracking-widest mb-4 shadow-sm">
+          <LineChart className="w-3.5 h-3.5" /> Industry Insights
+        </div>
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-3 tracking-tight">
+          The LMS Market Is <span className="text-orange-500">Booming</span>
+        </h2>
+        <p className="text-sm sm:text-base text-gray-400 max-w-2xl mx-auto font-medium leading-relaxed">
+          Data-driven reasons why institutions and enterprises are shifting to learning management systems.
+        </p>
+      </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 text-left items-stretch relative z-10">
-              {[
-                {
-                  val: '$40B+',
-                  title: 'Global LMS Market',
-                  label: 'projected market value by 2029, signaling massive worldwide adoption.',
-                  icon: <BarChart3 className="w-6 h-6" />,
-                  image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&auto=format&fit=crop&q=80'
-                },
-                {
-                  val: '70%+',
-                  title: 'Corporate Adoption',
-                  label: 'of organizations now rely on LMS platforms for employee training and skill development.',
-                  icon: <Building2 className="w-6 h-6" />,
-                  image: 'https://images.unsplash.com/photo-1556761175-4b46a572b786?w=600&auto=format&fit=crop&q=80'
-                },
-                {
-                  val: '60%',
-                  title: 'E-Learning Retention',
-                  label: 'more knowledge retained through LMS-based learning compared to traditional classrooms.',
-                  icon: <BookOpen className="w-6 h-6" />,
-                  image: 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=600&auto=format&fit=crop&q=80'
-                },
-              ].map((s, i) => (
-                <div
-                  key={i}
-                  className="group relative rounded-3xl overflow-hidden border border-[rgba(255,255,255,0.07)] reveal card-3d hover:-translate-y-2 hover:border-primaryOrange/35 transition-all duration-500 flex flex-col h-full shadow-[0_12px_34px_rgba(0,0,0,0.18)] hover:shadow-[0_22px_55px_rgba(0,0,0,0.24),0_0_24px_rgba(240,89,31,0.08)]"
-                  style={{ transitionDelay: `${i * 100}ms` }}
-                >
-                  {/* Background Image */}
-                  <img src={s.image} alt={s.title} className="absolute inset-0 w-full h-full object-cover opacity-[1] group-hover:opacity-[1] group-hover:scale-105 transition-all duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/95 to-[#020617]/70 z-10 group-hover:via-[#020617]/90 transition-all duration-500" />
-                  
-                  <div className="relative z-20 p-6 sm:p-8 flex flex-col h-full justify-between">
-                    <div className="flex items-center justify-between gap-3 mb-8">
-                      <div className="w-12 h-12 rounded-xl bg-primaryOrange/10 border border-primaryOrange/25 text-primaryOrange flex items-center justify-center group-hover:bg-primaryOrange group-hover:text-white transition-colors duration-300 shadow-[0_0_15px_rgba(240,89,31,0.1)] group-hover:shadow-[0_0_25px_rgba(240,89,31,0.3)]">
-                        {s.icon}
-                      </div>
-                      <div className="inline-flex items-center gap-1.5 rounded-full border border-primaryOrange/20 bg-primaryOrange/10 px-2.5 py-1 text-[9px] font-black uppercase tracking-widest text-primaryOrange">
-                        <CheckCircle2 className="w-2.5 h-2.5" /> Verified
-                      </div>
-                    </div>
-                    
-                    <div className="mt-auto">
-                      <div className="text-5xl sm:text-6xl font-black tracking-tight text-primaryOrange text-3d-orange mb-3 leading-none drop-shadow-[0_0_15px_rgba(240,89,31,0.3)]">{s.val}</div>
-                      <h3 className="text-lg sm:text-xl font-black text-white tracking-tight mb-2 leading-snug">{s.title}</h3>
-                      <p className="text-sm sm:text-base text-[#a1a1aa] font-medium leading-relaxed">
-                        <span className="text-primaryOrange font-bold">{s.val}</span> {s.label}
-                      </p>
-                    </div>
-                  </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 text-left items-stretch relative z-10">
+        {[
+          {
+            val: '$40B+',
+            title: 'Global LMS Market',
+            label: 'projected market value by 2029, signaling massive worldwide adoption.',
+            icon: <BarChart3 className="w-5 h-5" />,
+            image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&auto=format&fit=crop&q=80'
+          },
+          {
+            val: '70%+',
+            title: 'Corporate Adoption',
+            label: 'of organizations now rely on LMS platforms for employee training and skill development.',
+            icon: <Building2 className="w-5 h-5" />,
+            image: 'https://images.unsplash.com/photo-1556761175-4b46a572b786?w=600&auto=format&fit=crop&q=80'
+          },
+          {
+            val: '60%',
+            title: 'E-Learning Retention',
+            label: 'more knowledge retained through LMS-based learning compared to traditional classrooms.',
+            icon: <BookOpen className="w-5 h-5" />,
+            image: 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=600&auto=format&fit=crop&q=80'
+          },
+          {
+            val: '85%',
+            title: 'ROI Improvement',
+            label: 'of businesses see improved ROI within 12 months of implementing an LMS solution.',
+            icon: <TrendingUp className="w-5 h-5" />,
+            image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&auto=format&fit=crop&q=80'
+          },
+        ].map((s, i) => (
+          <div
+            key={i}
+            className="group relative rounded-3xl overflow-hidden border border-orange-500/30 hover:-translate-y-2 transition-all duration-500 flex flex-col h-full shadow-[0_12px_34px_rgba(0,0,0,0.18)] hover:shadow-[0_22px_55px_rgba(0,0,0,0.24)]"
+            style={{ transitionDelay: `${i * 100}ms` }}
+          >
+            {/* Background Image */}
+            <img src={s.image} alt={s.title} className="absolute inset-0 w-full h-full object-cover opacity-[0.4] group-hover:opacity-[0.5] group-hover:scale-105 transition-all duration-700" />
+            <div className="absolute inset-0 bg-gradient-to-t from-navy-900 via-navy-900/95 to-navy-900/80 z-10 group-hover:via-navy-900/90 transition-all duration-500" />
+            
+            <div className="relative z-20 p-5 sm:p-6 flex flex-col h-full">
+              <div className="flex items-center justify-between gap-3 mb-4">
+                <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/30 text-orange-500 flex items-center justify-center group-hover:bg-orange-500 group-hover:text-white transition-colors duration-300">
+                  {s.icon}
                 </div>
-              ))}
+                <div className="inline-flex items-center gap-1 rounded-full border border-orange-500/20 bg-orange-500/10 px-2 py-0.5 text-[8px] font-black uppercase tracking-widest text-orange-500">
+                  <CheckCircle2 className="w-2 h-2" /> Verified
+                </div>
+              </div>
+              
+              <div className="flex-1">
+                <div className="text-3xl sm:text-4xl font-black tracking-tight text-orange-500 mb-2 leading-none">{s.val}</div>
+                <h3 className="text-base sm:text-lg font-black text-white tracking-tight mb-2 leading-snug">{s.title}</h3>
+                <p className="text-xs sm:text-sm text-gray-400 font-medium leading-relaxed">
+                  <span className="text-orange-500 font-bold">{s.val}</span> {s.label}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* ── FAQ SECTION ── */}
       <section className="py-16 sm:py-24 px-4 sm:px-6 bg-[#010411] relative overflow-hidden">

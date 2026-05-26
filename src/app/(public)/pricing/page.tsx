@@ -257,23 +257,23 @@ export default function PricingPage() {
                     </div>
 
                     {/* Modern Image Showcase */}
-                    <div className="relative mt-4 rounded-2xl overflow-hidden border border-white/10 group/img">
-                      <div className="absolute inset-0 bg-gradient-to-t from-cardBg via-cardBg/50 to-transparent z-10" />
-                      <img
-                        src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format&fit=crop&q=80"
-                        alt="Trainer mentoring student"
-                        className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-700 aspect-[16/9]"
-                      />
-                      {/* Slide-up overlay */}
-                      <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black/80 via-black/40 to-transparent transform translate-y-full group-hover/img:translate-y-0 transition-transform duration-500 z-20">
-                        <h3 className="text-white font-bold text-xl tracking-tight">
-                          Record from Home & Office
-                        </h3>
-                        <p className="text-white/80 text-sm">
-                          Complete tutorial & receiving support
-                        </p>
-                      </div>
-                    </div>
+                  <div className="relative mt-4 rounded-2xl overflow-hidden border border-white/10">
+  <div className="absolute inset-0 bg-gradient-to-t from-cardBg via-cardBg/50 to-transparent z-10" />
+  <img
+    src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format&fit=crop&q=80"
+    alt="Trainer mentoring student"
+    className="w-full h-full object-cover transition-transform duration-700 aspect-[16/9]"
+  />
+  {/* Always visible overlay - no hover needed */}
+  <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-20">
+    <h3 className="text-white font-bold text-xl tracking-tight">
+      Record from Home & Office
+    </h3>
+    <p className="text-white/80 text-sm">
+      Complete tutorial & receiving support
+    </p>
+  </div>
+</div>
                   </div>
                 </div>
               </div>
@@ -359,15 +359,15 @@ export default function PricingPage() {
                     </div>
 
                     {/* Modern image card with stats */}
-                    <div className="relative mt-6 rounded-2xl overflow-hidden border border-white/10 group/img">
+                    <div className="relative mt-6 rounded-2xl overflow-hidden border border-white/10">
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0b1223] via-[#0b1223]/40 to-transparent z-10" />
                       <img
                         src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&auto=format&fit=crop&q=80"
                         alt="Team support and consulting"
-                        className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-700 aspect-[16/9]"
+                        className="w-full h-full object-cover transition-transform duration-700 aspect-[16/9]"
                       />
-                      {/* Floating stats card */}
-                      <div className="absolute bottom-4 left-4 right-4 bg-black/60 backdrop-blur-md rounded-xl p-3 border border-white/20 transform translate-y-full group-hover/img:translate-y-0 transition-transform duration-500 z-20">
+                      {/* Floating stats card - always visible, no hover needed */}
+                      <div className="absolute bottom-4 left-4 right-4 bg-black/60 backdrop-blur-md rounded-xl p-3 border border-white/20 z-20">
                         <div className="flex items-center justify-between">
                           <div>
                             <h3 className="text-white font-bold text-sm">
