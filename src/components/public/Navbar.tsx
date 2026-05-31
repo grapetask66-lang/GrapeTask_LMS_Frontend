@@ -351,7 +351,7 @@ const Navbar = () => {
               
               {/* Magnetic container */}
               <Link
-                href="/register"
+                href="/login?mode=signup"
                 className="ripple-effect relative flex items-center space-x-2 px-5 xl:px-7 py-3 bg-gradient-to-r from-primaryOrange via-orange-500 to-primaryOrange text-white text-sm font-black rounded-xl transition-all duration-500 shadow-2xl shadow-primaryOrange/30 hover:shadow-primaryOrange/50 transform hover:scale-105 active:scale-95 gradient-shift-animation group overflow-hidden border border-orange-400/20"
               >
                 {/* Animated background pattern */}
@@ -531,7 +531,7 @@ const Navbar = () => {
                 </Link>
                 
                 <Link
-                  href="/register"
+                  href="/login?mode=signup"
                   onClick={closeMobileMenu}
                   className="w-full flex items-center justify-center space-x-3 px-6 py-4 bg-gradient-to-r from-primaryOrange via-orange-500 to-primaryOrange text-white font-extrabold text-sm rounded-2xl transition-all duration-500 shadow-2xl shadow-primaryOrange/30 active:scale-[0.98] group relative overflow-hidden gradient-shift-animation"
                   style={{ animation: 'fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.5s both' }}
