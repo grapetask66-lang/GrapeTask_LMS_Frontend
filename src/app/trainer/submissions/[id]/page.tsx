@@ -2,7 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 import { ArrowLeft, CheckCircle2, XCircle, RefreshCcw, FileText, Download } from 'lucide-react';
 
-export default function SubmissionDetailsPage({ params }: { params: { id: string } }) {
+export default async function SubmissionDetailsPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   return (
     <div className="p-8 max-w-5xl mx-auto animate-in fade-in zoom-in-95 duration-500">
       <Link href="/dashboard/trainer/submissions" className="inline-flex items-center gap-2 text-[#64748b] hover:text-white mb-8 transition-colors">
