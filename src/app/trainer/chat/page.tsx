@@ -9,7 +9,7 @@ export default function ChatPage() {
   ];
 
   return (
-    <div className="h-full max-w-7xl mx-auto flex flex-col md:flex-row gap-6 p-6 animate-in fade-in duration-500">
+    <div className="h-full max-w-7xl mx-auto flex flex-col md:flex-row gap-6 p-4 sm:p-6 animate-in fade-in duration-500">
       
       {/* Sidebar / Contacts */}
       <div className="w-full md:w-80 bg-white/[0.02] backdrop-blur-3xl border border-white/10 rounded-[40px] flex flex-col shadow-2xl overflow-hidden h-[85vh] transition-all duration-700 transform-style-3d hover:-translate-y-2 hover:scale-[1.01] hover:border-orange-500/30 hover:shadow-[0_20px_60px_rgba(240,89,31,0.2)]">
@@ -51,10 +51,10 @@ export default function ChatPage() {
       </div>
 
       {/* Main Chat Area */}
-      <div className="flex-1 bg-white/[0.02] backdrop-blur-3xl border border-white/10 rounded-[40px] flex flex-col shadow-2xl h-[85vh] transition-all duration-700 transform-style-3d hover:-translate-y-2 hover:scale-[1.01] hover:border-orange-500/30 hover:shadow-[0_20px_60px_rgba(240,89,31,0.2)]">
+      <div className="flex-1 bg-white/[0.02] backdrop-blur-3xl border border-white/10 rounded-[24px] sm:rounded-[40px] flex flex-col shadow-2xl h-[60vh] md:h-[85vh] transition-all duration-700 transform-style-3d hover:-translate-y-2 hover:scale-[1.01] hover:border-orange-500/30 hover:shadow-[0_20px_60px_rgba(240,89,31,0.2)]">
         {/* Chat Header */}
-        <div className="p-6 border-b border-[#1e293b] flex justify-between items-center bg-[#020617]/50 rounded-t-3xl">
-          <div className="flex items-center gap-4">
+        <div className="p-4 sm:p-6 border-b border-[#1e293b] flex justify-between items-center bg-[#020617]/50 rounded-t-[24px] sm:rounded-t-3xl">
+          <div className="flex items-center gap-3 sm:gap-4">
             <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold text-sm">
               SK
             </div>

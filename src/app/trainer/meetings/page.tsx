@@ -8,13 +8,13 @@ export default function MeetingsPage() {
   ];
 
   return (
-    <div className="p-8 max-w-7xl mx-auto animate-in fade-in duration-500">
-      <div className="flex justify-between items-center mb-10">
+    <div className="p-4 sm:p-8 max-w-7xl mx-auto animate-in fade-in duration-500">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-10">
         <div>
-          <h1 className="text-3xl font-black text-white mb-2">Live Q&A Sessions</h1>
-          <p className="text-[#94a3b8]">Schedule and manage your weekly live meetings.</p>
+          <h1 className="text-2xl sm:text-3xl font-black text-white mb-1 sm:mb-2">Live Q&A Sessions</h1>
+          <p className="text-sm sm:text-base text-[#94a3b8]">Schedule and manage your weekly live meetings.</p>
         </div>
-        <button className="flex items-center gap-2 bg-gradient-to-r from-[#f0591f] to-orange-500 hover:opacity-90 text-white px-6 py-3 rounded-xl font-bold shadow-[0_0_20px_rgba(240,89,31,0.3)] transition-all active:scale-95">
+        <button className="w-full sm:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-[#f0591f] to-orange-500 hover:opacity-90 text-white px-6 py-3 rounded-xl font-bold shadow-[0_0_20px_rgba(240,89,31,0.3)] transition-all active:scale-95">
           <Plus className="w-5 h-5" /> Schedule Meeting
         </button>
       </div>

@@ -7,24 +7,22 @@ export default function EarningsDashboardPage() {
     <div className="p-6 md:p-12 w-full h-full relative overflow-y-auto hide-scrollbar z-10 animate-in fade-in zoom-in-95 duration-1000">
       
       {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6 relative z-10">
+      <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-12">
         <div>
-          <h1 className="text-5xl md:text-6xl font-black bg-gradient-to-br from-white via-white to-white/40 bg-clip-text text-transparent mb-2 tracking-tight">Your Revenue</h1>
-          <p className="text-[#94a3b8] text-lg">Track your 70% share and manage global payouts.</p>
+          <h1 className="text-3xl sm:text-4xl font-black text-white mb-2 tracking-tight">Earnings & Revenue</h1>
+          <p className="text-sm sm:text-base text-[#94a3b8]">Track your financial progress and withdraw funds.</p>
         </div>
-        <div className="flex gap-4">
-          <Link href="/trainer/earnings/history">
-            <button className="text-white px-8 py-4 rounded-3xl font-bold bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 transition-all shadow-xl hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] active:scale-95">
-              History
-            </button>
-          </Link>
-          <button className="flex items-center gap-2 bg-gradient-to-r from-[#f0591f] to-[#ff7a45] text-white px-8 py-4 rounded-3xl font-black shadow-[0_0_40px_rgba(240,89,31,0.4)] hover:shadow-[0_0_60px_rgba(240,89,31,0.6)] transition-all active:scale-95 group">
-            Withdraw <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+        <div className="flex flex-wrap gap-3 w-full md:w-auto">
+          <button className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-[#0f172a] border border-[#1e293b] hover:bg-[#1e293b] text-white px-5 py-3 rounded-2xl transition-colors font-bold text-sm">
+            <Download className="w-4 h-4" /> Export Report
+          </button>
+          <button className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-gradient-to-r from-[#f0591f] to-orange-500 hover:opacity-90 text-white px-6 py-3 rounded-2xl font-bold shadow-[0_0_20px_rgba(240,89,31,0.3)] transition-all active:scale-95 text-sm">
+            <CreditCard className="w-4 h-4" /> Withdraw Funds
           </button>
         </div>
       </div>
 
-      {/* Main Massive Glass Card - The Pinterest Hero */}
+      {/* Hero Stats Card - Massive Typography (Pinterest Inspiration) */}
       <div className="w-full rounded-[40px] md:rounded-[60px] bg-[#ffffff]/[0.02] backdrop-blur-3xl border border-white/10 p-8 md:p-16 mb-12 relative overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.5)] group transform-style-3d hover:-translate-y-2 hover:border-white/20 transition-all duration-700">
         {/* Inner Glows */}
         <div className="absolute top-[-50%] left-[-20%] w-[70%] h-[200%] bg-gradient-to-br from-purple-600/20 to-transparent blur-[100px] pointer-events-none group-hover:opacity-100 opacity-50 transition-opacity duration-1000" />

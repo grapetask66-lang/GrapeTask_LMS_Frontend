@@ -10,30 +10,30 @@ export default function StudentSubmissionsPage() {
   ];
 
   return (
-    <div className="p-8 max-w-7xl mx-auto animate-in fade-in duration-500">
-      <div className="flex justify-between items-end mb-10">
+    <div className="p-4 sm:p-8 max-w-7xl mx-auto animate-in fade-in duration-500">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-6 sm:mb-10">
         <div>
-          <h1 className="text-3xl font-black text-white mb-2">Student Submissions</h1>
-          <p className="text-[#94a3b8]">Review and grade assignments and summaries.</p>
+          <h1 className="text-2xl sm:text-3xl font-black text-white mb-1 sm:mb-2">Student Submissions</h1>
+          <p className="text-sm sm:text-base text-[#94a3b8]">Review and grade assignments and summaries.</p>
         </div>
         
-        <div className="flex gap-3">
-          <div className="relative">
+        <div className="flex w-full sm:w-auto gap-2 sm:gap-3">
+          <div className="relative flex-1 sm:flex-none">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748b]" />
             <input 
               type="text" 
-              placeholder="Search student..." 
-              className="bg-[#0f172a] border border-[#1e293b] rounded-xl pl-10 pr-4 py-2.5 text-white focus:border-[#f0591f] focus:outline-none transition-colors"
+              placeholder="Search..." 
+              className="w-full sm:w-auto bg-[#0f172a] border border-[#1e293b] rounded-xl pl-9 sm:pl-10 pr-4 py-2.5 text-sm sm:text-base text-white focus:border-[#f0591f] focus:outline-none transition-colors"
             />
           </div>
-          <button className="flex items-center gap-2 bg-[#0f172a] border border-[#1e293b] text-white px-4 py-2.5 rounded-xl hover:bg-[#1e293b] transition-colors">
-            <Filter className="w-4 h-4" /> Filter
+          <button className="flex items-center gap-1.5 sm:gap-2 bg-[#0f172a] border border-[#1e293b] text-white px-3 sm:px-4 py-2.5 rounded-xl hover:bg-[#1e293b] transition-colors whitespace-nowrap text-sm sm:text-base">
+            <Filter className="w-4 h-4" /> <span className="hidden sm:inline">Filter</span>
           </button>
         </div>
       </div>
 
-      <div className="bg-white/[0.02] backdrop-blur-3xl border border-white/10 rounded-[40px] overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.5)] transition-all duration-700 transform-style-3d hover:-translate-y-2 hover:scale-[1.01] hover:border-orange-500/30 hover:shadow-[0_20px_60px_rgba(240,89,31,0.2)]">
-        <table className="w-full text-left border-collapse">
+      <div className="bg-white/[0.02] backdrop-blur-3xl border border-white/10 rounded-2xl sm:rounded-[40px] overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.5)] transition-all duration-700 transform-style-3d hover:-translate-y-2 hover:scale-[1.01] hover:border-orange-500/30 hover:shadow-[0_20px_60px_rgba(240,89,31,0.2)] overflow-x-auto">
+        <table className="w-full text-left border-collapse min-w-[600px]">
           <thead>
             <tr className="border-b border-[#1e293b] bg-[#020617]/50">
               <th className="p-5 text-xs font-bold text-[#64748b] uppercase tracking-wider">Student</th>

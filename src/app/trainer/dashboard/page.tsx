@@ -1,13 +1,12 @@
-import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ProtectedRoute } from '@/components/layout/ProtectedRoute';
 import { TrainerDashboard } from '@/features/trainer/TrainerDashboard';
 
 export default function TrainerDashboardPage() {
   return (
     <ProtectedRoute>
-      <DashboardShell area="Trainer">
+      <div className="p-4 sm:p-8">
         <TrainerDashboard />
-      </DashboardShell>
+      </div>
     </ProtectedRoute>
   );
 }
