@@ -185,9 +185,8 @@ export default function DoubleSliderAuth() {
               </button>
             </div>
 
-            {/* Mobile Toggle Link */}
             <div className="sm:hidden w-full text-center mt-2 mb-8">
-              <p className="text-sm text-[#71717a]">Already a member? <button type="button" onClick={togglePanel} className="text-[#f0591f] font-bold">Sign in here</button></p>
+              <div className="text-sm text-[#71717a]">Already a member? <button type="button" onClick={togglePanel} className="text-[#f0591f] font-bold">Sign in here</button></div>
             </div>
 
           </form>
@@ -249,9 +248,8 @@ export default function DoubleSliderAuth() {
               </button>
             </div>
 
-            {/* Mobile Toggle Link */}
             <div className="sm:hidden w-full text-center mt-2 mb-8">
-              <p className="text-sm text-[#71717a]">Not a member? <button type="button" onClick={togglePanel} className="text-[#f0591f] font-bold">Sign up here</button></p>
+              <div className="text-sm text-[#71717a]">Not a member? <button type="button" onClick={togglePanel} className="text-[#f0591f] font-bold">Sign up here</button></div>
             </div>
 
           </form>
