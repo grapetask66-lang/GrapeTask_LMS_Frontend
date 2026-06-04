@@ -105,46 +105,58 @@ export function TrainerDashboard() {
       </div>
 
       {/* Quick Stats */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="bg-gradient-to-br from-gray-800 to-gray-800/50 border-gray-700">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 relative z-10">
+        <div className="bg-white/[0.02] backdrop-blur-3xl border border-white/10 rounded-[32px] p-6 sm:p-8 transition-all duration-700 transform-style-3d hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_20px_50px_rgba(240,89,31,0.15)] hover:border-orange-500/50 group relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 rounded-bl-full pointer-events-none group-hover:bg-orange-500/20 transition-colors" />
           <div className="flex items-start justify-between">
-            <div>
-              <p className="text-sm text-gray-400 mb-2">Total Courses</p>
-              <p className="text-2xl font-bold text-white">{courses.length}</p>
+            <div className="z-10 relative">
+              <p className="text-sm font-bold text-[#94a3b8] uppercase tracking-widest mb-4">Total Courses</p>
+              <p className="text-6xl font-black text-white">{courses.length}</p>
             </div>
-            <BookOpen className="w-8 h-8 text-orange-400/30" />
+            <div className="p-4 bg-orange-500/10 rounded-2xl border border-orange-500/20 group-hover:scale-110 transition-transform z-10 relative">
+              <BookOpen className="w-8 h-8 text-orange-400" />
+            </div>
           </div>
-        </Card>
+        </div>
         
-        <Card className="bg-gradient-to-br from-gray-800 to-gray-800/50 border-gray-700">
+        <div className="bg-white/[0.02] backdrop-blur-3xl border border-white/10 rounded-[32px] p-6 sm:p-8 transition-all duration-700 transform-style-3d hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_20px_50px_rgba(59,130,246,0.15)] hover:border-blue-500/50 group relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-bl-full pointer-events-none group-hover:bg-blue-500/20 transition-colors" />
           <div className="flex items-start justify-between">
-            <div>
-              <p className="text-sm text-gray-400 mb-2">Submissions</p>
-              <p className="text-2xl font-bold text-white">{submissions.length}</p>
+            <div className="z-10 relative">
+              <p className="text-sm font-bold text-[#94a3b8] uppercase tracking-widest mb-4">Submissions</p>
+              <p className="text-6xl font-black text-white">{submissions.length}</p>
             </div>
-            <MessageSquare className="w-8 h-8 text-blue-400/30" />
+            <div className="p-4 bg-blue-500/10 rounded-2xl border border-blue-500/20 group-hover:scale-110 transition-transform z-10 relative">
+              <MessageSquare className="w-8 h-8 text-blue-400" />
+            </div>
           </div>
-        </Card>
+        </div>
         
-        <Card className="bg-gradient-to-br from-gray-800 to-gray-800/50 border-gray-700">
+        <div className="bg-white/[0.02] backdrop-blur-3xl border border-white/10 rounded-[32px] p-6 sm:p-8 transition-all duration-700 transform-style-3d hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_20px_50px_rgba(168,85,247,0.15)] hover:border-purple-500/50 group relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-bl-full pointer-events-none group-hover:bg-purple-500/20 transition-colors" />
           <div className="flex items-start justify-between">
-            <div>
-              <p className="text-sm text-gray-400 mb-2">Awaiting Review</p>
-              <p className="text-2xl font-bold text-orange-400">{submissions.filter(s => !s.reviewed).length}</p>
+            <div className="z-10 relative">
+              <p className="text-sm font-bold text-[#94a3b8] uppercase tracking-widest mb-4">Awaiting Review</p>
+              <p className="text-6xl font-black text-purple-400">{submissions.filter(s => !s.reviewed).length}</p>
             </div>
-            <AlertCircle className="w-8 h-8 text-orange-400/30" />
+            <div className="p-4 bg-purple-500/10 rounded-2xl border border-purple-500/20 group-hover:scale-110 transition-transform z-10 relative">
+              <AlertCircle className="w-8 h-8 text-purple-400" />
+            </div>
           </div>
-        </Card>
+        </div>
         
-        <Card className="bg-gradient-to-br from-gray-800 to-gray-800/50 border-gray-700">
+        <div className="bg-white/[0.02] backdrop-blur-3xl border border-white/10 rounded-[32px] p-6 sm:p-8 transition-all duration-700 transform-style-3d hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_20px_50px_rgba(16,185,129,0.15)] hover:border-emerald-500/50 group relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-bl-full pointer-events-none group-hover:bg-emerald-500/20 transition-colors" />
           <div className="flex items-start justify-between">
-            <div>
-              <p className="text-sm text-gray-400 mb-2">Learners Active</p>
-              <p className="text-2xl font-bold text-emerald-400">24</p>
+            <div className="z-10 relative">
+              <p className="text-sm font-bold text-[#94a3b8] uppercase tracking-widest mb-4">Learners Active</p>
+              <p className="text-6xl font-black text-emerald-400">24</p>
             </div>
-            <Users className="w-8 h-8 text-emerald-400/30" />
+            <div className="p-4 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 group-hover:scale-110 transition-transform z-10 relative">
+              <Users className="w-8 h-8 text-emerald-400" />
+            </div>
           </div>
-        </Card>
+        </div>
       </div>
 
       {/* Course Creation & Video Upload */}
@@ -289,7 +301,7 @@ export function TrainerDashboard() {
             {courses.map((course) => (
               <div 
                 key={course.id} 
-                className="group rounded-xl border border-gray-700 bg-gray-800 p-5 transition-all duration-300 hover:shadow-lg hover:shadow-orange-500/5 hover:-translate-y-1 hover:border-orange-500/50"
+                className="group rounded-2xl border border-gray-700 bg-[#0f172a]/80 backdrop-blur-xl p-6 transition-all duration-500 transform-style-3d hover:shadow-[0_20px_50px_rgba(240,89,31,0.15)] hover:-translate-y-2 hover:scale-[1.02] hover:border-[#f0591f]/50"
               >
                 <div className="flex items-start justify-between mb-3">
                   <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-500/20 to-orange-500/5 flex items-center justify-center border border-orange-500/20">
@@ -350,7 +362,7 @@ export function TrainerDashboard() {
             {submissions.map((submission) => (
               <div 
                 key={submission.id} 
-                className="rounded-xl border border-gray-700 bg-gray-800 p-5 transition-all duration-300 hover:shadow-lg hover:shadow-black/20"
+                className="rounded-2xl border border-gray-700 bg-[#0f172a]/80 backdrop-blur-xl p-6 transition-all duration-500 transform-style-3d hover:shadow-[0_20px_50px_rgba(59,130,246,0.15)] hover:-translate-y-2 hover:scale-[1.02] hover:border-blue-500/50"
               >
                 <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                   <div className="flex-1 min-w-0">

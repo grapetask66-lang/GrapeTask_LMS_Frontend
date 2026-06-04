@@ -66,7 +66,9 @@ export default function DoubleSliderAuth() {
 
   const handleSignInSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    router.push('/dashboard');
+    window.localStorage.setItem('grapetask_lms_token', 'dummy-token');
+    window.localStorage.setItem('grapetask_lms_user', JSON.stringify({ role: 'trainer', name: 'Test User' }));
+    router.push('/trainer/dashboard');
   };
 
   return (
@@ -267,21 +269,21 @@ export default function DoubleSliderAuth() {
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#020617]/20 to-[#020617] sm:to-[#020617]/60" />
                 
                 {/* Floating Badges */}
-                <div className="absolute top-4 sm:top-12 left-4 sm:left-12 flex flex-col gap-1.5 sm:gap-2">
-                  <div className="bg-[#ea580c] sm:bg-[#f0591f] px-4 py-2 sm:px-6 sm:py-3.5 rounded-3xl sm:rounded-[2rem] shadow-xl transform transition-transform hover:translate-x-2 inline-flex flex-col max-w-max relative overflow-hidden">
-                    <div className="flex items-center gap-2 sm:gap-3">
-                      <p className="text-white font-extrabold text-xs sm:text-base leading-none">{slide.badge1}</p>
+                <div className="absolute top-4 sm:top-12 left-2 sm:left-12 flex flex-row sm:flex-col gap-2 sm:gap-2 w-[90%] sm:w-auto">
+                  <div className="bg-[#ea580c] sm:bg-[#f0591f] px-3 py-2 sm:px-6 sm:py-3.5 rounded-3xl sm:rounded-[2rem] shadow-xl transform transition-transform hover:translate-x-2 flex-1 sm:flex-none flex-col max-w-max relative overflow-hidden">
+                    <div className="flex items-center gap-1.5 sm:gap-3">
+                      <p className="text-white font-extrabold text-[11px] sm:text-base leading-none">{slide.badge1}</p>
                       <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#020617] animate-pulse"></div>
                     </div>
-                    <p className="text-white/90 font-medium text-[9px] sm:text-xs mt-1 leading-none">{slide.badge1Desc}</p>
+                    <p className="text-white/90 font-medium text-[8px] sm:text-xs mt-1 leading-none">{slide.badge1Desc}</p>
                   </div>
                   
-                  <div className="bg-[#020617] sm:bg-[#0a0a0a] px-4 py-2 sm:px-6 sm:py-3.5 rounded-3xl sm:rounded-[2rem] shadow-xl transform transition-transform hover:translate-x-2 inline-flex flex-col max-w-max ml-4 sm:ml-12 relative overflow-hidden">
-                    <div className="flex items-center gap-2 sm:gap-3">
-                      <p className="text-white font-extrabold text-xs sm:text-base leading-none">{slide.badge2}</p>
+                  <div className="bg-[#020617] sm:bg-[#0a0a0a] px-3 py-2 sm:px-6 sm:py-3.5 rounded-3xl sm:rounded-[2rem] shadow-xl transform transition-transform hover:translate-x-2 flex-1 sm:flex-none flex-col max-w-max sm:ml-12 relative overflow-hidden">
+                    <div className="flex items-center gap-1.5 sm:gap-3">
+                      <p className="text-white font-extrabold text-[11px] sm:text-base leading-none">{slide.badge2}</p>
                       <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#ea580c] sm:bg-[#f0591f] animate-pulse"></div>
                     </div>
-                    <p className="text-white/70 font-medium text-[9px] sm:text-xs mt-1 leading-none">{slide.badge2Desc}</p>
+                    <p className="text-white/70 font-medium text-[8px] sm:text-xs mt-1 leading-none">{slide.badge2Desc}</p>
                   </div>
                 </div>
 
