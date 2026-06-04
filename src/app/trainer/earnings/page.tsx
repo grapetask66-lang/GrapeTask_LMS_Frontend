@@ -1,5 +1,5 @@
 import React from 'react';
-import { DollarSign, TrendingUp, ArrowUpRight, ArrowDownRight, Wallet, Activity, CreditCard, Star } from 'lucide-react';
+import { DollarSign, TrendingUp, ArrowUpRight, ArrowDownRight, Wallet, Activity, CreditCard, Star, Download } from 'lucide-react';
 import Link from 'next/link';
 
 export default function EarningsDashboardPage() {
