@@ -1,4 +1,6 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { 
   BookOpen, 
@@ -13,7 +15,9 @@ import {
   Bell, 
   ShieldCheck, 
   Layers,
-  LayoutDashboard
+  LayoutDashboard,
+  Menu,
+  X
 } from 'lucide-react';
 
 export default function TrainerDashboardLayout({
@@ -36,6 +40,8 @@ export default function TrainerDashboardLayout({
     { name: 'Trainer Approvals', href: '/trainer/admin/trainers', icon: ShieldCheck },
     { name: 'Course Approvals', href: '/trainer/admin/courses', icon: Layers },
   ];
+
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
     <div className="flex h-screen bg-[#020617] text-white overflow-hidden font-sans p-4 gap-6">
@@ -63,8 +69,32 @@ export default function TrainerDashboardLayout({
       <div className="fixed bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-purple-600 opacity-[0.25] rounded-full blur-[120px] pointer-events-none animate-blob2" />
       <div className="fixed top-[40%] left-[30%] w-[40%] h-[40%] bg-blue-600 opacity-[0.15] rounded-full blur-[100px] pointer-events-none animate-blob1" style={{ animationDelay: '2s' }} />
 
+      {/* Mobile Hamburger Menu Button */}
+      <button 
+        onClick={() => setIsMobileMenuOpen(true)}
+        className="md:hidden fixed top-6 left-6 z-40 p-3 rounded-2xl bg-[#0f172a]/80 backdrop-blur-xl border border-white/10 text-white hover:bg-white/10 transition-colors shadow-xl"
+      >
+        <Menu className="w-6 h-6" />
+      </button>
+
+      {/* Mobile Sidebar Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
       {/* Floating Detached Sidebar (Pinterest Style: pin.it/5HKP49RwL) */}
-      <aside className="w-72 bg-[#0f172a]/60 backdrop-blur-3xl border border-white/10 rounded-[32px] hidden md:flex flex-col relative z-20 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden">
+      <aside className={`w-72 bg-[#0f172a]/80 backdrop-blur-3xl border border-white/10 rounded-[32px] flex flex-col relative z-50 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden transition-all duration-300 ${isMobileMenuOpen ? 'fixed inset-y-4 left-4 right-auto translate-x-0' : 'hidden md:flex translate-x-0'}`}>
+        
+        {/* Mobile Close Button */}
+        <button 
+          onClick={() => setIsMobileMenuOpen(false)}
+          className="md:hidden absolute top-6 right-6 p-2 rounded-xl bg-white/5 text-white hover:bg-white/10 transition-colors z-50"
+        >
+          <X className="w-5 h-5" />
+        </button>
         
         {/* Animated Top Glow */}
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#f0591f] to-transparent opacity-50" />
@@ -82,6 +112,7 @@ export default function TrainerDashboardLayout({
               <Link 
                 key={item.name} 
                 href={item.href}
+                onClick={() => setIsMobileMenuOpen(false)}
                 className="flex items-center gap-4 px-4 py-3.5 rounded-2xl text-[#94a3b8] hover:bg-gradient-to-r hover:from-[#f0591f]/10 hover:to-transparent hover:text-white hover:border-l-2 hover:border-[#f0591f] border-l-2 border-transparent transition-all group relative overflow-hidden"
               >
                 <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -111,7 +142,7 @@ export default function TrainerDashboardLayout({
       </aside>
 
       {/* Main Content Area (Detached) */}
-      <main className="flex-1 relative overflow-y-auto rounded-[32px] bg-[#020617] border border-white/5 shadow-2xl z-10">
+      <main className="flex-1 relative overflow-y-auto rounded-[32px] bg-[#020617] border border-white/5 shadow-2xl z-10 mt-16 md:mt-0 pt-6 md:pt-0">
         <div className="min-h-full">
           {children}
         </div>
