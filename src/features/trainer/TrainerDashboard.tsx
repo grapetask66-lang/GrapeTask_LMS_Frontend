@@ -111,10 +111,10 @@ export function TrainerDashboard() {
           <div className="flex items-start justify-between">
             <div className="z-10 relative">
               <p className="text-sm font-bold text-[#94a3b8] uppercase tracking-widest mb-4">Total Courses</p>
-              <p className="text-6xl font-black text-white">{courses.length}</p>
+              <p className="text-4xl sm:text-6xl font-black text-white">{courses.length}</p>
             </div>
-            <div className="p-4 bg-orange-500/10 rounded-2xl border border-orange-500/20 group-hover:scale-110 transition-transform z-10 relative">
-              <BookOpen className="w-8 h-8 text-orange-400" />
+            <div className="p-3 sm:p-4 bg-orange-500/10 rounded-2xl border border-orange-500/20 group-hover:scale-110 transition-transform z-10 relative">
+              <BookOpen className="w-6 h-6 sm:w-8 sm:h-8 text-orange-400" />
             </div>
           </div>
         </div>
@@ -124,10 +124,10 @@ export function TrainerDashboard() {
           <div className="flex items-start justify-between">
             <div className="z-10 relative">
               <p className="text-sm font-bold text-[#94a3b8] uppercase tracking-widest mb-4">Submissions</p>
-              <p className="text-6xl font-black text-white">{submissions.length}</p>
+              <p className="text-4xl sm:text-6xl font-black text-white">{submissions.length}</p>
             </div>
-            <div className="p-4 bg-blue-500/10 rounded-2xl border border-blue-500/20 group-hover:scale-110 transition-transform z-10 relative">
-              <MessageSquare className="w-8 h-8 text-blue-400" />
+            <div className="p-3 sm:p-4 bg-blue-500/10 rounded-2xl border border-blue-500/20 group-hover:scale-110 transition-transform z-10 relative">
+              <MessageSquare className="w-6 h-6 sm:w-8 sm:h-8 text-blue-400" />
             </div>
           </div>
         </div>
@@ -137,10 +137,10 @@ export function TrainerDashboard() {
           <div className="flex items-start justify-between">
             <div className="z-10 relative">
               <p className="text-sm font-bold text-[#94a3b8] uppercase tracking-widest mb-4">Awaiting Review</p>
-              <p className="text-6xl font-black text-purple-400">{submissions.filter(s => !s.reviewed).length}</p>
+              <p className="text-4xl sm:text-6xl font-black text-purple-400">{submissions.filter(s => !s.reviewed).length}</p>
             </div>
-            <div className="p-4 bg-purple-500/10 rounded-2xl border border-purple-500/20 group-hover:scale-110 transition-transform z-10 relative">
-              <AlertCircle className="w-8 h-8 text-purple-400" />
+            <div className="p-3 sm:p-4 bg-purple-500/10 rounded-2xl border border-purple-500/20 group-hover:scale-110 transition-transform z-10 relative">
+              <AlertCircle className="w-6 h-6 sm:w-8 sm:h-8 text-purple-400" />
             </div>
           </div>
         </div>
@@ -150,10 +150,10 @@ export function TrainerDashboard() {
           <div className="flex items-start justify-between">
             <div className="z-10 relative">
               <p className="text-sm font-bold text-[#94a3b8] uppercase tracking-widest mb-4">Learners Active</p>
-              <p className="text-6xl font-black text-emerald-400">24</p>
+              <p className="text-4xl sm:text-6xl font-black text-emerald-400">24</p>
             </div>
-            <div className="p-4 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 group-hover:scale-110 transition-transform z-10 relative">
-              <Users className="w-8 h-8 text-emerald-400" />
+            <div className="p-3 sm:p-4 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 group-hover:scale-110 transition-transform z-10 relative">
+              <Users className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-400" />
             </div>
           </div>
         </div>

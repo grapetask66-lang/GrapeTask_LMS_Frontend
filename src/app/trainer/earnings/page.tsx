@@ -36,10 +36,10 @@ export default function EarningsDashboardPage() {
               <span className="text-[#cbd5e1] font-bold text-sm tracking-widest uppercase">Available Balance</span>
             </div>
             
-            <div className="flex items-start gap-4 mb-8">
-              <span className="text-4xl md:text-6xl font-black text-white/50 mt-2">$</span>
-              <h1 className="text-7xl md:text-[140px] leading-none font-black text-white tracking-tighter drop-shadow-2xl">
-                4,250<span className="text-4xl md:text-6xl text-white/30">.00</span>
+            <div className="flex items-start gap-2 sm:gap-4 mb-8">
+              <span className="text-2xl sm:text-4xl md:text-6xl font-black text-white/50 mt-1 sm:mt-2">$</span>
+              <h1 className="text-5xl sm:text-7xl md:text-[140px] leading-none font-black text-white tracking-tighter drop-shadow-2xl">
+                4,250<span className="text-2xl sm:text-4xl md:text-6xl text-white/30">.00</span>
               </h1>
             </div>
             
@@ -61,7 +61,7 @@ export default function EarningsDashboardPage() {
                 <span className="text-purple-400 font-bold text-sm bg-purple-500/10 px-3 py-1 rounded-full">All Time</span>
               </div>
               <p className="text-[#94a3b8] text-sm font-bold uppercase tracking-widest mb-1">Total Earned</p>
-              <h3 className="text-4xl font-black text-white">$12,450.50</h3>
+              <h3 className="text-2xl sm:text-4xl font-black text-white">$12,450.50</h3>
             </div>
 
             <div className="bg-[#020617]/40 backdrop-blur-xl border border-white/10 rounded-[32px] p-8 shadow-inner transform-style-3d hover:scale-[1.02] transition-transform duration-500">
@@ -72,7 +72,7 @@ export default function EarningsDashboardPage() {
                 <span className="text-orange-400 font-bold text-sm bg-orange-500/10 px-3 py-1 rounded-full">Clears soon</span>
               </div>
               <p className="text-[#94a3b8] text-sm font-bold uppercase tracking-widest mb-1">Pending Clearance</p>
-              <h3 className="text-4xl font-black text-white">$320.00</h3>
+              <h3 className="text-2xl sm:text-4xl font-black text-white">$320.00</h3>
             </div>
           </div>
           
