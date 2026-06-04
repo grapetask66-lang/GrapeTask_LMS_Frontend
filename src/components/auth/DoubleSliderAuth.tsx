@@ -101,28 +101,27 @@ export default function DoubleSliderAuth() {
         .overlay-right { right: 0; transform: translateX(0); }
         .auth-container.right-panel-active .overlay-right { transform: translateX(20%); }
 
-        /* Mobile specific fixes - Carousel Top, Form Bottom */
+        /* Mobile specific fixes - Premium Glass Card Overlap */
         @media (max-width: 768px) {
-          .auth-container { min-height: 100vh; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; }
+          .auth-container { min-height: 100vh; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; background-color: #020617; }
           
-          /* The Image Carousel Overlay goes to the top */
-          .overlay-container { display: block; width: 100%; height: 380px; min-height: 380px; left: 0; top: 0; position: relative; z-index: 10; transform: none !important; transition: none; border-bottom-left-radius: 1.5rem; border-bottom-right-radius: 1.5rem; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5); }
+          /* The Image Carousel Overlay takes up upper half */
+          .overlay-container { display: block; width: 100%; height: 420px; min-height: 420px; left: 0; top: 0; position: absolute; z-index: 1; transform: none !important; transition: none; overflow: hidden; }
           .auth-container.right-panel-active .overlay-container { transform: none !important; }
           
           .overlay { width: 100%; height: 100%; top: 0; left: 0; transform: none !important; transition: none; background: transparent; }
           .auth-container.right-panel-active .overlay { transform: none !important; }
           
-          /* Hide the desktop overlay buttons on mobile since we will use text links at the bottom */
           .overlay-panel { display: none !important; }
           
-          /* The forms take up the rest of the space below the carousel */
-          .form-container { width: 100%; height: auto; position: absolute; top: 380px; padding: 30px 20px 40px 20px; transition: opacity 0.4s ease-in-out; }
+          /* The form overlaps the image beautifully as a glass card */
+          .form-container { width: calc(100% - 32px); height: auto; position: absolute; top: 340px; left: 16px !important; margin-bottom: 40px; padding: 40px 24px; transition: opacity 0.4s ease-in-out; background: rgba(2, 6, 23, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 32px; box-shadow: 0 -20px 40px rgba(0,0,0,0.4); }
           
-          .sign-in-container { opacity: 1; visibility: visible; z-index: 5; transform: none !important; left: 0; }
-          .auth-container.right-panel-active .sign-in-container { opacity: 0; visibility: hidden; z-index: 1; transform: none !important; left: 0; display: none; }
+          .sign-in-container { opacity: 1; visibility: visible; z-index: 5; transform: none !important; }
+          .auth-container.right-panel-active .sign-in-container { opacity: 0; visibility: hidden; z-index: 1; transform: none !important; display: none; }
           
-          .sign-up-container { opacity: 0; visibility: hidden; z-index: 1; transform: none !important; left: 0; display: none; }
-          .auth-container.right-panel-active .sign-up-container { opacity: 1; visibility: visible; z-index: 5; animation: none; transform: none !important; left: 0; display: flex; }
+          .sign-up-container { opacity: 0; visibility: hidden; z-index: 1; transform: none !important; display: none; }
+          .auth-container.right-panel-active .sign-up-container { opacity: 1; visibility: visible; z-index: 5; animation: none; transform: none !important; display: flex; }
         }
       `}} />
 
@@ -267,28 +266,9 @@ export default function DoubleSliderAuth() {
               <div key={index} className={`absolute inset-0 transition-opacity duration-1000 ${currentSlide === index ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}>
                 <Image src={slide.image} alt={slide.title} fill className="object-cover" priority={index === 0} />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#020617]/20 to-[#020617] sm:to-[#020617]/60" />
-                
-                {/* Floating Badges */}
-                <div className="absolute top-4 sm:top-12 left-2 sm:left-12 flex flex-row sm:flex-col gap-2 sm:gap-2 w-[90%] sm:w-auto">
-                  <div className="bg-[#ea580c] sm:bg-[#f0591f] px-3 py-2 sm:px-6 sm:py-3.5 rounded-3xl sm:rounded-[2rem] shadow-xl transform transition-transform hover:translate-x-2 flex-1 sm:flex-none flex-col max-w-max relative overflow-hidden">
-                    <div className="flex items-center gap-1.5 sm:gap-3">
-                      <p className="text-white font-extrabold text-[11px] sm:text-base leading-none">{slide.badge1}</p>
-                      <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#020617] animate-pulse"></div>
-                    </div>
-                    <p className="text-white/90 font-medium text-[8px] sm:text-xs mt-1 leading-none">{slide.badge1Desc}</p>
-                  </div>
-                  
-                  <div className="bg-[#020617] sm:bg-[#0a0a0a] px-3 py-2 sm:px-6 sm:py-3.5 rounded-3xl sm:rounded-[2rem] shadow-xl transform transition-transform hover:translate-x-2 flex-1 sm:flex-none flex-col max-w-max sm:ml-12 relative overflow-hidden">
-                    <div className="flex items-center gap-1.5 sm:gap-3">
-                      <p className="text-white font-extrabold text-[11px] sm:text-base leading-none">{slide.badge2}</p>
-                      <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#ea580c] sm:bg-[#f0591f] animate-pulse"></div>
-                    </div>
-                    <p className="text-white/70 font-medium text-[8px] sm:text-xs mt-1 leading-none">{slide.badge2Desc}</p>
-                  </div>
-                </div>
 
                 {/* Text Content */}
-                <div className="absolute bottom-12 sm:bottom-20 left-6 sm:left-12 pr-6">
+                <div className="absolute bottom-28 sm:bottom-20 left-6 sm:left-12 pr-6">
                   <h2 className="text-2xl sm:text-4xl font-black text-white mb-1 sm:mb-2 drop-shadow-lg">{slide.title}</h2>
                   <p className="text-white/80 text-xs sm:text-sm max-w-[280px] sm:max-w-sm drop-shadow-md">{slide.desc}</p>
                 </div>
