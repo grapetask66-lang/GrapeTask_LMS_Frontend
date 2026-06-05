@@ -402,10 +402,14 @@ export function InstituteDashboard() {
                 onChange={(event) => setReportForm({ ...reportForm, courseId: event.target.value })} 
                 required
               >
-                <option value="">Select course...</option>
-                {courses.map((course) => (
-                  <option key={course.id} value={course.id}>{course.title}</option>
-                ))}
+                <option value="" disabled={courses.length > 0}>Select course...</option>
+                {courses.length === 0 ? (
+                  <option value="" disabled>No active courses available</option>
+                ) : (
+                  courses.map((course) => (
+                    <option key={course.id} value={course.id}>{course.title}</option>
+                  ))
+                )}
               </SelectInput>
             </Field>
             

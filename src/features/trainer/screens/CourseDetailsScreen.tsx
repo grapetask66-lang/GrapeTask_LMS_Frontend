@@ -1,0 +1,105 @@
+'use client';
+
+import Link from 'next/link';
+import dynamic from 'next/dynamic';
+import { useEffect, useState } from 'react';
+import { Award, CheckCircle2, ChevronRight, GraduationCap, Send, Upload, Video as VideoIcon } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
+import { Card, CardTitle } from '@/components/ui/Card';
+import { StatusBadge } from '../components/TrainerShared';
+import { getCourse as apiGetCourse } from '@/services/trainerApi';
+
+const VideoListScreen = dynamic(
+  () => import('./VideoListScreen').then((mod) => mod.VideoListScreen),
+  { ssr: false, loading: () => <div className="py-8 text-center text-gray-500 text-sm">Loading lessons...</div> }
+);
+
+type Course = any;
+
+export function CourseDetailsScreen({ courseId }: { courseId: string }) {
+  const [course, setCourse] = useState<Course | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let mounted = true;
+    apiGetCourse(courseId)
+      .then((res) => {
+        if (mounted) setCourse(res.data ?? res);
+      })
+      .catch((err) => console.error('Failed to load course', err))
+      .finally(() => { if (mounted) setLoading(false); });
+    return () => { mounted = false; };
+  }, [courseId]);
+
+  if (loading) return <div className="flex h-64 items-center justify-center"><div className="h-8 w-8 animate-spin rounded-full border-4 border-orange-500 border-t-transparent" /></div>;
+  if (!course) return <div className="p-8 text-center text-gray-400">Course not found.</div>;
+
+  return (
+    <div className="space-y-8 pb-8">
+      <div className="flex items-center gap-2 text-sm text-gray-400 mb-4">
+        <Link href="/trainer/courses" className="hover:text-white transition-colors">Courses</Link>
+        <ChevronRight className="h-4 w-4" />
+        <span className="text-gray-300">Course Details</span>
+      </div>
+
+      <Card className="relative overflow-hidden border-gray-700/50 bg-gray-900/80 p-8 shadow-2xl">
+        <div className="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-orange-500/10 to-transparent pointer-events-none" />
+
+        <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+          <div className="max-w-3xl">
+            <div className="flex items-center gap-3 mb-4">
+              <StatusBadge status={course.status ?? 'pending_review'} />
+              <span className="rounded-md bg-gray-800 px-2 py-1 text-xs font-semibold uppercase tracking-wider text-gray-400">{course.category}</span>
+            </div>
+
+            <h1 className="text-3xl font-bold text-white sm:text-4xl">{course.title}</h1>
+            <p className="mt-4 text-lg leading-relaxed text-gray-400">{course.description}</p>
+
+            <div className="mt-6 flex items-center gap-6 text-sm font-medium text-gray-300">
+              <div className="flex items-center gap-2"><GraduationCap className="h-5 w-5 text-orange-400" /> <span className="capitalize">{course.level}</span></div>
+              <div className="flex items-center gap-2"><Award className="h-5 w-5 text-orange-400" /> PKR {Number(course.price || 0).toLocaleString()}</div>
+              <div className="flex items-center gap-2"><VideoIcon className="h-5 w-5 text-orange-400" /> {course.videos?.length || 0} Lessons</div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-3 min-w-[200px]">
+            <Link href={`/trainer/courses/${courseId}/videos/upload`} className="w-full">
+              <Button size="lg" className="w-full shadow-lg shadow-orange-500/20"><Upload className="mr-2 h-4 w-4" /> Upload Content</Button>
+            </Link>
+            <Button size="lg" variant="ghost" className="w-full border border-gray-600 bg-gray-800 hover:bg-gray-700 hover:text-white">
+              <Send className="mr-2 h-4 w-4" /> Submit for Review
+            </Button>
+          </div>
+        </div>
+      </Card>
+
+      <div className="grid gap-6 lg:grid-cols-2">
+        <Card className="border-gray-700/50 bg-gray-800/30">
+          <CardTitle title="Prerequisites" caption="What students need before starting" />
+          <ul className="mt-4 space-y-3">
+            {(course.requirements ?? []).map((req: string, i: number) => (
+              <li key={i} className="flex items-start gap-3 text-gray-300">
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-gray-500" /> {req}
+              </li>
+            ))}
+          </ul>
+        </Card>
+        <Card className="border-gray-700/50 bg-gray-800/30">
+          <CardTitle title="Learning Outcomes" caption="What students will achieve" />
+          <ul className="mt-4 space-y-3">
+            {(course.learningOutcomes ?? course.outcomes ?? []).map((out: string, i: number) => (
+              <li key={i} className="flex items-start gap-3 text-gray-300">
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" /> {out}
+              </li>
+            ))}
+          </ul>
+        </Card>
+      </div>
+
+      <div className="mt-12">
+        <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2"><VideoIcon className="h-5 w-5 text-orange-400" /> Curriculum &amp; Lessons</h2>
+        <VideoListScreen courseId={courseId} embedded />
+      </div>
+    </div>
+  );
+}

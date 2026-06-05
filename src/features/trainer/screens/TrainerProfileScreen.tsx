@@ -1,0 +1,550 @@
+'use client';
+
+import { FormEvent, useEffect, useState, useRef, ChangeEvent } from 'react';
+import { BadgeCheck, AlertCircle, UserRound, Save, Briefcase, Globe, Award, Zap, Camera } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
+import { Card, CardTitle } from '@/components/ui/Card';
+import { Field, TextInput } from '@/components/ui/Field';
+import { PageHeader } from '../components/TrainerShared';
+import { trainerLevels } from '../trainerModuleData';
+import { getProfile, updateProfile } from '@/services/trainerApi';
+import { useToastStore } from '@/store/toast-store';
+import { useAuthStore } from '@/store/auth-store';
+import { getErrorMessage } from '@/utils/errorParser';
+
+/* ─── Two Accent Colors Only: Navy Blue (primary) & Orange (secondary) ─── */
+const theme = {
+  navy: {
+    bg: 'bg-blue-500/10',
+    border: 'border-blue-500/20',
+    text: 'text-blue-400',
+    gradient: 'from-blue-600/15 via-blue-500/10 to-blue-600/5',
+    glow: 'shadow-blue-500/10',
+    solid: 'bg-blue-600',
+    solidHover: 'hover:bg-blue-500',
+    subtle: 'bg-blue-500/5',
+    subtleBorder: 'border-blue-500/10',
+    subtleText: 'text-blue-400/60',
+    depth: 'shadow-[0_8px_32px_-8px_rgba(59,130,246,0.2),0_4px_16px_-4px_rgba(59,130,246,0.1)]',
+    glow3D: 'shadow-[0_0_40px_-8px_rgba(59,130,246,0.3),0_0_80px_-16px_rgba(59,130,246,0.15)]',
+    reflection: 'bg-gradient-to-br from-blue-400/5 via-transparent to-blue-600/10',
+  },
+  orange: {
+    bg: 'bg-orange-500/10',
+    border: 'border-orange-500/20',
+    text: 'text-orange-400',
+    gradient: 'from-orange-600/15 via-orange-500/10 to-orange-600/5',
+    glow: 'shadow-orange-500/10',
+    solid: 'bg-orange-600',
+    solidHover: 'hover:bg-orange-500',
+    subtle: 'bg-orange-500/5',
+    subtleBorder: 'border-orange-500/10',
+    subtleText: 'text-orange-400/60',
+    depth: 'shadow-[0_8px_32px_-8px_rgba(249,115,22,0.2),0_4px_16px_-4px_rgba(249,115,22,0.1)]',
+    glow3D: 'shadow-[0_0_40px_-8px_rgba(249,115,22,0.3),0_0_80px_-16px_rgba(249,115,22,0.15)]',
+    reflection: 'bg-gradient-to-br from-orange-400/5 via-transparent to-orange-600/10',
+  },
+} as const;
+
+type ThemeKey = keyof typeof theme;
+
+const card3DClass = "transition-all duration-500 ease-out transform-gpu perspective-1000 hover:rotate-y-1 hover:rotate-x-0.5 hover:shadow-[0_20px_60px_-12px_rgba(0,0,0,0.5),0_10px_40px_-8px_rgba(0,0,0,0.3)] hover:-translate-y-2 hover:scale-[1.02]";
+
+const glassEffect = "backdrop-blur-xl bg-gradient-to-br from-gray-800/40 to-gray-900/60 border border-white/[0.08] shadow-[0_8px_32px_-8px_rgba(0,0,0,0.4)]";
+
+function SectionHeader({
+  icon: Icon,
+  themeKey,
+  title,
+  caption,
+}: {
+  icon: React.ElementType;
+  themeKey: ThemeKey;
+  title: string;
+  caption: string;
+}) {
+  const t = theme[themeKey];
+  return (
+    <div className="flex items-center gap-3.5 mb-6 group">
+      <div
+        className={`w-12 h-12 rounded-2xl ${t.bg} border ${t.border} flex items-center justify-center flex-shrink-0 ${t.depth} ${t.reflection} transition-all duration-500 ease-out group-hover:scale-110 group-hover:rotate-6 group-hover:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.4),0_0_20px_-4px_rgba(59,130,246,0.2)] relative overflow-hidden`}
+        style={{ transformStyle: 'preserve-3d' }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] to-transparent rounded-2xl" />
+        <div className="absolute inset-0 bg-gradient-to-tl from-transparent via-white/[0.02] to-transparent rounded-2xl" />
+        <Icon className={`w-5 h-5 ${t.text} relative z-10 drop-shadow-lg transition-transform duration-500 group-hover:scale-110`} />
+      </div>
+      <div>
+        <h3 className="text-[17px] font-semibold text-white leading-snug tracking-[-0.01em] relative">
+          {title}
+          <div className="absolute -bottom-1 left-0 w-0 h-[2px] bg-gradient-to-r from-blue-400/0 via-blue-400/50 to-blue-400/0 group-hover:w-full transition-all duration-700 ease-out" />
+        </h3>
+        {caption && <p className="text-[13px] text-gray-500 mt-1 leading-relaxed font-normal">{caption}</p>}
+      </div>
+    </div>
+  );
+}
+
+export function TrainerProfileScreen() {
+  const [profile, setProfile] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+  const [initLoading, setInitLoading] = useState(true);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
+  const profileRef = useRef<HTMLDivElement>(null);
+  const avatarInputRef = useRef<HTMLInputElement>(null);
+  const { showToast } = useToastStore();
+  const { updateUser } = useAuthStore();
+
+  // Inject keyframe animations
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes staggeredFadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px) scale(0.95) rotateX(2deg);
+          filter: blur(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1) rotateX(0);
+          filter: blur(0);
+        }
+      }
+      
+      @keyframes scaleIn {
+        from {
+          opacity: 0;
+          transform: scale(0.9) translateZ(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1) translateZ(0);
+        }
+      }
+      
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      
+      @keyframes shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+      }
+      
+      @keyframes pulse-subtle {
+        0%, 100% { opacity: 0.6; }
+        50% { opacity: 1; }
+      }
+      
+      @keyframes pulse {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 1; }
+      }
+      
+      @keyframes float3D {
+        0%, 100% { 
+          transform: translate3d(0, 0, 0) rotateX(0deg); 
+          filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+        }
+        25% { 
+          transform: translate3d(3px, -6px, 15px) rotateX(1deg); 
+          filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4));
+        }
+        50% { 
+          transform: translate3d(-3px, -10px, 8px) rotateX(-0.5deg); 
+          filter: drop-shadow(0 6px 12px rgba(0,0,0,0.35));
+        }
+        75% { 
+          transform: translate3d(2px, -4px, 18px) rotateX(0.5deg); 
+          filter: drop-shadow(0 10px 20px rgba(0,0,0,0.45));
+        }
+      }
+      
+      @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      
+      .perspective-1000 {
+        perspective: 1000px;
+      }
+      
+      .transform-style-3d {
+        transform-style: preserve-3d;
+      }
+      
+      .parallax-card {
+        transition: transform 0.1s ease-out, box-shadow 0.3s ease;
+        transform-style: preserve-3d;
+      }
+    `;
+    document.head.appendChild(style);
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
+
+  // 3D parallax effect on mouse move
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!profileRef.current) return;
+      const cards = profileRef.current.querySelectorAll('.parallax-card');
+      cards.forEach((card) => {
+        const rect = (card as HTMLElement).getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -5;
+        const rotateY = ((x - centerX) / centerX) * 5;
+
+        (card as HTMLElement).style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px) scale3d(1.02, 1.02, 1.02)`;
+      });
+    };
+
+    const handleMouseLeave = () => {
+      if (!profileRef.current) return;
+      const cards = profileRef.current.querySelectorAll('.parallax-card');
+      cards.forEach((card) => {
+        (card as HTMLElement).style.transform = '';
+      });
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseleave', handleMouseLeave);
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, []);
+
+  useEffect(() => {
+    let mounted = true;
+    getProfile()
+      .then((res) => {
+        if (!mounted) return;
+        setProfile(res.data ?? res);
+      })
+      .catch((err) => console.error('Failed to load profile', err))
+      .finally(() => { if (mounted) setInitLoading(false); });
+    return () => { mounted = false; };
+  }, []);
+
+  const handleAvatarClick = () => {
+    avatarInputRef.current?.click();
+  };
+
+  const handleAvatarChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Local preview
+    const previewUrl = URL.createObjectURL(file);
+    setAvatarPreview(previewUrl);
+
+    // Immediate upload
+    try {
+      setIsUploadingAvatar(true);
+      const fd = new FormData();
+      fd.append('avatar', file);
+      
+      await updateProfile(fd);
+      const updated = await getProfile();
+      setProfile(updated.data ?? updated);
+      updateUser({ avatar: (updated.data ?? updated).avatar });
+      showToast('Profile image updated successfully.', 'success');
+    } catch (err) {
+      console.error('Avatar upload failed', err);
+      showToast(getErrorMessage(err, 'Failed to update profile image.'), 'error');
+    } finally {
+      setIsUploadingAvatar(false);
+    }
+  };
+
+  async function handleSave(e: FormEvent) {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const fd = new FormData(form);
+
+    const rawSkills = fd.get('trainerSkills[]');
+    if (typeof rawSkills === 'string') {
+      const skills = rawSkills
+        .split(/[,\n]/)
+        .map((skill) => skill.trim())
+        .filter(Boolean);
+      fd.delete('trainerSkills[]');
+      skills.forEach((skill) => fd.append('trainerSkills[]', skill));
+    }
+
+    try {
+      setLoading(true);
+      await updateProfile(fd);
+      const updated = await getProfile();
+      setProfile(updated.data ?? updated);
+      updateUser({ 
+        name: (updated.data ?? updated).name,
+        avatar: (updated.data ?? updated).avatar 
+      });
+      showToast('Profile updated successfully.', 'success');
+    } catch (err) {
+      console.error('Update profile failed', err);
+      showToast(getErrorMessage(err, 'Failed to update profile.'), 'error');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (initLoading) return (
+    <div className="flex h-96 items-center justify-center">
+      <div className="relative">
+        <div className="h-16 w-16 animate-spin rounded-full border-4 border-orange-500/20 border-t-orange-500 shadow-[0_0_30px_rgba(249,115,22,0.3)]" />
+        <div className="absolute inset-0 h-16 w-16 rounded-full border-4 border-blue-500/10 border-b-blue-500 animate-[spin_3s_linear_infinite]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-orange-500/20 to-blue-500/20 rounded-full blur-xl animate-pulse" />
+      </div>
+    </div>
+  );
+
+  return (
+    <div ref={profileRef} className="space-y-8 pb-8 relative">
+      {/* 3D BACKGROUND PARTICLES */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }}>
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl animate-[float3D_8s_ease-in-out_infinite]" />
+        <div className="absolute top-3/4 right-1/4 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl animate-[float3D_10s_ease-in-out_infinite_1s]" />
+        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-blue-400/5 rounded-full blur-3xl animate-[float3D_12s_ease-in-out_infinite_2s]" />
+      </div>
+
+      {/* PAGE HEADER */}
+      <div className="relative z-10">
+        <PageHeader title="Profile & Settings" caption="Manage your professional identity, experience, and platform visibility." />
+      </div>
+
+      <div className="grid gap-8 lg:grid-cols-[1fr_1.5fr] relative z-10">
+        {/* Left Column - Profile Card & Info */}
+        <div className="space-y-6">
+          {/* Profile Avatar Card */}
+          <div
+            className={`relative rounded-2xl ${glassEffect} p-8 text-center overflow-hidden ${card3DClass} parallax-card
+              before:absolute before:top-0 before:left-8 before:right-8 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent
+              after:absolute after:bottom-0 after:left-8 after:right-8 after:h-px after:bg-gradient-to-r after:from-transparent after:via-white/[0.04] after:to-transparent
+              transform-gpu animate-[scaleIn_0.5s_cubic-bezier(0.16,1,0.3,1)_forwards] opacity-0`}
+            style={{ transformStyle: 'preserve-3d' }}
+          >
+            {/* 3D ambient lights */}
+            <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-orange-500/20 blur-3xl transition-all duration-700 group-hover:opacity-30 group-hover:scale-110" />
+            <div className="absolute -bottom-20 -left-20 w-60 h-60 rounded-full bg-blue-500/10 blur-3xl transition-all duration-700 group-hover:opacity-20 group-hover:scale-110" />
+
+            {/* Avatar with orbiting ring */}
+            <div className="relative mx-auto w-28 h-28 group/avatar cursor-pointer" onClick={handleAvatarClick}>
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-orange-500 via-blue-500 to-orange-500 animate-[spin_4s_linear_infinite] opacity-75 blur-sm group-hover/avatar:opacity-100 transition-opacity" />
+              <div className="absolute inset-[3px] rounded-full bg-gray-900" />
+              
+              <div className="absolute inset-[3px] flex items-center justify-center rounded-full bg-gradient-to-br from-orange-500/20 to-orange-600/10 shadow-inner overflow-hidden">
+                {avatarPreview || profile?.avatar ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={avatarPreview || `http://localhost:8000${profile?.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
+                ) : (
+                  <UserRound className="h-12 w-12 text-orange-400 relative z-10 drop-shadow-lg" />
+                )}
+                
+                {/* Hover overlay for upload */}
+                <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover/avatar:opacity-100 transition-opacity duration-300">
+                  <Camera className="w-8 h-8 text-white" />
+                </div>
+              </div>
+
+              {/* Upload spinner */}
+              {isUploadingAvatar && (
+                <div className="absolute inset-[3px] rounded-full bg-black/50 flex items-center justify-center z-20">
+                  <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                </div>
+              )}
+
+              {/* Hidden input */}
+              <input type="file" ref={avatarInputRef} className="hidden" accept="image/*" onChange={handleAvatarChange} />
+
+              {/* Floating particles around avatar */}
+              <div className="absolute -top-1 -right-1 w-2 h-2 bg-orange-400 rounded-full shadow-[0_0_10px_rgba(249,115,22,0.8)] animate-pulse" />
+              <div className="absolute -bottom-1 -left-1 w-2 h-2 bg-blue-400 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.8)] animate-pulse" style={{ animationDelay: '0.5s' }} />
+            </div>
+
+            <h2 className="mt-6 text-3xl font-bold text-white bg-gradient-to-r from-white via-white to-gray-300 bg-clip-text text-transparent">{profile?.name ?? '—'}</h2>
+            <p className="mt-1 text-sm font-medium text-gray-400">{profile?.role ?? 'Trainer'}</p>
+
+            <div className="mt-6 flex justify-center">
+              {profile?.verifiedBadge ? (
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-xs font-semibold text-emerald-400 shadow-[0_4px_12px_rgba(16,185,129,0.3)] backdrop-blur-sm transition-all duration-300 hover:shadow-[0_8px_20px_rgba(16,185,129,0.4)] hover:scale-105">
+                  <BadgeCheck className="h-4 w-4" /> Verified Educator
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-gray-600/50 bg-gray-800/50 px-4 py-2 text-xs font-medium text-gray-400 backdrop-blur-sm transition-all duration-300 hover:border-orange-500/30 hover:text-orange-300 hover:shadow-[0_4px_12px_rgba(249,115,22,0.2)]">
+                  <AlertCircle className="h-4 w-4" /> Unverified Profile
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* Professional Info Card */}
+          <div
+            className={`relative rounded-2xl ${glassEffect} overflow-hidden ${card3DClass} parallax-card
+              before:absolute before:top-0 before:left-8 before:right-8 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent
+              after:absolute after:bottom-0 after:left-8 after:right-8 after:h-px after:bg-gradient-to-r after:from-transparent after:via-white/[0.04] after:to-transparent
+              transform-gpu animate-[scaleIn_0.6s_cubic-bezier(0.16,1,0.3,1)_forwards] opacity-0`}
+            style={{ transformStyle: 'preserve-3d' }}
+          >
+            <div className="absolute -top-20 -left-20 w-80 h-80 rounded-full bg-blue-500/10 blur-3xl transition-all duration-700 group-hover:scale-110" />
+
+            <div className="p-6 relative z-10">
+              <SectionHeader icon={Briefcase} themeKey="navy" title="Professional Info" caption="Your teaching credentials and expertise" />
+
+              <div className="space-y-4">
+                {[
+                  { label: 'Portfolio', value: profile?.portfolio ?? 'Not provided', icon: Globe, themeKey: 'orange' as ThemeKey },
+                  { label: 'Experience', value: profile?.teachingExperience ?? 'Not provided', icon: Award, themeKey: 'navy' as ThemeKey },
+                ].map(({ label, value, icon: Icon, themeKey: tk }, index) => {
+                  const t = theme[tk];
+                  return (
+                    <div
+                      key={label}
+                      className={`rounded-xl border ${t.subtleBorder} ${t.subtle} p-4 backdrop-blur-sm transition-all duration-300 hover:border-orange-500/20 hover:bg-gray-800/60 hover:shadow-[0_4px_16px_rgba(0,0,0,0.3)] hover:-translate-y-1 transform-gpu
+                        animate-[staggeredFadeIn_0.5s_cubic-bezier(0.16,1,0.3,1)_forwards] opacity-0`}
+                      style={{ animationDelay: `${index * 100}ms` }}
+                    >
+                      <div className="flex items-center gap-2 mb-2">
+                        <Icon className={`w-3.5 h-3.5 ${t.subtleText}`} />
+                        <p className="text-xs uppercase tracking-wider text-gray-500">{label}</p>
+                      </div>
+                      <p className="mt-1 text-sm font-medium text-gray-200 break-all">{value}</p>
+                    </div>
+                  );
+                })}
+
+                {/* Skills Section */}
+                <div className={`rounded-xl border border-orange-500/10 bg-orange-500/5 p-4 backdrop-blur-sm transition-all duration-300 hover:border-orange-500/20 hover:bg-gray-800/60 hover:shadow-[0_4px_16px_rgba(0,0,0,0.3)] hover:-translate-y-1 transform-gpu
+                  animate-[staggeredFadeIn_0.5s_cubic-bezier(0.16,1,0.3,1)_forwards] opacity-0`}
+                  style={{ animationDelay: '200ms' }}
+                >
+                  <div className="flex items-center gap-2 mb-3">
+                    <Zap className="w-3.5 h-3.5 text-orange-400/60" />
+                    <p className="text-xs uppercase tracking-wider text-gray-500">Skills</p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {(profile?.trainerSkills || []).map((skill: string, index: number) => (
+                      <span
+                        key={skill}
+                        className="rounded-lg bg-gradient-to-r from-orange-500/10 to-blue-500/5 px-3 py-1.5 text-xs font-medium text-gray-300 border border-orange-500/20 backdrop-blur-sm shadow-[0_2px_8px_rgba(0,0,0,0.2)] transition-all duration-300 hover:scale-110 hover:rotate-1 hover:shadow-[0_4px_16px_rgba(249,115,22,0.3)] hover:border-orange-500/40 cursor-default"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                    {(!profile?.trainerSkills || profile.trainerSkills.length === 0) &&
+                      <span className="text-sm text-gray-500">None listed</span>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column - Update Form */}
+        <div
+          className={`relative rounded-2xl ${glassEffect} p-6 sm:p-8 overflow-hidden ${card3DClass} parallax-card
+            before:absolute before:top-0 before:left-8 before:right-8 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent
+            after:absolute after:bottom-0 after:left-8 after:right-8 after:h-px after:bg-gradient-to-r after:from-transparent after:via-white/[0.04] after:to-transparent
+            transform-gpu animate-[scaleIn_0.7s_cubic-bezier(0.16,1,0.3,1)_forwards] opacity-0`}
+          style={{ transformStyle: 'preserve-3d' }}
+        >
+          {/* 3D ambient effects */}
+          <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-orange-500/10 blur-3xl transition-all duration-700 group-hover:scale-110" />
+          <div className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-blue-500/5 blur-3xl transition-all duration-700 group-hover:scale-110" />
+
+          <div className="relative z-10">
+            <SectionHeader icon={Save} themeKey="navy" title="Update Information" caption="Keep your details current to maintain platform trust." />
+
+            <form className="mt-6 space-y-6" onSubmit={handleSave}>
+              <div className="grid gap-6 sm:grid-cols-2">
+                <Field label="Full Name">
+                  <TextInput name="name" defaultValue={profile?.name ?? ''} required />
+                </Field>
+                <Field label="Portfolio URL">
+                  <TextInput name="portfolio" type="url" defaultValue={profile?.portfolio ?? ''} />
+                </Field>
+              </div>
+
+              <div className="grid gap-6 sm:grid-cols-2">
+                <Field label="Teaching Experience">
+                  <TextInput name="teachingExperience" defaultValue={profile?.teachingExperience ?? ''} />
+                </Field>
+                <Field label="Industry Experience">
+                  <TextInput name="industryExperience" defaultValue={profile?.industryExperience ?? ''} />
+                </Field>
+              </div>
+
+              <Field label="Trainer Skills (comma separated)">
+                <TextInput name="trainerSkills[]" defaultValue={(profile?.trainerSkills || []).join(', ')} />
+              </Field>
+
+              <Field label="Approved Teaching Levels">
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {trainerLevels.map((level, index) => (
+                    <label
+                      key={level.value}
+                      className="flex cursor-pointer items-start gap-3 rounded-xl border border-gray-700/50 bg-gray-800/40 p-4 backdrop-blur-sm transition-all duration-300 hover:border-orange-500/30 hover:bg-gray-800/60 hover:shadow-[0_4px_16px_rgba(249,115,22,0.2)] hover:-translate-y-1 transform-gpu group"
+                      style={{ animationDelay: `${index * 50}ms` }}
+                    >
+                      <input
+                        name="teachingLevels[]"
+                        type="checkbox"
+                        value={level.value}
+                        className="mt-1 h-4 w-4 rounded border-gray-600 bg-gray-700 text-orange-500 focus:ring-orange-500 transition-all duration-300 group-hover:scale-110"
+                        defaultChecked={(profile?.teachingLevels || []).includes(level.value)}
+                      />
+                      <span className="text-sm font-medium text-gray-200 group-hover:text-white transition-colors duration-300">{level.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </Field>
+
+              <Field label="Update CV (Optional)">
+                <TextInput
+                  name="cv"
+                  type="file"
+                  accept=".pdf,.doc,.docx"
+                  className="file:mr-4 file:rounded-full file:border-0 file:bg-orange-500/10 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-orange-400 hover:file:bg-orange-500/20 file:transition-all file:duration-300 file:hover:scale-105 file:hover:shadow-[0_4px_12px_rgba(249,115,22,0.3)]"
+                />
+              </Field>
+
+              <div className="pt-4">
+                <Button
+                  type="submit"
+                  size="lg"
+                  disabled={loading}
+                  className="w-full sm:w-auto bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white rounded-xl h-12 font-semibold transition-all duration-500 border-0 shadow-[0_8px_24px_-4px_rgba(234,88,12,0.4),0_4px_12px_-2px_rgba(234,88,12,0.3)] hover:shadow-[0_12px_32px_-6px_rgba(234,88,12,0.5),0_8px_20px_-4px_rgba(234,88,12,0.4)] hover:-translate-y-0.5 hover:scale-[1.02] active:translate-y-0 active:scale-[0.98] active:shadow-[0_2px_8px_-2px_rgba(234,88,12,0.3)] relative overflow-hidden group transform-gpu"
+                  style={{ transformStyle: 'preserve-3d' }}
+                >
+                  <span className="relative z-10 flex items-center justify-center">
+                    <Save className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform duration-500" />
+                    {loading ? (
+                      <>
+                        <span className="animate-pulse">Saving Changes...</span>
+                        <div className="ml-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                      </>
+                    ) : (
+                      'Save Profile Settings'
+                    )}
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                  <div className="absolute inset-0 rounded-xl border border-white/[0.08]" />
+                </Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

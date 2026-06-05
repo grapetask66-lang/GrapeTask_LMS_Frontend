@@ -22,9 +22,11 @@ const navByArea: Record<string, NavItem[]> = {
   ],
   Trainer: [
     { label: 'Dashboard', href: '/trainer/dashboard' },
-    { label: 'Courses', href: '/trainer/dashboard#courses' },
-    { label: 'Submissions', href: '/trainer/dashboard#submissions' },
-    { label: 'Meetings', href: '/trainer/dashboard#meetings' },
+    { label: 'Profile', href: '/trainer/profile' },
+    { label: 'My Courses', href: '/trainer/courses' },
+    { label: 'Create Course', href: '/trainer/create-course' },
+    { label: 'Submissions', href: '/trainer/submissions' },
+    { label: 'Meetings', href: '/trainer/meetings' },
   ],
   Student: [
     { label: 'Dashboard', href: '/student/dashboard' },
@@ -129,9 +131,18 @@ export function DashboardShell({ area, children }: { area: keyof typeof navByAre
                 >
                   <Menu className="w-5 h-5 text-white" />
                 </button>
-                <div>
-                  <p className="text-xs md:text-sm text-bodyGrayText truncate max-w-[150px] md:max-w-none">{user?.email}</p>
-                  <h1 className="text-lg md:text-xl font-semibold text-pureWhite">{area} Dashboard</h1>
+                <div className="flex items-center gap-3">
+                  {user?.avatar && (
+                    <img 
+                      src={`http://localhost:8000${user.avatar}`} 
+                      alt="Avatar" 
+                      className="w-10 h-10 rounded-full object-cover border-2 border-orange-500/50"
+                    />
+                  )}
+                  <div>
+                    <p className="text-xs md:text-sm text-bodyGrayText truncate max-w-[150px] md:max-w-none">{user?.name || user?.email}</p>
+                    <h1 className="text-lg md:text-xl font-semibold text-pureWhite">{area} Dashboard</h1>
+                  </div>
                 </div>
               </div>
               <Button

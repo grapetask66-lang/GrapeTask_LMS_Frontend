@@ -12,12 +12,12 @@ export function Field({ label, children }: { label: string; children: ReactNode 
 const inputClass =
   'theme-focus min-h-11 w-full min-w-0 rounded-lg border border-gray-700 bg-gray-800 px-3.5 text-sm text-white placeholder-gray-500 transition-all duration-200 focus:border-orange-500/50 focus:bg-gray-800/80 focus:outline-none focus:ring-1 focus:ring-orange-500/20';
 
-export function TextInput(props: InputHTMLAttributes<HTMLInputElement>) {
+export function TextInput({ className, ...props }: InputHTMLAttributes<HTMLInputElement>) {
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = props.type === 'password';
 
   if (!isPassword) {
-    return <input className={inputClass} {...props} />;
+    return <input className={`${inputClass} ${className || ''}`} {...props} />;
   }
 
   return (
@@ -25,7 +25,7 @@ export function TextInput(props: InputHTMLAttributes<HTMLInputElement>) {
       <input
         {...props}
         type={showPassword ? 'text' : 'password'}
-        className={`${inputClass} pr-10`}
+        className={`${inputClass} pr-10 ${className || ''}`}
       />
       <button
         type="button"
@@ -42,15 +42,15 @@ export function TextInput(props: InputHTMLAttributes<HTMLInputElement>) {
   );
 }
 
-export function SelectInput(props: SelectHTMLAttributes<HTMLSelectElement>) {
+export function SelectInput({ className, ...props }: SelectHTMLAttributes<HTMLSelectElement>) {
   return (
     <select 
-      className={`${inputClass} appearance-none cursor-pointer [&>option]:bg-gray-800 [&>option]:text-white [&>option:hover]:bg-gray-700`} 
+      className={`${inputClass} appearance-none cursor-pointer [&>option]:bg-gray-800 [&>option]:text-white [&>option:hover]:bg-gray-700 ${className || ''}`} 
       {...props} 
     />
   );
 }
 
-export function TextArea(props: TextareaHTMLAttributes<HTMLTextAreaElement>) {
-  return <textarea className={`${inputClass} min-h-24 py-2.5 resize-vertical`} {...props} />;
+export function TextArea({ className, ...props }: TextareaHTMLAttributes<HTMLTextAreaElement>) {
+  return <textarea className={`${inputClass} min-h-24 py-2.5 resize-vertical ${className || ''}`} {...props} />;
 }

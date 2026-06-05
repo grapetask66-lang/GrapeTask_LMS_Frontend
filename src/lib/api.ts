@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosInstance } from 'axios';
 import type {
   Certificate,
   Course,
@@ -13,44 +13,68 @@ import type {
   User,
 } from '@/types/domain';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000/graphql';
+// ─── Base URLs ──────────────────────────────────────────────────────────────
+// The .env file currently has NEXT_PUBLIC_API_URL=http://localhost:8000/graphql
+// So we must explicitly separate the REST and GraphQL base URLs.
+const envApiUrl = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000/graphql';
 
+// GraphQL endpoint (Lighthouse) — used for auth mutations only
+const GRAPHQL_URL = envApiUrl.endsWith('/graphql') ? envApiUrl : `${envApiUrl}/graphql`;
+
+// REST endpoint — used for all trainer module and resource routes
+const REST_BASE_URL = envApiUrl.replace(/\/graphql\/?$/, '') + '/api';
+
+// ─── Shared interceptor factory ──────────────────────────────────────────────
+function attachInterceptors(instance: AxiosInstance) {
+  instance.interceptors.request.use((config) => {
+    if (typeof window !== 'undefined') {
+      const token = window.localStorage.getItem('grapetask_lms_token');
+      if (token) config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  });
+
+  instance.interceptors.response.use(
+    (response) => {
+      // Surface GraphQL-level errors as JS errors
+      if (response.data?.errors) {
+        const message = response.data.errors[0]?.message || 'GraphQL Error';
+        return Promise.reject(new Error(message));
+      }
+      return response;
+    },
+    (error: AxiosError<{ message?: string | string[] }>) => {
+      if (typeof window !== 'undefined' && error.response?.status === 401) {
+        // Clear local session on 401. Do not force a navigation here —
+        // leave routing decisions to the client-side auth guard to avoid
+        // premature redirects triggered by background requests.
+        window.localStorage.removeItem('grapetask_lms_token');
+        window.localStorage.removeItem('grapetask_lms_user');
+      }
+      const message = error.response?.data?.message;
+      return Promise.reject(
+        new Error(Array.isArray(message) ? message.join(', ') : message ?? error.message),
+      );
+    },
+  );
+}
+
+// ─── GraphQL client (auth only) ──────────────────────────────────────────────
 export const api = axios.create({
-  baseURL: API_URL,
+  baseURL: GRAPHQL_URL,
   method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  headers: { 'Content-Type': 'application/json' },
 });
+attachInterceptors(api);
 
-api.interceptors.request.use((config) => {
-  if (typeof window !== 'undefined') {
-    const token = window.localStorage.getItem('grapetask_lms_token');
-    if (token) config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
+// ─── REST client (trainer module + all resource routes) ──────────────────────
+export const restApi = axios.create({
+  baseURL: REST_BASE_URL,
+  headers: { 'Content-Type': 'application/json' },
 });
+attachInterceptors(restApi);
 
-api.interceptors.response.use(
-  (response) => {
-    // Check for GraphQL errors
-    if (response.data?.errors) {
-      const message = response.data.errors[0]?.message || 'GraphQL Error';
-      return Promise.reject(new Error(message));
-    }
-    return response;
-  },
-  (error: AxiosError<{ message?: string | string[] }>) => {
-    if (typeof window !== 'undefined' && error.response?.status === 401) {
-      window.localStorage.removeItem('grapetask_lms_token');
-      window.localStorage.removeItem('grapetask_lms_user');
-      if (!window.location.pathname.startsWith('/login')) window.location.href = '/login';
-    }
-    const message = error.response?.data?.message;
-    return Promise.reject(new Error(Array.isArray(message) ? message.join(', ') : message ?? error.message));
-  },
-);
-
+// ─── Auth ─────────────────────────────────────────────────────────────────────
 export interface LoginInput {
   email: string;
   password: string;
@@ -85,10 +109,11 @@ export const authApi = {
       `,
       variables: { input },
     });
-    
+
     const { access_token, user } = data.data.login;
     return { accessToken: access_token, user };
   },
+
   async register(input: RegisterInput) {
     const { data } = await api.post('', {
       query: `
@@ -107,165 +132,262 @@ export const authApi = {
       `,
       variables: { input },
     });
-    
+
     const { access_token, user } = data.data.register;
     return { accessToken: access_token, user };
   },
+
   async profile() {
-    const raw = typeof window !== 'undefined' ? window.localStorage.getItem('grapetask_lms_user') : null;
+    const raw =
+      typeof window !== 'undefined' ? window.localStorage.getItem('grapetask_lms_user') : null;
     return raw ? (JSON.parse(raw) as User) : null;
   },
 };
 
+// ─── Courses (trainer REST) ───────────────────────────────────────────────────
 export const coursesApi = {
-  async list(level?: LearningLevel) {
-    const { data } = await api.get<Course[]>('/courses/published', { params: { level } });
+  /** Trainer's own courses — GET /api/trainer/courses */
+  async list(_level?: LearningLevel) {
+    const { data } = await restApi.get<Course[]>('/trainer/courses');
     return data;
   },
-  async adminList() {
-    const { data } = await api.get<Course[]>('/courses/admin');
-    return data;
-  },
-  async create(input: Pick<Course, 'title' | 'description' | 'level'>) {
-    const { data } = await api.post<Course>('/courses', input);
-    return data;
-  },
-  async submitReview(courseId: string) {
-    const { data } = await api.post<Course>(`/courses/${courseId}/submit-review`);
-    return data;
-  },
-  async adminReview(courseId: string, status: Extract<CourseStatus, 'approved' | 'rejected'>, notes?: string) {
-    const { data } = await api.patch<Course>(`/courses/${courseId}/admin-review`, { status, notes });
-    return data;
-  },
-  async addVideo(courseId: string, input: { title: string; position: number; videoUrl: string; summary?: string }) {
-    const { data } = await api.post(`/courses/${courseId}/videos`, input);
-    return data;
-  },
-  async addAssessmentSet(videoId: string, input: unknown) {
-    const { data } = await api.post(`/courses/videos/${videoId}/assessment-sets`, input);
-    return data;
-  },
-  async enroll(courseId: string) {
-    const { data } = await api.post<Enrollment>(`/courses/${courseId}/enroll`);
-    return data;
-  },
-  async progress(enrollmentId: string) {
-    const { data } = await api.get<{ enrollment: Enrollment; videos: Course['videos'] }>(`/courses/enrollments/${enrollmentId}/progress`);
-    return data;
-  },
-};
 
-export const assessmentApi = {
-  async build(enrollmentId: string, position: number) {
-    const { data } = await api.get<ProgressiveTest>(`/assessments/enrollments/${enrollmentId}/after-video/${position}`);
+  /** Admin-side published listing — kept for admin pages */
+  async adminList() {
+    const { data } = await restApi.get<Course[]>('/courses/admin');
     return data;
   },
-  async submit(enrollmentId: string, position: number, assessmentSetIds: string[], answers: Record<string, unknown>) {
-    const { data } = await api.post<TestAttempt>(`/assessments/enrollments/${enrollmentId}/after-video/${position}/submit`, {
-      assessmentSetIds,
-      answers,
+
+  /** Create a new course — POST /api/trainer/courses */
+  async create(input: Pick<Course, 'title' | 'description' | 'level'>) {
+    const { data } = await restApi.post<Course>('/trainer/courses', input);
+    return data;
+  },
+
+  /** Submit course for admin review — POST /api/trainer/courses/:id/submit-approval */
+  async submitReview(courseId: string) {
+    const { data } = await restApi.post<Course>(`/trainer/courses/${courseId}/submit-approval`);
+    return data;
+  },
+
+  /** Admin approve/reject — PATCH /api/trainer/courses/:id/admin-review */
+  async adminReview(
+    courseId: string,
+    status: Extract<CourseStatus, 'approved' | 'rejected'>,
+    notes?: string,
+  ) {
+    const { data } = await restApi.patch<Course>(`/courses/${courseId}/admin-review`, {
+      status,
+      notes,
     });
     return data;
   },
+
+  /** Add a video lesson — POST /api/trainer/courses/:id/videos */
+  async addVideo(
+    courseId: string,
+    input: { title: string; position: number; videoUrl: string; summary?: string },
+  ) {
+    const { data } = await restApi.post(`/trainer/courses/${courseId}/videos`, input);
+    return data;
+  },
+
+  async addAssessmentSet(videoId: string, input: unknown) {
+    const { data } = await restApi.post(`/courses/videos/${videoId}/assessment-sets`, input);
+    return data;
+  },
+
+  async enroll(courseId: string) {
+    const { data } = await restApi.post<Enrollment>(`/courses/${courseId}/enroll`);
+    return data;
+  },
+
+  async progress(enrollmentId: string) {
+    const { data } = await restApi.get<{ enrollment: Enrollment; videos: Course['videos'] }>(
+      `/courses/enrollments/${enrollmentId}/progress`,
+    );
+    return data;
+  },
 };
 
+// ─── Assessments ─────────────────────────────────────────────────────────────
+export const assessmentApi = {
+  async build(enrollmentId: string, position: number) {
+    const { data } = await restApi.get<ProgressiveTest>(
+      `/assessments/enrollments/${enrollmentId}/after-video/${position}`,
+    );
+    return data;
+  },
+  async submit(
+    enrollmentId: string,
+    position: number,
+    assessmentSetIds: string[],
+    answers: Record<string, unknown>,
+  ) {
+    const { data } = await restApi.post<TestAttempt>(
+      `/assessments/enrollments/${enrollmentId}/after-video/${position}/submit`,
+      { assessmentSetIds, answers },
+    );
+    return data;
+  },
+};
+
+// ─── Submissions ──────────────────────────────────────────────────────────────
 export const submissionsApi = {
-  async submitHomework(input: { enrollmentId: string; videoId: string; fileUrl?: string; textAnswer?: string }) {
-    const { data } = await api.post('/submissions/homework', input);
+  async submitHomework(input: {
+    enrollmentId: string;
+    videoId: string;
+    fileUrl?: string;
+    textAnswer?: string;
+  }) {
+    const { data } = await restApi.post('/submissions/homework', input);
     return data;
   },
+
+  /** Trainer's homework submissions — GET /api/trainer/submissions */
   async trainerList() {
-    const { data } = await api.get('/submissions/trainer');
-    return data;
+    try {
+      const { data } = await restApi.get('/trainer/submissions');
+      return Array.isArray(data) ? data : data?.data ?? [];
+    } catch {
+      return [];
+    }
   },
+
+  /** Review a submission — PATCH /api/trainer/submissions/:id/review */
   async review(id: string, decision: ReviewDecision, remarks?: string) {
-    const { data } = await api.patch(`/submissions/${id}/review`, { decision, remarks });
+    const { data } = await restApi.patch(`/trainer/submissions/${id}/review`, { decision, remarks });
     return data;
   },
 };
 
+// ─── Institutions ─────────────────────────────────────────────────────────────
 export const institutionsApi = {
   async list() {
-    const { data } = await api.get<Institution[]>('/institutions');
+    const { data } = await restApi.get<Institution[]>('/institutions');
     return data;
   },
   async students(institutionId: string) {
-    const { data } = await api.get<User[]>(`/institutions/${institutionId}/students`);
+    const { data } = await restApi.get<User[]>(`/institutions/${institutionId}/students`);
     return data;
   },
   async pricing(level?: LearningLevel) {
-    const { data } = await api.get<PricingPackage[]>('/institutions/pricing', { params: { level } });
+    const { data } = await restApi.get<PricingPackage[]>('/institutions/pricing', {
+      params: { level },
+    });
     return data;
   },
-  async createGroup(institutionId: string, input: { name: string; type: 'institute' | 'class' | 'trainer_head_room' }) {
-    const { data } = await api.post(`/institutions/${institutionId}/groups`, input);
+  async createGroup(
+    institutionId: string,
+    input: { name: string; type: 'institute' | 'class' | 'trainer_head_room' },
+  ) {
+    const { data } = await restApi.post(`/institutions/${institutionId}/groups`, input);
     return data;
   },
 };
 
+// ─── Groups ───────────────────────────────────────────────────────────────────
 export const groupsApi = {
   async joinGlobal() {
-    const { data } = await api.post('/groups/global/join');
+    const { data } = await restApi.post('/groups/global/join');
     return data;
   },
   async mine() {
-    const { data } = await api.get('/groups/mine');
+    const { data } = await restApi.get('/groups/mine');
     return data;
   },
   async messages(groupId: string) {
-    const { data } = await api.get(`/groups/${groupId}/messages`);
+    const { data } = await restApi.get(`/groups/${groupId}/messages`);
     return data;
   },
   async send(groupId: string, body: string, voiceNoteUrl?: string) {
-    const { data } = await api.post(`/groups/${groupId}/messages`, { body, voiceNoteUrl });
+    const { data } = await restApi.post(`/groups/${groupId}/messages`, { body, voiceNoteUrl });
     return data;
   },
   async askTrainer(trainerId: string, body: string) {
-    const { data } = await api.post('/groups/questions', { trainerId, body });
+    const { data } = await restApi.post('/groups/questions', { trainerId, body });
     return data;
   },
 };
 
+// ─── Reports ──────────────────────────────────────────────────────────────────
 export const reportsApi = {
-  async create(input: { learnerId: string; institutionId: string; courseId: string; remarks: string }) {
-    const { data } = await api.post('/reports', input);
+  async create(input: {
+    learnerId: string;
+    institutionId: string;
+    courseId: string;
+    remarks: string;
+  }) {
+    const { data } = await restApi.post('/reports', input);
     return data;
   },
   async byInstitution(institutionId: string) {
-    const { data } = await api.get(`/reports/institutions/${institutionId}`);
+    const { data } = await restApi.get(`/reports/institutions/${institutionId}`);
     return data;
   },
 };
 
+// ─── Certificates ─────────────────────────────────────────────────────────────
 export const certificatesApi = {
   async mine() {
-    const { data } = await api.get<Certificate[]>('/certificates/mine');
+    const { data } = await restApi.get<Certificate[]>('/certificates/mine');
     return data;
   },
 };
 
+// ─── Meetings ─────────────────────────────────────────────────────────────────
 export const meetingsApi = {
-  async create(input: { courseId: string; startsAt: string; provider: 'zoom' | 'google_meet'; meetingUrl: string; agenda?: string }) {
-    const { data } = await api.post('/meetings', input);
+  /** List all trainer meetings — GET /api/trainer/meetings */
+  async list() {
+    try {
+      const { data } = await restApi.get('/trainer/meetings');
+      return Array.isArray(data) ? data : data?.data ?? [];
+    } catch {
+      return [];
+    }
+  },
+
+  /** Schedule a new meeting — POST /api/trainer/meetings */
+  async create(input: {
+    courseId: string;
+    startsAt: string;
+    provider: 'zoom' | 'google_meet';
+    meetingUrl: string;
+    agenda?: string;
+  }) {
+    const { data } = await restApi.post('/trainer/meetings', input);
     return data;
   },
+
+  /** Meetings for a specific course — GET /api/trainer/meetings/courses/:courseId */
   async byCourse(courseId: string) {
-    const { data } = await api.get(`/meetings/courses/${courseId}`);
+    try {
+      const { data } = await restApi.get(`/trainer/meetings/courses/${courseId}`);
+      return Array.isArray(data) ? data : data?.data ?? [];
+    } catch {
+      return [];
+    }
+  },
+
+  /** Cancel a meeting — DELETE /api/trainer/meetings/:id */
+  async destroy(id: string) {
+    const { data } = await restApi.delete(`/trainer/meetings/${id}`);
     return data;
   },
 };
 
+// ─── Analytics ───────────────────────────────────────────────────────────────
 export const analyticsApi = {
   async overview() {
-    const { data } = await api.get('/analytics/overview');
+    const { data } = await restApi.get('/analytics/overview');
     return data;
   },
 };
 
+// ─── Users ────────────────────────────────────────────────────────────────────
 export const usersApi = {
   async list(role?: string) {
-    const { data } = await api.get<User[]>('/users', { params: { role } });
+    const { data } = await restApi.get<User[]>('/users', { params: { role } });
     return data;
   },
 };

@@ -76,7 +76,7 @@ export function LoginPanel() {
   const router = useRouter();
   const { login, loading, error } = useAuthStore();
   const [email, setEmail] = useState('admin@grapetask.com');
-  const [password, setPassword] = useState('Password123!');
+  const [password, setPassword] = useState('admin123');
   const [showPassword, setShowPassword] = useState(false);
 
   async function onSubmit(e: FormEvent) {

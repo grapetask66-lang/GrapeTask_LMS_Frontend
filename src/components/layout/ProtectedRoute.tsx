@@ -19,7 +19,18 @@ export function ProtectedRoute({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!ready) return;
     const storedToken = token ?? window.localStorage.getItem('grapetask_lms_token');
-    const rawUser = user ?? JSON.parse(window.localStorage.getItem('grapetask_lms_user') ?? 'null');
+    let rawUser = user;
+
+    if (!rawUser) {
+      try {
+        rawUser = JSON.parse(window.localStorage.getItem('grapetask_lms_user') ?? 'null');
+      } catch {
+        window.localStorage.removeItem('grapetask_lms_token');
+        window.localStorage.removeItem('grapetask_lms_user');
+        rawUser = null;
+      }
+    }
+
     if (!storedToken || !rawUser) {
       // Auto-login for prototyping when direct linking
       window.localStorage.setItem('grapetask_lms_token', 'dummy-token');

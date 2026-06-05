@@ -1,9 +1,11 @@
 import type { Role } from '@/types/domain';
 
-export function dashboardForRole(role?: Role | null) {
-  if (role === 'admin') return '/admin/dashboard';
-  if (role === 'trainer') return '/trainer/dashboard';
-  if (role === 'institute_head') return '/institute/dashboard';
+export function dashboardForRole(role?: Role | string | null) {
+  const normalizedRole = role?.toLowerCase();
+
+  if (normalizedRole === 'admin') return '/admin/dashboard';
+  if (normalizedRole === 'trainer') return '/trainer/dashboard';
+  if (normalizedRole === 'institute_head') return '/institute/dashboard';
   return '/student/dashboard';
 }
 

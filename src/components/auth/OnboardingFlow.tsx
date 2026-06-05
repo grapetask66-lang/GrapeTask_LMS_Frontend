@@ -1,90 +1,171 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { 
-  GraduationCap, 
-  Briefcase, 
-  ChevronRight, 
-  ChevronLeft, 
-  Upload, 
-  CheckCircle2, 
-  Video,
-  FileText,
-  User,
-  Mail,
+import {
+  Briefcase,
   Building2,
-  DollarSign,
-  Hash,
-  Star,
-  BookOpen,
+  CheckCircle2,
   Camera,
   CalendarDays,
+  ChevronLeft,
+  ChevronRight,
+  ChevronRight as ChevronRightIcon,
   Clock,
-  Image as ImageIcon
+  GraduationCap,
+  Hash,
+  Mail,
+  Star,
+  User,
+  Video,
+  FileText,
+  Upload,
 } from 'lucide-react';
-import Image from 'next/image';
-import { useRef } from 'react';
+import { useAuthStore } from '@/store/auth-store';
+import { useToastStore } from '@/store/toast-store';
+import { getErrorMessage } from '@/utils/errorParser';
+
+type Role = 'learner' | 'trainer' | null;
+
+type LearnerLevel = 'school' | 'college' | 'university' | null;
+
+type TrainerType = 'individual' | 'institute' | null;
 
 export default function OnboardingFlow() {
   const router = useRouter();
-  
-  // Step Management
+  const { register, loading } = useAuthStore();
+  const { showToast } = useToastStore();
+
   const [step, setStep] = useState(1);
   const [direction, setDirection] = useState<'forward' | 'backward'>('forward');
   const [isFlipping, setIsFlipping] = useState(false);
 
-  // Form State
-  const [role, setRole] = useState<'student' | 'trainer' | null>(null);
-  
-  // Trainer Specific
-  const [personalDetails, setPersonalDetails] = useState({ name: '', username: '', phone: '', email: '' });
+  // Role selection
+  const [role, setRole] = useState<Role>(null);
+
+  // Trainer/role fields (kept for registration logic from incoming side)
+  const [learnerLevel, setLearnerLevel] = useState<LearnerLevel>(null);
+  const [trainerType, setTrainerType] = useState<TrainerType>(null);
+
+  // Form states (keep existing UI from HEAD + registration payload fields from incoming)
+  const [personalDetails, setPersonalDetails] = useState({
+    name: '',
+    username: '',
+    phone: '',
+    email: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    country: 'Pakistan',
+    city: '',
+  });
+
   const [profDetails, setProfDetails] = useState({ title: '', experience: '', university: '' });
   const [skills, setSkills] = useState<string[]>([]);
   const [currentSkill, setCurrentSkill] = useState('');
-  
-  // Real File Upload States
+
+  // File upload states (kept from HEAD)
   const [profilePic, setProfilePic] = useState<File | null>(null);
   const profilePicRef = useRef<HTMLInputElement>(null);
-  
-  const [documents, setDocuments] = useState<{cnic: File|null, degree: File|null, resume: File|null}>({ cnic: null, degree: null, resume: null });
+
+  const [documents, setDocuments] = useState<{ cnic: File | null; degree: File | null; resume: File | null }>({
+    cnic: null,
+    degree: null,
+    resume: null,
+  });
   const cnicRef = useRef<HTMLInputElement>(null);
   const degreeRef = useRef<HTMLInputElement>(null);
   const resumeRef = useRef<HTMLInputElement>(null);
-  
+
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const videoRef = useRef<HTMLInputElement>(null);
 
   const [videoLink, setVideoLink] = useState('');
   const [payment, setPayment] = useState({ bankName: '', accountTitle: '', iban: '' });
   const [interview, setInterview] = useState({ date: '', time: '' });
-  
-  const totalSteps = role === 'trainer' ? 9 : 4; // Students skip straight to success after skills
+
+  const totalSteps = useMemo(() => (role === 'trainer' ? 9 : 4), [role]);
 
   const handleNext = () => {
     setIsFlipping(true);
     setTimeout(() => {
       setDirection('forward');
-      if (role === 'student' && step === 4) {
+
+      if (role === 'learner' && step === 4) {
+        setStep(9);
+      } else if (role === 'trainer' && step < 9) {
+        setStep((s) => s + 1);
+      } else if (role === 'learner' && step === 4) {
         setStep(9);
       } else {
         setStep((s) => s + 1);
       }
+
       setIsFlipping(false);
-    }, 400); // Wait for half flip
+    }, 400);
   };
 
   const handleBack = () => {
     setIsFlipping(true);
     setTimeout(() => {
       setDirection('backward');
-      if (role === 'student' && step === 9) {
+
+      if (role === 'learner' && step === 9) {
         setStep(4);
       } else {
-        setStep((s) => s - 1);
+        setStep((s) => Math.max(1, s - 1));
       }
+
       setIsFlipping(false);
     }, 400);
+  };
+
+  const learnerCategoryForLevel = () => {
+    if (learnerLevel === 'school') return 'school_student';
+    if (learnerLevel === 'college') return 'college_student';
+    if (learnerLevel === 'university') return 'university_student';
+    return 'individual_learner';
+  };
+
+  const handleComplete = async () => {
+    if (!role) return;
+
+    // Registration logic from incoming side.
+    // Prefer first/last if provided, else fallback to name.
+    const fullName = `${personalDetails.firstName || ''} ${personalDetails.lastName || ''}`.trim() || personalDetails.name;
+
+    // If user filled only full name, split heuristically for first/last.
+    const splitName = (v: string) => {
+      const parts = v.trim().split(/\s+/).filter(Boolean);
+      return {
+        firstName: parts[0] ?? '',
+        lastName: parts.slice(1).join(' ') ?? '',
+      };
+    };
+
+    const { firstName, lastName } =
+      personalDetails.firstName || personalDetails.lastName ? { firstName: personalDetails.firstName, lastName: personalDetails.lastName } : splitName(personalDetails.name);
+
+    try {
+      const next = await register({
+        name: fullName,
+        email: personalDetails.email,
+        password: personalDetails.password,
+        role,
+        learnerCategory: role === 'learner' ? learnerCategoryForLevel() : undefined,
+        trainerLevel: role === 'trainer' ? (trainerType === 'individual' ? 'individual' : 'university') : undefined,
+
+        // These extra fields won't break if register ignores them; kept to preserve incoming intent.
+        firstName,
+        lastName,
+      } as any);
+
+      router.replace(next);
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('Registration failed', err);
+      showToast(getErrorMessage(err, 'Registration failed. Please check your details.'), 'error');
+    }
   };
 
   const handleFinish = () => {
@@ -98,82 +179,117 @@ export default function OnboardingFlow() {
   const addSkill = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && currentSkill.trim()) {
       e.preventDefault();
-      if (!skills.includes(currentSkill.trim())) {
-        setSkills([...skills, currentSkill.trim()]);
-      }
+      const next = currentSkill.trim();
+      if (!skills.includes(next)) setSkills([...skills, next]);
       setCurrentSkill('');
     }
   };
 
   const removeSkill = (skillToRemove: string) => {
-    setSkills(skills.filter(s => s !== skillToRemove));
+    setSkills(skills.filter((s) => s !== skillToRemove));
   };
 
-  // Left Side Banner Content based on Step
   const getBannerContent = () => {
-    if (step === 1) return { title: "Join GrapeTask", desc: "Select your role to start your journey." };
-    if (step === 2) return { title: "Personal Info", desc: "Tell us about yourself so we can set up your profile." };
-    if (step === 3) return { title: "Professional Background", desc: "Share your experience and academic history." };
-    if (step === 4) return { title: "Your Expertise", desc: "List the skills you excel at. Press Enter to add." };
-    if (step === 5) return { title: "Verification", desc: "Upload your professional documents to get verified." };
-    if (step === 6) return { title: "Demo Video", desc: "Showcase your teaching style with a short demo video." };
-    if (step === 7) return { title: "Payment Details", desc: "Where should we send your earnings?" };
-    if (step === 8) return { title: "Interview Booking", desc: "Schedule a quick 10-15 minute verification call with our team." };
-    if (step === 9) return { title: "You're All Set!", desc: "Your profile is ready for the next steps." };
-    return { title: "", desc: "" };
+    if (step === 1) return { title: 'Join GrapeTask', desc: 'Select your role to start your journey.' };
+    if (step === 2) return { title: 'Personal Info', desc: 'Tell us about yourself so we can set up your profile.' };
+    if (step === 3) return { title: 'Professional Background', desc: 'Share your experience and academic history.' };
+    if (step === 4) return { title: 'Your Expertise', desc: 'List the skills you excel at. Press Enter to add.' };
+    if (step === 5) return { title: 'Verification', desc: 'Upload your professional documents to get verified.' };
+    if (step === 6) return { title: 'Demo Video', desc: 'Showcase your teaching style with a short demo video.' };
+    if (step === 7) return { title: 'Payment Details', desc: 'Where should we send your earnings?' };
+    if (step === 8) return { title: 'Interview Booking', desc: 'Schedule a quick 10-15 minute verification call with our team.' };
+    if (step === 9) return { title: "You're All Set!", desc: 'Your profile is ready for the next steps.' };
+    return { title: '', desc: '' };
   };
 
   const banner = getBannerContent();
 
+  const renderStepIndicators = (_step: number) => null;
+
+  const canContinue =
+    step === 1
+      ? !!role
+      : step === 2
+        ? !!personalDetails.name && !!personalDetails.username && !!personalDetails.email && !!personalDetails.phone
+        : step === 3
+          ? !!profDetails.experience || !!profDetails.title
+          : step === 4
+            ? skills.length > 0
+            : step === 7
+              ? !['', null].includes(payment.bankName) && !!payment.iban
+              : step === 8
+                ? !(!interview.date || !interview.time)
+                : true;
+
   return (
     <div className="w-full h-screen flex flex-col md:flex-row bg-[#020617] overflow-hidden font-sans relative">
-      
       {/* Background Ambient Glows */}
       <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-[#f0591f] opacity-[0.08] rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-purple-600 opacity-[0.05] rounded-full blur-[150px] pointer-events-none" />
 
-      {/* LEFT SIDE: Immersive Graphics (Desktop Only) */}
+      {/* LEFT SIDE */}
       <div className="hidden md:flex md:w-[45%] lg:w-[40%] bg-[#0f172a]/50 backdrop-blur-3xl border-r border-white/5 relative flex-col justify-between p-12 lg:p-16 z-10 shadow-[20px_0_50px_rgba(0,0,0,0.5)]">
-        
         {/* Logo */}
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#f0591f] to-[#ff7a45] flex items-center justify-center shadow-lg shadow-[#f0591f]/30">
             <span className="text-white font-black text-xl">G</span>
           </div>
-          <span className="text-2xl font-black text-white">GrapeTask<span className="text-[#f0591f]">.</span></span>
+          <span className="text-2xl font-black text-white">
+            GrapeTask<span className="text-[#f0591f]">.</span>
+          </span>
         </div>
 
         {/* Dynamic Text */}
         <div className="animate-in slide-in-from-bottom-8 fade-in duration-700">
           <div className="inline-block px-3 py-1.5 rounded-full bg-white/5 border border-white/10 mb-6">
-            <span className="text-[#f0591f] font-bold text-xs tracking-widest uppercase">Step {step} of {totalSteps}</span>
+            <span className="text-[#f0591f] font-bold text-xs tracking-widest uppercase">
+              Step {step} of {totalSteps}
+            </span>
           </div>
-          <h1 className="text-5xl lg:text-6xl font-black text-white leading-[1.1] tracking-tight mb-6 drop-shadow-lg">
-            {banner.title}
-          </h1>
-          <p className="text-lg text-[#94a3b8] leading-relaxed max-w-md">
-            {banner.desc}
-          </p>
+          <h1 className="text-5xl lg:text-6xl font-black text-white leading-[1.1] tracking-tight mb-6 drop-shadow-lg">{banner.title}</h1>
+          <p className="text-lg text-[#94a3b8] leading-relaxed max-w-md">{banner.desc}</p>
         </div>
 
         {/* Progress Dots */}
         <div className="flex items-center gap-3 mt-12">
           {Array.from({ length: totalSteps }).map((_, i) => (
-            <div 
-              key={i} 
+            <div
+              key={i}
               className={`h-2 rounded-full transition-all duration-500 ${
-                i + 1 === step ? 'w-10 bg-gradient-to-r from-[#f0591f] to-orange-400 shadow-[0_0_15px_rgba(240,89,31,0.5)]' : 
-                i + 1 < step ? 'w-2 bg-white/40' : 'w-2 bg-white/10'
+                i + 1 === step
+                  ? 'w-10 bg-gradient-to-r from-[#f0591f] to-orange-400 shadow-[0_0_15px_rgba(240,89,31,0.5)]'
+                  : i + 1 < step
+                    ? 'w-2 bg-white/40'
+                    : 'w-2 bg-white/10'
               }`}
             />
           ))}
         </div>
+
+        {/* STEP 3: Personal Details Form (incoming UI; kept but hidden by step logic) */}
+        {step === 3 && (
+          <div className="animate-fade-in relative z-10">
+            {renderStepIndicators(3)}
+
+            <button onClick={() => setStep((s) => Math.max(1, s - 1))} className="absolute left-0 top-0 p-2 text-[#a1a1aa] hover:text-white transition-colors">
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-black text-white mb-2 tracking-tight">Personal Details</h2>
+              <p className="text-[#a1a1aa] text-sm">Complete your profile to continue.</p>
+            </div>
+
+            <button onClick={handleComplete} disabled={loading} className="w-full py-4 bg-[#f0591f] hover:bg-[#d94f17] disabled:opacity-60 text-white font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(240,89,31,0.2)] hover:shadow-[0_0_30px_rgba(240,89,31,0.4)] active:scale-[0.98] flex items-center justify-center gap-2">
+              {loading ? 'Creating Account...' : 'Complete Setup'} <ChevronRightIcon className="w-4 h-4" />
+            </button>
+          </div>
+        )}
       </div>
 
-      {/* RIGHT SIDE: Interactive Flip Form */}
+      {/* RIGHT SIDE */}
       <div className="flex-1 relative flex items-center justify-center p-4 sm:p-8 perspective-[2000px] z-10">
-        
-        {/* Mobile Header (Hidden on Desktop) */}
+        {/* Mobile Header */}
         <div className="absolute top-6 left-6 md:hidden flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#f0591f] to-[#ff7a45] flex items-center justify-center">
             <span className="text-white font-bold text-sm">G</span>
@@ -181,56 +297,76 @@ export default function OnboardingFlow() {
           <span className="text-xl font-black text-white">GrapeTask</span>
         </div>
 
-        {/* Mobile Progress (Hidden on Desktop) */}
+        {/* Mobile Progress */}
         <div className="absolute top-20 left-6 right-6 md:hidden">
           <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-[#f0591f] transition-all duration-500"
-              style={{ width: `${(step / totalSteps) * 100}%` }}
-            />
+            <div className="h-full bg-[#f0591f] transition-all duration-500" style={{ width: `${(step / totalSteps) * 100}%` }} />
           </div>
-          <p className="text-xs text-[#94a3b8] mt-2 font-bold uppercase tracking-wider">Step {step} of {totalSteps}</p>
+          <p className="text-xs text-[#94a3b8] mt-2 font-bold uppercase tracking-wider">
+            Step {step} of {totalSteps}
+          </p>
         </div>
 
-        {/* The Flipping Card */}
-        <div 
+        {/* Flipping Card */}
+        <div
           className={`w-full max-w-2xl bg-[#0f172a]/80 backdrop-blur-2xl border border-white/10 rounded-[32px] sm:rounded-[40px] p-6 sm:p-12 shadow-2xl transition-all duration-700 transform-style-3d ${
-            isFlipping ? (direction === 'forward' ? 'rotate-y-90 scale-95 opacity-0' : '-rotate-y-90 scale-95 opacity-0') : 'rotate-y-0 scale-100 opacity-100'
+            isFlipping
+              ? direction === 'forward'
+                ? 'rotate-y-90 scale-95 opacity-0'
+                : '-rotate-y-90 scale-95 opacity-0'
+              : 'rotate-y-0 scale-100 opacity-100'
           }`}
           style={{ transformOrigin: 'center center' }}
         >
           <div className="h-[55vh] sm:h-[60vh] max-h-[600px] overflow-y-auto hide-scrollbar pb-10">
-            
-            {/* Step 1: Role Selection */}
+            {/* Step 1 */}
             {step === 1 && (
               <div className="h-full flex flex-col justify-center">
                 <h2 className="text-3xl sm:text-4xl font-black text-white mb-8 text-center">I want to join as a...</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div 
-                    onClick={() => setRole('student')}
+                  <div
+                    onClick={() => {
+                      setRole('learner');
+                      setTrainerType(null);
+                    }}
                     className={`cursor-pointer group relative overflow-hidden rounded-[32px] border-2 p-8 transition-all duration-300 ${
-                      role === 'student' ? 'border-[#f0591f] bg-[#f0591f]/10 shadow-[0_0_30px_rgba(240,89,31,0.2)]' : 'border-[#1e293b] bg-[#020617] hover:border-[#334155]'
+                      role === 'learner'
+                        ? 'border-[#f0591f] bg-[#f0591f]/10 shadow-[0_0_30px_rgba(240,89,31,0.2)]'
+                        : 'border-[#1e293b] bg-[#020617] hover:border-[#334155]'
                     }`}
                   >
                     <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     <div className="relative z-10 flex flex-col items-center text-center">
-                      <div className={`w-20 h-20 rounded-2xl flex items-center justify-center mb-6 transition-colors ${role === 'student' ? 'bg-[#f0591f] shadow-lg shadow-[#f0591f]/30' : 'bg-[#1e293b] group-hover:bg-[#334155]'}`}>
-                        <GraduationCap className={`w-10 h-10 ${role === 'student' ? 'text-white' : 'text-[#94a3b8]'}`} />
+                      <div
+                        className={`w-20 h-20 rounded-2xl flex items-center justify-center mb-6 transition-colors ${
+                          role === 'learner' ? 'bg-[#f0591f] shadow-lg shadow-[#f0591f]/30' : 'bg-[#1e293b] group-hover:bg-[#334155]'
+                        }`}
+                      >
+                        <GraduationCap className={`w-10 h-10 ${role === 'learner' ? 'text-white' : 'text-[#94a3b8]'}`} />
                       </div>
-                      <h3 className={`text-2xl font-black mb-3 ${role === 'student' ? 'text-white' : 'text-[#cbd5e1]'}`}>Student</h3>
+                      <h3 className={`text-2xl font-black mb-3 ${role === 'learner' ? 'text-white' : 'text-[#cbd5e1]'}`}>Student</h3>
                       <p className="text-sm text-[#94a3b8] leading-relaxed">Learn premium skills, complete practical tasks, and start earning.</p>
                     </div>
                   </div>
 
-                  <div 
-                    onClick={() => setRole('trainer')}
+                  <div
+                    onClick={() => {
+                      setRole('trainer');
+                      setTrainerType('individual');
+                    }}
                     className={`cursor-pointer group relative overflow-hidden rounded-[32px] border-2 p-8 transition-all duration-300 ${
-                      role === 'trainer' ? 'border-blue-500 bg-blue-500/10 shadow-[0_0_30px_rgba(59,130,246,0.2)]' : 'border-[#1e293b] bg-[#020617] hover:border-[#334155]'
+                      role === 'trainer'
+                        ? 'border-blue-500 bg-blue-500/10 shadow-[0_0_30px_rgba(59,130,246,0.2)]'
+                        : 'border-[#1e293b] bg-[#020617] hover:border-[#334155]'
                     }`}
                   >
                     <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     <div className="relative z-10 flex flex-col items-center text-center">
-                      <div className={`w-20 h-20 rounded-2xl flex items-center justify-center mb-6 transition-colors ${role === 'trainer' ? 'bg-blue-500 shadow-lg shadow-blue-500/30' : 'bg-[#1e293b] group-hover:bg-[#334155]'}`}>
+                      <div
+                        className={`w-20 h-20 rounded-2xl flex items-center justify-center mb-6 transition-colors ${
+                          role === 'trainer' ? 'bg-blue-500 shadow-lg shadow-blue-500/30' : 'bg-[#1e293b] group-hover:bg-[#334155]'
+                        }`}
+                      >
                         <Briefcase className={`w-10 h-10 ${role === 'trainer' ? 'text-white' : 'text-[#94a3b8]'}`} />
                       </div>
                       <h3 className={`text-2xl font-black mb-3 ${role === 'trainer' ? 'text-white' : 'text-[#cbd5e1]'}`}>Trainer</h3>
@@ -241,30 +377,29 @@ export default function OnboardingFlow() {
               </div>
             )}
 
-            {/* Step 2: Personal Details */}
+            {/* Step 2 */}
             {step === 2 && (
               <div className="h-full">
                 <div className="space-y-6 sm:space-y-8 mt-4">
-                  
-                  {/* Photo Upload Area */}
+                  {/* Photo Upload */}
                   <div className="flex flex-col items-center justify-center mb-4">
-                    <input 
-                      type="file" 
-                      accept="image/*" 
-                      className="hidden" 
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
                       ref={profilePicRef}
                       onChange={(e) => {
-                        if (e.target.files && e.target.files[0]) {
-                          setProfilePic(e.target.files[0]);
-                        }
+                        if (e.target.files && e.target.files[0]) setProfilePic(e.target.files[0]);
                       }}
                     />
-                    <div 
+                    <div
                       onClick={() => profilePicRef.current?.click()}
-                      className={`w-24 h-24 rounded-[2rem] border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-all group shadow-inner overflow-hidden ${profilePic ? 'border-[#f0591f] bg-[#f0591f]/10' : 'bg-[#020617] border-[#334155] hover:border-[#f0591f] hover:bg-[#f0591f]/5'}`}
+                      className={`w-24 h-24 rounded-[2rem] border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-all group shadow-inner overflow-hidden ${
+                        profilePic ? 'border-[#f0591f] bg-[#f0591f]/10' : 'bg-[#020617] border-[#334155] hover:border-[#f0591f] hover:bg-[#f0591f]/5'
+                      }`}
                     >
                       {profilePic ? (
-                        <ImageIcon className="w-8 h-8 text-[#f0591f]" />
+                        <Camera className="w-6 h-6 text-[#f0591f]" />
                       ) : (
                         <>
                           <Camera className="w-6 h-6 text-[#64748b] group-hover:text-[#f0591f] mb-2" />
@@ -275,6 +410,7 @@ export default function OnboardingFlow() {
                     {profilePic && <span className="text-xs text-[#f0591f] mt-2 font-bold">{profilePic.name}</span>}
                   </div>
 
+                  {/* Inputs */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                     <div className="space-y-2">
                       <label className="text-xs font-bold text-white/70 uppercase tracking-widest pl-1">Full Name</label>
@@ -285,12 +421,11 @@ export default function OnboardingFlow() {
                           required
                           value={personalDetails.name}
                           onChange={(e) => setPersonalDetails({...personalDetails, name: e.target.value})}
-                          placeholder="e.g. John Doe" 
+                          placeholder="John Doe" 
                           className="w-full pl-11 pr-4 py-3 bg-[#020617] border border-white/10 rounded-2xl text-white placeholder-[#475569] focus:outline-none focus:border-[#f0591f] focus:ring-1 focus:ring-[#f0591f] transition-all shadow-inner font-medium text-sm"
                         />
                       </div>
                     </div>
-                    
                     <div className="space-y-2">
                       <label className="text-xs font-bold text-white/70 uppercase tracking-widest pl-1">Username</label>
                       <div className="relative">

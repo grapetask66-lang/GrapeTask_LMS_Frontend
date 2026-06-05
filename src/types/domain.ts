@@ -21,6 +21,7 @@ export interface User {
   trainerLevel?: LearningLevel | null;
   institutionId?: string | null;
   marketplaceGigAccess?: boolean;
+  avatar?: string | null;
 }
 
 export interface Course {

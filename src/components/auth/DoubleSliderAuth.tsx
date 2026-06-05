@@ -5,6 +5,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Mail, Lock, User, ArrowRight } from 'lucide-react';
+import { login } from '@/services/trainerApi';
+import { dashboardForRole } from '@/lib/routes';
+import { useToastStore } from '@/store/toast-store';
+import { getErrorMessage } from '@/utils/errorParser';
 
 const AUTH_SLIDES = [
   {
@@ -40,7 +44,8 @@ export default function DoubleSliderAuth() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const mode = searchParams.get('mode');
-  
+  const { showToast } = useToastStore();
+
   const [isSignUp, setIsSignUp] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -64,18 +69,38 @@ export default function DoubleSliderAuth() {
     router.push('/onboarding');
   };
 
-  const handleSignInSubmit = (e: React.FormEvent) => {
+  const handleSignInSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    window.localStorage.setItem('grapetask_lms_token', 'dummy-token');
-    window.localStorage.setItem('grapetask_lms_user', JSON.stringify({ role: 'trainer', name: 'Test User' }));
-    router.push('/trainer/dashboard');
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const email = (formData.get('email') as string) || (form.querySelector('input[type="email"]') as HTMLInputElement)?.value;
+    const password = (formData.get('password') as string) || (form.querySelector('input[type="password"]') as HTMLInputElement)?.value;
+
+    try {
+      const res = await login({ email, password });
+      const token = res?.token ?? res?.accessToken ?? res?.access_token;
+      const user = res?.user;
+
+      if (!token || !user) {
+        throw new Error('Login response did not include token or user.');
+      }
+
+      localStorage.setItem('grapetask_lms_token', token);
+      localStorage.setItem('grapetask_lms_user', JSON.stringify(user));
+      router.push(dashboardForRole(user.role));
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('Login failed', err);
+      showToast(getErrorMessage(err, 'Login failed. Check credentials.'), 'error');
+    }
   };
 
   return (
     <div className="relative w-full max-w-5xl min-h-[100dvh] sm:min-h-[650px] sm:h-[650px] bg-[#020617] sm:bg-white/[0.02] border-0 sm:border border-white/10 rounded-none sm:rounded-[2.5rem] sm:shadow-2xl sm:backdrop-blur-2xl overflow-hidden flex flex-col sm:flex-row">
-      
+
       {/* ─── CSS FOR THE SLIDER ANIMATION ─── */}
-      <style dangerouslySetInnerHTML={{__html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         .auth-container { position: relative; width: 100%; height: 100%; overflow: hidden; background-color: #020617; }
         .form-container { position: absolute; top: 0; height: 100%; transition: all 0.6s ease-in-out; background-color: #020617; }
         .sign-in-container { left: 0; width: 50%; z-index: 2; opacity: 1; visibility: visible; }
@@ -126,7 +151,7 @@ export default function DoubleSliderAuth() {
       `}} />
 
       <div className={`auth-container w-full h-full ${isSignUp ? 'right-panel-active' : ''}`}>
-        
+
         {/* SIGN UP FORM */}
         <div className="form-container sign-up-container flex items-start sm:items-center justify-center p-0 sm:p-12">
           <form onSubmit={handleSignUpSubmit} className="flex flex-col items-center justify-center w-full sm:max-w-sm text-center sm:mt-0">
@@ -141,7 +166,7 @@ export default function DoubleSliderAuth() {
               <h1 className="text-3xl font-black text-white mb-2">Create account</h1>
               <p className="text-sm text-[#a1a1aa]">Sign up to GrapeTask — Pakistan's #1 freelance marketplace</p>
             </div>
-            
+
             <h1 className="hidden sm:block text-2xl sm:text-3xl font-black text-white mb-1 sm:mb-2 tracking-tight">Create Account</h1>
             <p className="hidden sm:block text-xs sm:text-sm text-[#a1a1aa] mb-4 sm:mb-8">Join Pakistan's #1 Skill-to-Earn platform</p>
 
@@ -180,7 +205,7 @@ export default function DoubleSliderAuth() {
 
             <div className="flex w-full mb-6 sm:mb-0">
               <button type="button" className="w-full flex items-center justify-center gap-2 py-3 sm:py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.16v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.16C1.43 8.55 1 10.22 1 12s.43 3.45 1.16 4.93l3.68-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.16 7.07l3.68 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" /><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.16v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" /><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.16C1.43 8.55 1 10.22 1 12s.43 3.45 1.16 4.93l3.68-2.84z" fill="#FBBC05" /><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.16 7.07l3.68 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" /></svg>
                 <span className="text-white font-bold text-sm">Sign up with Google</span>
               </button>
             </div>
@@ -195,7 +220,7 @@ export default function DoubleSliderAuth() {
         {/* SIGN IN FORM */}
         <div className="form-container sign-in-container flex items-start sm:items-center justify-center p-0 sm:p-12">
           <form onSubmit={handleSignInSubmit} className="flex flex-col items-center justify-center w-full sm:max-w-sm text-center sm:mt-0">
-            
+
             {/* Mobile Title */}
             <div className="sm:hidden w-full text-left mb-6">
               <div className="flex items-center gap-2 mb-4">
@@ -210,7 +235,7 @@ export default function DoubleSliderAuth() {
 
             <h1 className="hidden sm:block text-2xl sm:text-3xl font-black text-white mb-1 sm:mb-2 tracking-tight">Sign In</h1>
             <p className="hidden sm:block text-xs sm:text-sm text-[#a1a1aa] mb-4 sm:mb-8">Access your GrapeTask LMS dashboard</p>
-            
+
             <div className="w-full space-y-3 sm:space-y-4">
               <div className="relative group text-left">
                 <label className="sm:hidden text-xs font-bold text-white/70 mb-1 ml-1 block uppercase tracking-wider">Email</label>
@@ -227,7 +252,7 @@ export default function DoubleSliderAuth() {
                 <input type="password" placeholder="••••••••" required className="block w-full pl-9 sm:pl-11 pr-4 py-3 sm:py-3 bg-white/[0.03] sm:bg-white/[0.03] bg-transparent border border-white/10 rounded-xl text-sm sm:text-base text-white placeholder-[#71717a] focus:outline-none focus:border-[#f0591f] focus:ring-1 focus:ring-[#f0591f] transition-all" />
               </div>
             </div>
-            
+
             <div className="w-full text-right mt-3 sm:mt-3 mb-2">
               <Link href="#" className="text-sm sm:text-sm text-[#f0591f] font-semibold hover:text-[#ff7a45] transition-colors">Forgot password?</Link>
             </div>
@@ -243,7 +268,7 @@ export default function DoubleSliderAuth() {
 
             <div className="flex w-full mb-6 sm:mb-0">
               <button type="button" className="w-full flex items-center justify-center gap-2 py-3 sm:py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.16v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.16C1.43 8.55 1 10.22 1 12s.43 3.45 1.16 4.93l3.68-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.16 7.07l3.68 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" /><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.16v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" /><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.16C1.43 8.55 1 10.22 1 12s.43 3.45 1.16 4.93l3.68-2.84z" fill="#FBBC05" /><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.16 7.07l3.68 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" /></svg>
                 <span className="text-white font-bold text-sm">Sign in with Google</span>
               </button>
             </div>
@@ -258,7 +283,7 @@ export default function DoubleSliderAuth() {
         {/* OVERLAY CONTAINER (Image Carousel) */}
         <div className="overlay-container">
           <div className="overlay relative">
-            
+
             {/* Auto-Scrolling Images */}
             {AUTH_SLIDES.map((slide, index) => (
               <div key={index} className={`absolute inset-0 transition-opacity duration-1000 ${currentSlide === index ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}>
@@ -276,8 +301,8 @@ export default function DoubleSliderAuth() {
             {/* Slider Navigation Dots */}
             <div className="absolute bottom-4 sm:bottom-8 left-0 right-0 flex justify-center gap-2 z-20">
               {AUTH_SLIDES.map((_, idx) => (
-                <button 
-                  key={idx} 
+                <button
+                  key={idx}
                   onClick={() => setCurrentSlide(idx)}
                   className={`h-1.5 sm:h-2 rounded-full transition-all duration-300 ${currentSlide === idx ? 'w-6 sm:w-8 bg-[#f0591f]' : 'w-1.5 sm:w-2 bg-white/40'}`}
                 />
@@ -297,7 +322,7 @@ export default function DoubleSliderAuth() {
                 </button>
               </div>
             </div>
-            
+
             <div className="overlay-panel overlay-right">
               <div className="hidden sm:flex flex-col items-center justify-center p-8 glass-card bg-black/40 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl transform transition-transform hover:scale-105">
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#f0591f] to-[#ff7a45] flex items-center justify-center mb-4 shadow-lg shadow-[#f0591f]/30">

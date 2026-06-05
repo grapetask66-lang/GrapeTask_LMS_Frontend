@@ -14,6 +14,7 @@ interface AuthState {
   login: (input: LoginInput) => Promise<string>;
   register: (input: RegisterInput) => Promise<string>;
   logout: () => void;
+  updateUser: (user: Partial<User>) => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -25,7 +26,13 @@ export const useAuthStore = create<AuthState>((set) => ({
     if (typeof window === 'undefined') return;
     const token = window.localStorage.getItem('grapetask_lms_token');
     const rawUser = window.localStorage.getItem('grapetask_lms_user');
-    set({ token, user: rawUser ? JSON.parse(rawUser) : null });
+    try {
+      set({ token, user: rawUser ? JSON.parse(rawUser) : null });
+    } catch {
+      window.localStorage.removeItem('grapetask_lms_token');
+      window.localStorage.removeItem('grapetask_lms_user');
+      set({ token: null, user: null });
+    }
   },
   login: async (input) => {
     set({ loading: true, error: null });
@@ -59,5 +66,13 @@ export const useAuthStore = create<AuthState>((set) => ({
     window.localStorage.removeItem('grapetask_lms_token');
     window.localStorage.removeItem('grapetask_lms_user');
     set({ token: null, user: null });
+  },
+  updateUser: (updates) => {
+    set((state) => {
+      if (!state.user) return state;
+      const updatedUser = { ...state.user, ...updates };
+      window.localStorage.setItem('grapetask_lms_user', JSON.stringify(updatedUser));
+      return { user: updatedUser as User };
+    });
   },
 }));
