@@ -8,9 +8,7 @@ import {
   CheckCircle2,
   Camera,
   CalendarDays,
-  ChevronLeft,
   ChevronRight,
-  ChevronRight as ChevronRightIcon,
   Clock,
   GraduationCap,
   Hash,
@@ -160,7 +158,7 @@ export default function OnboardingFlow() {
         lastName,
       } as any);
 
-      router.replace(next);
+      setStep(9);
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error('Registration failed', err);
@@ -266,25 +264,6 @@ export default function OnboardingFlow() {
           ))}
         </div>
 
-        {/* STEP 3: Personal Details Form (incoming UI; kept but hidden by step logic) */}
-        {step === 3 && (
-          <div className="animate-fade-in relative z-10">
-            {renderStepIndicators(3)}
-
-            <button onClick={() => setStep((s) => Math.max(1, s - 1))} className="absolute left-0 top-0 p-2 text-[#a1a1aa] hover:text-white transition-colors">
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-black text-white mb-2 tracking-tight">Personal Details</h2>
-              <p className="text-[#a1a1aa] text-sm">Complete your profile to continue.</p>
-            </div>
-
-            <button onClick={handleComplete} disabled={loading} className="w-full py-4 bg-[#f0591f] hover:bg-[#d94f17] disabled:opacity-60 text-white font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(240,89,31,0.2)] hover:shadow-[0_0_30px_rgba(240,89,31,0.4)] active:scale-[0.98] flex items-center justify-center gap-2">
-              {loading ? 'Creating Account...' : 'Complete Setup'} <ChevronRightIcon className="w-4 h-4" />
-            </button>
-          </div>
-        )}
       </div>
 
       {/* RIGHT SIDE */}
@@ -805,7 +784,7 @@ export default function OnboardingFlow() {
                 </button>
                 
                 <button 
-                  onClick={handleNext}
+                  onClick={step === (role === 'trainer' ? 8 : 4) ? handleComplete : handleNext}
                   disabled={
                     (step === 1 && !role) ||
                     (step === 2 && (!personalDetails.name || !personalDetails.username || !personalDetails.email || !personalDetails.phone)) ||
