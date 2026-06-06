@@ -443,74 +443,21 @@ export function TrainerDashboard() {
           </button>
         </div>
       )}
-
+ 
       <header className="animate-[fadeIn_0.7s_cubic-bezier(0.16,1,0.3,1)_forwards] opacity-0 mb-8">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-          <div className="flex items-start gap-4">
+          <div className="flex items-center gap-4">
             <div
-              className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500/20 to-orange-600/10 border border-orange-500/20 flex items-center justify-center flex-shrink-0 shadow-[0_8px_32px_-8px_rgba(249,115,22,0.3),0_4px_16px_-4px_rgba(249,115,22,0.2)] transition-all duration-500 group hover:shadow-[0_12px_40px_-8px_rgba(249,115,22,0.4),0_0_20px_-4px_rgba(249,115,22,0.3)] hover:scale-110 hover:rotate-6"
+              className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-[#f0591f]/20 to-orange-500/10 border border-[#f0591f]/20 flex items-center justify-center flex-shrink-0 shadow-[0_8px_32px_-8px_rgba(240,89,31,0.3),0_4px_16px_-4px_rgba(240,89,31,0.2)] transition-all duration-500 group hover:shadow-[0_12px_40px_-8px_rgba(240,89,31,0.4),0_0_20px_-4px_rgba(240,89,31,0.3)] hover:scale-110 hover:rotate-6"
               style={{ transformStyle: 'preserve-3d' }}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] to-transparent rounded-2xl" />
-              <GraduationCap className="w-7 h-7 text-orange-400 relative z-10 group-hover:scale-110 transition-transform duration-500 drop-shadow-lg" />
-              <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-blue-500 border-2 border-[#0a0b0e] shadow-[0_0_12px_rgba(59,130,246,0.6)] animate-[pulse-subtle_2s_ease-in-out_infinite]" />
-
-              {/* Quick Stats */}
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 relative z-10">
-                <div className="bg-white/[0.02] backdrop-blur-3xl border border-white/10 rounded-[32px] p-6 sm:p-8 transition-all duration-700 transform-style-3d hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_20px_50px_rgba(240,89,31,0.15)] hover:border-orange-500/50 group relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 rounded-bl-full pointer-events-none group-hover:bg-orange-500/20 transition-colors" />
-                  <div className="flex items-start justify-between">
-                    <div className="z-10 relative">
-                      <p className="text-sm font-bold text-[#94a3b8] uppercase tracking-widest mb-4">Total Courses</p>
-                      <p className="text-4xl sm:text-6xl font-black text-white">{courses.length}</p>
-                    </div>
-                    <div className="p-3 sm:p-4 bg-orange-500/10 rounded-2xl border border-orange-500/20 group-hover:scale-110 transition-transform z-10 relative">
-                      <BookOpen className="w-6 h-6 sm:w-8 sm:h-8 text-orange-400" />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-white/[0.02] backdrop-blur-3xl border border-white/10 rounded-[32px] p-6 sm:p-8 transition-all duration-700 transform-style-3d hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_20px_50px_rgba(59,130,246,0.15)] hover:border-blue-500/50 group relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-bl-full pointer-events-none group-hover:bg-blue-500/20 transition-colors" />
-                  <div className="flex items-start justify-between">
-                    <div className="z-10 relative">
-                      <p className="text-sm font-bold text-[#94a3b8] uppercase tracking-widest mb-4">Submissions</p>
-                      <p className="text-4xl sm:text-6xl font-black text-white">{submissions.length}</p>
-                    </div>
-                    <div className="p-3 sm:p-4 bg-blue-500/10 rounded-2xl border border-blue-500/20 group-hover:scale-110 transition-transform z-10 relative">
-                      <MessageSquare className="w-6 h-6 sm:w-8 sm:h-8 text-blue-400" />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-white/[0.02] backdrop-blur-3xl border border-white/10 rounded-[32px] p-6 sm:p-8 transition-all duration-700 transform-style-3d hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_20px_50px_rgba(168,85,247,0.15)] hover:border-purple-500/50 group relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-bl-full pointer-events-none group-hover:bg-purple-500/20 transition-colors" />
-                  <div className="flex items-start justify-between">
-                    <div className="z-10 relative">
-                      <p className="text-sm font-bold text-[#94a3b8] uppercase tracking-widest mb-4">Awaiting Review</p>
-                      <p className="text-4xl sm:text-6xl font-black text-purple-400">
-                        {submissions.filter((s) => !s.reviewed).length}
-                      </p>
-                    </div>
-                    <div className="p-3 sm:p-4 bg-purple-500/10 rounded-2xl border border-purple-500/20 group-hover:scale-110 transition-transform z-10 relative">
-                      <AlertCircle className="w-6 h-6 sm:w-8 sm:h-8 text-purple-400" />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-white/[0.02] backdrop-blur-3xl border border-white/10 rounded-[32px] p-6 sm:p-8 transition-all duration-700 transform-style-3d hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_20px_50px_rgba(16,185,129,0.15)] hover:border-emerald-500/50 group relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-bl-full pointer-events-none group-hover:bg-emerald-500/20 transition-colors" />
-                  <div className="flex items-start justify-between">
-                    <div className="z-10 relative">
-                      <p className="text-sm font-bold text-[#94a3b8] uppercase tracking-widest mb-4">Learners Active</p>
-                      <p className="text-4xl sm:text-6xl font-black text-emerald-400">24</p>
-                    </div>
-                    <div className="p-3 sm:p-4 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 group-hover:scale-110 transition-transform z-10 relative">
-                      <Users className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-400" />
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <GraduationCap className="w-7 h-7 text-[#f0591f] relative z-10 group-hover:scale-110 transition-transform duration-500 drop-shadow-lg" />
+              <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-blue-500 border-2 border-[#020617] shadow-[0_0_12px_rgba(59,130,246,0.6)] animate-[pulse-subtle_2s_ease-in-out_infinite]" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-black text-white tracking-tight">Trainer Dashboard</h1>
+              <p className="text-xs text-[#94a3b8] mt-1.5">Welcome back, {user?.name || 'Trainer'}! Here is your current overview.</p>
             </div>
           </div>
         </div>
@@ -762,15 +709,34 @@ export function TrainerDashboard() {
                     </div>
                     <p className="text-[13px] text-gray-500 mb-5 line-clamp-2 leading-relaxed">{course.description}</p>
 
-                    <Button
-                      variant="ghost"
-                      className="w-full text-[12px] h-10 rounded-lg border border-gray-700/50 hover:border-blue-500/40 hover:bg-blue-500/8 hover:text-blue-300 transition-all duration-500 group/btn backdrop-blur-sm shadow-[0_4px_12px_rgba(0,0,0,0.2)] hover:shadow-[0_8px_20px_-4px_rgba(59,130,246,0.3)] hover:-translate-y-0.5 active:scale-[0.98]"
-                      onClick={() => coursesApi.submitReview(course.id).then(load)}
-                    >
-                      <Send className="w-3.5 h-3.5 mr-1.5 group-hover/btn:-translate-y-0.5 transition-transform duration-500" />
-                      {status === 'approved' ? 'View Details' : 'Submit for Review'}
-                      <ChevronRight className="w-3.5 h-3.5 ml-auto opacity-0 -translate-x-2 group-hover/btn:opacity-100 group-hover/btn:translate-x-0 transition-all duration-500" />
-                    </Button>
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="ghost"
+                          className="flex-1 text-[12px] h-10 rounded-lg border border-gray-700/50 hover:border-blue-500/40 hover:bg-blue-500/8 hover:text-blue-300 transition-all duration-500 group/btn backdrop-blur-sm shadow-[0_4px_12px_rgba(0,0,0,0.2)] hover:shadow-[0_8px_20px_-4px_rgba(59,130,246,0.3)] hover:-translate-y-0.5 active:scale-[0.98]"
+                          onClick={() => router.push(`/trainer/courses/${course.id}`)}
+                        >
+                          <BookOpen className="w-3.5 h-3.5 mr-1.5" />
+                          Overview
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          className="flex-1 text-[12px] h-10 rounded-lg border border-gray-700/50 hover:border-orange-500/40 hover:bg-orange-500/8 hover:text-orange-300 transition-all duration-500 group/btn backdrop-blur-sm shadow-[0_4px_12px_rgba(0,0,0,0.2)] hover:shadow-[0_8px_20px_-4px_rgba(234,88,12,0.3)] hover:-translate-y-0.5 active:scale-[0.98]"
+                          onClick={() => router.push(`/trainer/courses/${course.id}/videos`)}
+                        >
+                          <Video className="w-3.5 h-3.5 mr-1.5" />
+                          Videos
+                        </Button>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        className="w-full text-[12px] h-10 rounded-lg border border-gray-700/50 hover:border-blue-500/40 hover:bg-blue-500/8 hover:text-blue-300 transition-all duration-500 group/btn backdrop-blur-sm shadow-[0_4px_12px_rgba(0,0,0,0.2)] hover:shadow-[0_8px_20px_-4px_rgba(59,130,246,0.3)] hover:-translate-y-0.5 active:scale-[0.98]"
+                        onClick={() => coursesApi.submitReview(course.id).then(load)}
+                      >
+                        <Send className="w-3.5 h-3.5 mr-1.5 group-hover/btn:-translate-y-0.5 transition-transform duration-500" />
+                        {status === 'approved' ? 'Submit Update' : 'Submit for Review'}
+                      </Button>
+                    </div>
                   </div>
                 </div>
               );
@@ -923,7 +889,7 @@ export function TrainerDashboard() {
         <FormSection
           id="meetings"
           icon={Calendar}
-          themeKey="navy"
+          themeKey="orange"
           title="Schedule Live Session"
           caption="Create Q&A sessions via Zoom or Google Meet."
         >
@@ -991,7 +957,7 @@ export function TrainerDashboard() {
 
             <Button
               type="submit"
-              className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white rounded-xl h-12 font-semibold transition-all duration-500 border-0 shadow-[0_8px_24px_-4px_rgba(37,99,235,0.4),0_4px_12px_-2px_rgba(37,99,235,0.3)] hover:shadow-[0_12px_32px_-6px_rgba(37,99,235,0.5),0_8px_20px_-4px_rgba(37,99,235,0.4)] hover:-translate-y-0.5 hover:scale-[1.02] active:translate-y-0 active:scale-[0.98] active:shadow-[0_2px_8px_-2px_rgba(37,99,235,0.3)] relative overflow-hidden group transform-gpu"
+              className="w-full bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white rounded-xl h-12 font-semibold transition-all duration-500 border-0 shadow-[0_8px_24px_-4px_rgba(234,88,12,0.4),0_4px_12px_-2px_rgba(234,88,12,0.3)] hover:shadow-[0_12px_32px_-6px_rgba(234,88,12,0.5),0_8px_20px_-4px_rgba(234,88,12,0.4)] hover:-translate-y-0.5 hover:scale-[1.02] active:translate-y-0 active:scale-[0.98] active:shadow-[0_2px_8px_-2px_rgba(234,88,12,0.3)] relative overflow-hidden group transform-gpu"
               style={{ transformStyle: 'preserve-3d' }}
             >
               <span className="relative z-10 flex items-center justify-center">

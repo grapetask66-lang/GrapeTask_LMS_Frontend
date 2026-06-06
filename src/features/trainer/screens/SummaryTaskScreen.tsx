@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Field, TextArea, TextInput } from '@/components/ui/Field';
 import { PageHeader } from '../components/TrainerShared';
-import { getVideos as apiGetVideos, addSummaryTask as apiAddSummaryTask } from '@/services/trainerApi';
+import { getVideos as apiGetVideos, addSummaryTask as apiAddSummaryTask, getSummaryTasks as apiGetSummaryTasks } from '@/services/trainerApi';
 import { useToastStore } from '@/store/toast-store';
 import { getErrorMessage } from '@/utils/errorParser';
 
@@ -15,6 +15,7 @@ type Video = any;
 
 export function SummaryTaskScreen({ courseId, videoId }: { courseId: string; videoId: string }) {
   const [video, setVideo] = useState<Video | null>(null);
+  const [tasks, setTasks] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const { showToast } = useToastStore();
 
@@ -22,7 +23,15 @@ export function SummaryTaskScreen({ courseId, videoId }: { courseId: string; vid
     apiGetVideos(courseId).then((res) => {
       setVideo((res.data || res || []).find((x: any) => String(x.id) === String(videoId)) || null);
     }).catch(console.error);
+
+    fetchTasks();
   }, [courseId, videoId]);
+
+  function fetchTasks() {
+    apiGetSummaryTasks(videoId).then((res) => {
+      setTasks(res.data ?? res);
+    }).catch(console.error);
+  }
 
   async function handleSave(e: FormEvent) {
     e.preventDefault();
@@ -36,6 +45,8 @@ export function SummaryTaskScreen({ courseId, videoId }: { courseId: string; vid
         points: 10
       });
       showToast('Summary task configured successfully.', 'success');
+      (e.target as HTMLFormElement).reset();
+      fetchTasks();
     } catch (err) {
       console.error(err);
       showToast(getErrorMessage(err, 'Save summary failed.'), 'error');
@@ -70,6 +81,26 @@ export function SummaryTaskScreen({ courseId, videoId }: { courseId: string; vid
           </div>
         </form>
       </Card>
+
+      {tasks.length > 0 && (
+        <Card className="border-gray-700/50 bg-gray-900/60 shadow-xl p-8 mt-8">
+          <div className="flex flex-col gap-1 mb-6">
+            <h3 className="text-xl font-bold text-white tracking-tight">Configured Summary Tasks</h3>
+            <p className="text-sm text-gray-400">Students must complete these tasks to pass the lesson.</p>
+          </div>
+          <div className="space-y-4">
+            {tasks.map((task, idx) => (
+              <div key={task.id} className="p-5 rounded-xl border border-gray-800 bg-gray-800/40">
+                <p className="font-semibold text-white mb-3 text-sm">Task {idx + 1}. {task.prompt}</p>
+                <div className="mt-2 flex flex-wrap gap-4 text-sm text-gray-400 bg-gray-900/50 p-3 rounded-lg border border-gray-700/50">
+                  <div><span className="text-gray-500 font-medium mr-2">Minimum Words:</span> {task.correctAnswer?.minimumWords || 150}</div>
+                  <div><span className="text-gray-500 font-medium mr-2">Passing Criteria:</span> {task.correctAnswer?.passingCriteria || 'N/A'}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
+      )}
     </div>
   );
 }

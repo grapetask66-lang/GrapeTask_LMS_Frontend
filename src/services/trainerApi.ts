@@ -130,4 +130,19 @@ export async function addSummaryTask(videoId: number | string, data: any) {
   return res.data
 }
 
+export async function getMcqs(videoId: number | string) {
+  const res = await api.get(`/trainer/videos/${videoId}/mcqs`)
+  return res.data
+}
+
+export async function getQuizzes(videoId: number | string) {
+  const res = await api.get(`/trainer/videos/${videoId}/quiz`)
+  return res.data
+}
+
+export async function getSummaryTasks(videoId: number | string) {
+  const res = await api.get(`/trainer/videos/${videoId}/summary-task`)
+  return res.data
+}
+
 export default api

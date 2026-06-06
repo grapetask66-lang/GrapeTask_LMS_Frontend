@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { Card, CardTitle } from '@/components/ui/Card';
 import { Field, SelectInput, TextArea, TextInput } from '@/components/ui/Field';
 import { PageHeader } from '../components/TrainerShared';
-import { getVideos as apiGetVideos, addMcq as apiAddMcq } from '@/services/trainerApi';
+import { getVideos as apiGetVideos, addMcq as apiAddMcq, getMcqs as apiGetMcqs } from '@/services/trainerApi';
 import { useToastStore } from '@/store/toast-store';
 import { getErrorMessage } from '@/utils/errorParser';
 
@@ -15,6 +15,7 @@ type Video = any;
 
 export function McqManagementScreen({ courseId, videoId }: { courseId: string; videoId: string }) {
   const [video, setVideo] = useState<Video | null>(null);
+  const [mcqs, setMcqs] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const { showToast } = useToastStore();
 
@@ -23,7 +24,15 @@ export function McqManagementScreen({ courseId, videoId }: { courseId: string; v
       const list = res.data ?? res;
       setVideo((list || []).find((x: any) => String(x.id) === String(videoId)) || null);
     }).catch(err => console.error(err));
+
+    fetchMcqs();
   }, [courseId, videoId]);
+
+  function fetchMcqs() {
+    apiGetMcqs(videoId).then((res) => {
+      setMcqs(res.data ?? res);
+    }).catch(err => console.error(err));
+  }
 
   async function handleAdd(e: FormEvent) {
     e.preventDefault();
@@ -40,6 +49,7 @@ export function McqManagementScreen({ courseId, videoId }: { courseId: string; v
       await apiAddMcq(videoId, { prompt, options, correctAnswer: [correctAnswer], points: 5 });
       showToast('MCQ added successfully.', 'success');
       form.reset();
+      fetchMcqs();
     } catch (err) {
       console.error('Add MCQ failed', err);
       showToast(getErrorMessage(err, 'Add MCQ failed. Please try again.'), 'error');
@@ -89,6 +99,29 @@ export function McqManagementScreen({ courseId, videoId }: { courseId: string; v
           </div>
         </form>
       </Card>
+
+      {mcqs.length > 0 && (
+        <Card className="border-gray-700/50 bg-gray-900/60 shadow-xl backdrop-blur-sm p-8">
+          <CardTitle title="Existing MCQs" caption={`There are ${mcqs.length} multiple choice questions for this lesson.`} />
+          <div className="mt-6 space-y-4">
+            {mcqs.map((mcq, idx) => (
+              <div key={mcq.id} className="p-5 rounded-xl border border-gray-800 bg-gray-800/40">
+                <p className="font-semibold text-white mb-3 text-sm">Q{idx + 1}. {mcq.prompt}</p>
+                <div className="grid grid-cols-2 gap-3">
+                  {(mcq.options || []).map((opt: string, i: number) => {
+                    const isCorrect = (mcq.correctAnswer || []).includes(opt);
+                    return (
+                      <div key={i} className={`text-xs p-2.5 rounded-lg border ${isCorrect ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-200' : 'border-gray-700 bg-gray-800 text-gray-400'}`}>
+                        {opt} {isCorrect && '(Correct)'}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
+      )}
     </div>
   );
 }
