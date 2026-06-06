@@ -22,6 +22,7 @@ export interface User {
   institutionId?: string | null;
   marketplaceGigAccess?: boolean;
   avatar?: string | null;
+  verifiedBadge?: boolean;
 }
 
 export interface Course {
