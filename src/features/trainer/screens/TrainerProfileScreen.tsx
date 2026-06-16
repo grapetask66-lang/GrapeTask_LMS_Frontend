@@ -641,7 +641,7 @@ export function TrainerProfileScreen() {
                     />
                   </Field>
                   <div className="flex gap-3 justify-end pt-2">
-                    <Button variant="outline" type="button" onClick={() => setShowAddMethod(false)}>Cancel</Button>
+                    <Button variant="ghost" className="border border-gray-600" type="button" onClick={() => setShowAddMethod(false)}>Cancel</Button>
                     <Button type="submit" className="bg-orange-600 hover:bg-orange-500">Save Method</Button>
                   </div>
                 </form>
