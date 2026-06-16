@@ -1,32 +1,22 @@
 'use client';
 
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Briefcase,
-  Building2,
   CheckCircle2,
   Camera,
-  CalendarDays,
-  ChevronRight,
-  Clock,
   GraduationCap,
-  Hash,
-  Mail,
-  Star,
-  User,
-  Video,
   FileText,
   Upload,
+  Video
 } from 'lucide-react';
 import { useAuthStore } from '@/store/auth-store';
 import { useToastStore } from '@/store/toast-store';
 import { getErrorMessage } from '@/utils/errorParser';
 
 type Role = 'learner' | 'trainer' | null;
-
 type LearnerLevel = 'school' | 'college' | 'university' | null;
-
 type TrainerType = 'individual' | 'institute' | null;
 
 export default function OnboardingFlow() {
@@ -35,17 +25,10 @@ export default function OnboardingFlow() {
   const { showToast } = useToastStore();
 
   const [step, setStep] = useState(1);
-  const [direction, setDirection] = useState<'forward' | 'backward'>('forward');
-  const [isFlipping, setIsFlipping] = useState(false);
-
-  // Role selection
   const [role, setRole] = useState<Role>(null);
-
-  // Trainer/role fields (kept for registration logic from incoming side)
   const [learnerLevel, setLearnerLevel] = useState<LearnerLevel>(null);
   const [trainerType, setTrainerType] = useState<TrainerType>(null);
 
-  // Form states (keep existing UI from HEAD + registration payload fields from incoming)
   const [personalDetails, setPersonalDetails] = useState({
     name: '',
     username: '',
@@ -62,7 +45,6 @@ export default function OnboardingFlow() {
   const [skills, setSkills] = useState<string[]>([]);
   const [currentSkill, setCurrentSkill] = useState('');
 
-  // File upload states (kept from HEAD)
   const [profilePic, setProfilePic] = useState<File | null>(null);
   const profilePicRef = useRef<HTMLInputElement>(null);
 
@@ -79,43 +61,30 @@ export default function OnboardingFlow() {
   const videoRef = useRef<HTMLInputElement>(null);
 
   const [videoLink, setVideoLink] = useState('');
-  const [payment, setPayment] = useState({ bankName: '', accountTitle: '', iban: '' });
+  const [docs, setDocs] = useState({ state: null, cnic: null });
   const [interview, setInterview] = useState({ date: '', time: '' });
 
-  const totalSteps = useMemo(() => (role === 'trainer' ? 9 : 4), [role]);
+  // Use session storage to pull data if they came from DoubleSliderAuth
+  useEffect(() => {
+    const signupName = sessionStorage.getItem('signup_name');
+    const signupEmail = sessionStorage.getItem('signup_email');
+    if (signupName || signupEmail) {
+      setPersonalDetails(prev => ({
+        ...prev,
+        name: signupName || prev.name,
+        email: signupEmail || prev.email,
+      }));
+    }
+  }, []);
+
+  const totalSteps = useMemo(() => (role === 'trainer' ? 7 : 4), [role]);
 
   const handleNext = () => {
-    setIsFlipping(true);
-    setTimeout(() => {
-      setDirection('forward');
-
-      if (role === 'learner' && step === 4) {
-        setStep(9);
-      } else if (role === 'trainer' && step < 9) {
-        setStep((s) => s + 1);
-      } else if (role === 'learner' && step === 4) {
-        setStep(9);
-      } else {
-        setStep((s) => s + 1);
-      }
-
-      setIsFlipping(false);
-    }, 400);
+    setStep((s) => Math.min(s + 1, totalSteps));
   };
 
   const handleBack = () => {
-    setIsFlipping(true);
-    setTimeout(() => {
-      setDirection('backward');
-
-      if (role === 'learner' && step === 9) {
-        setStep(4);
-      } else {
-        setStep((s) => Math.max(1, s - 1));
-      }
-
-      setIsFlipping(false);
-    }, 400);
+    setStep((s) => Math.max(1, s - 1));
   };
 
   const learnerCategoryForLevel = () => {
@@ -128,11 +97,8 @@ export default function OnboardingFlow() {
   const handleComplete = async () => {
     if (!role) return;
 
-    // Registration logic from incoming side.
-    // Prefer first/last if provided, else fallback to name.
     const fullName = `${personalDetails.firstName || ''} ${personalDetails.lastName || ''}`.trim() || personalDetails.name;
 
-    // If user filled only full name, split heuristically for first/last.
     const splitName = (v: string) => {
       const parts = v.trim().split(/\s+/).filter(Boolean);
       return {
@@ -145,22 +111,20 @@ export default function OnboardingFlow() {
       personalDetails.firstName || personalDetails.lastName ? { firstName: personalDetails.firstName, lastName: personalDetails.lastName } : splitName(personalDetails.name);
 
     try {
-      const next = await register({
+      await register({
         name: fullName,
         email: personalDetails.email,
         password: personalDetails.password,
         role,
         learnerCategory: role === 'learner' ? learnerCategoryForLevel() : undefined,
         trainerLevel: role === 'trainer' ? (trainerType === 'individual' ? 'individual' : 'university') : undefined,
-
-        // These extra fields won't break if register ignores them; kept to preserve incoming intent.
         firstName,
         lastName,
       } as any);
 
-      setStep(9);
+      // Move to success step which is totalSteps + 1
+      setStep(totalSteps + 1);
     } catch (err) {
-      // eslint-disable-next-line no-console
       console.error('Registration failed', err);
       showToast(getErrorMessage(err, 'Registration failed. Please check your details.'), 'error');
     }
@@ -168,7 +132,7 @@ export default function OnboardingFlow() {
 
   const handleFinish = () => {
     if (role === 'trainer') {
-      router.push('/terms');
+      router.push('/trainer-welcome');
     } else {
       router.push('/student/dashboard');
     }
@@ -187,181 +151,130 @@ export default function OnboardingFlow() {
     setSkills(skills.filter((s) => s !== skillToRemove));
   };
 
-  const getBannerContent = () => {
-    if (step === 1) return { title: 'Join GrapeTask', desc: 'Select your role to start your journey.' };
-    if (step === 2) return { title: 'Personal Info', desc: 'Tell us about yourself so we can set up your profile.' };
-    if (step === 3) return { title: 'Professional Background', desc: 'Share your experience and academic history.' };
-    if (step === 4) return { title: 'Your Expertise', desc: 'List the skills you excel at. Press Enter to add.' };
-    if (step === 5) return { title: 'Verification', desc: 'Upload your professional documents to get verified.' };
-    if (step === 6) return { title: 'Demo Video', desc: 'Showcase your teaching style with a short demo video.' };
-    if (step === 7) return { title: 'Payment Details', desc: 'Where should we send your earnings?' };
-    if (step === 8) return { title: 'Interview Booking', desc: 'Schedule a quick 10-15 minute verification call with our team.' };
-    if (step === 9) return { title: "You're All Set!", desc: 'Your profile is ready for the next steps.' };
-    return { title: '', desc: '' };
-  };
+  const canContinue = (() => {
+    switch (step) {
+      case 1:
+        return !!role;
+      case 2:
+        return !!personalDetails.name && !!personalDetails.username && !!personalDetails.email && !!personalDetails.phone && !!personalDetails.password;
+      case 3:
+        return !!profDetails.experience || !!profDetails.title;
+      case 4:
+        return skills.length > 0;
+      case 7:
+        return !!interview.date && !!interview.time;
+      default:
+        return true;
+    }
+  })();
 
-  const banner = getBannerContent();
-
-  const renderStepIndicators = (_step: number) => null;
-
-  const canContinue =
-    step === 1
-      ? !!role
-      : step === 2
-        ? !!personalDetails.name && !!personalDetails.username && !!personalDetails.email && !!personalDetails.phone
-        : step === 3
-          ? !!profDetails.experience || !!profDetails.title
-          : step === 4
-            ? skills.length > 0
-            : step === 7
-              ? !['', null].includes(payment.bankName) && !!payment.iban
-              : step === 8
-                ? !(!interview.date || !interview.time)
-                : true;
+  const currentProgress = Math.min(step, totalSteps);
 
   return (
-    <div className="w-full h-screen flex flex-col md:flex-row bg-[#020617] overflow-hidden font-sans relative">
-      {/* Background Ambient Glows */}
-      <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-[#f0591f] opacity-[0.08] rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-purple-600 opacity-[0.05] rounded-full blur-[150px] pointer-events-none" />
-
-      {/* LEFT SIDE */}
-      <div className="hidden md:flex md:w-[45%] lg:w-[40%] bg-[#0f172a]/50 backdrop-blur-3xl border-r border-white/5 relative flex-col justify-between p-12 lg:p-16 z-10 shadow-[20px_0_50px_rgba(0,0,0,0.5)]">
-        {/* Logo */}
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#f0591f] to-[#ff7a45] flex items-center justify-center shadow-lg shadow-[#f0591f]/30">
-            <span className="text-white font-black text-xl">G</span>
-          </div>
-          <span className="text-2xl font-black text-white">
-            GrapeTask<span className="text-[#f0591f]">.</span>
-          </span>
-        </div>
-
-        {/* Dynamic Text */}
-        <div className="animate-in slide-in-from-bottom-8 fade-in duration-700">
-          <div className="inline-block px-3 py-1.5 rounded-full bg-white/5 border border-white/10 mb-6">
-            <span className="text-[#f0591f] font-bold text-xs tracking-widest uppercase">
-              Step {step} of {totalSteps}
-            </span>
-          </div>
-          <h1 className="text-5xl lg:text-6xl font-black text-white leading-[1.1] tracking-tight mb-6 drop-shadow-lg">{banner.title}</h1>
-          <p className="text-lg text-[#94a3b8] leading-relaxed max-w-md">{banner.desc}</p>
-        </div>
-
-        {/* Progress Dots */}
-        <div className="flex items-center gap-3 mt-12">
-          {Array.from({ length: totalSteps }).map((_, i) => (
-            <div
-              key={i}
-              className={`h-2 rounded-full transition-all duration-500 ${
-                i + 1 === step
-                  ? 'w-10 bg-gradient-to-r from-[#f0591f] to-orange-400 shadow-[0_0_15px_rgba(240,89,31,0.5)]'
-                  : i + 1 < step
-                    ? 'w-2 bg-white/40'
-                    : 'w-2 bg-white/10'
-              }`}
-            />
-          ))}
-        </div>
-
-      </div>
-
-      {/* RIGHT SIDE */}
-      <div className="flex-1 relative flex items-center justify-center p-4 sm:p-8 perspective-[2000px] z-10">
-        {/* Mobile Header */}
-        <div className="absolute top-6 left-6 md:hidden flex items-center gap-2">
+    <div className="min-h-screen bg-[#f9fafb] font-sans flex flex-col">
+      {/* Navbar / Header */}
+      <div className="w-full bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between sticky top-0 z-40">
+        <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#f0591f] to-[#ff7a45] flex items-center justify-center">
             <span className="text-white font-bold text-sm">G</span>
           </div>
-          <span className="text-xl font-black text-white">GrapeTask</span>
+          <span className="text-xl font-black text-gray-900 tracking-tight">
+            GrapeTask<span className="text-[#f0591f]">.</span>
+          </span>
         </div>
+        <div className="text-sm text-gray-500 font-medium hidden sm:block">
+          {step <= totalSteps ? 'Account Setup' : 'Completed'}
+        </div>
+      </div>
 
-        {/* Mobile Progress */}
-        <div className="absolute top-20 left-6 right-6 md:hidden">
-          <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
-            <div className="h-full bg-[#f0591f] transition-all duration-500" style={{ width: `${(step / totalSteps) * 100}%` }} />
+      <div className="flex-1 flex flex-col items-center py-8 px-4 sm:px-6 lg:px-8">
+        {/* Progress Bar Container */}
+        {step <= totalSteps && (
+          <div className="w-full max-w-2xl mb-8">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">
+                Step {currentProgress} of {totalSteps}
+              </span>
+              <span className="text-xs font-bold text-[#f0591f]">
+                {Math.round((currentProgress / totalSteps) * 100)}%
+              </span>
+            </div>
+            <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-[#f0591f] transition-all duration-500 ease-out" 
+                style={{ width: `${(currentProgress / totalSteps) * 100}%` }} 
+              />
+            </div>
           </div>
-          <p className="text-xs text-[#94a3b8] mt-2 font-bold uppercase tracking-wider">
-            Step {step} of {totalSteps}
-          </p>
-        </div>
+        )}
 
-        {/* Flipping Card */}
-        <div
-          className={`w-full max-w-2xl bg-[#0f172a]/80 backdrop-blur-2xl border border-white/10 rounded-[32px] sm:rounded-[40px] p-6 sm:p-12 shadow-2xl transition-all duration-700 transform-style-3d ${
-            isFlipping
-              ? direction === 'forward'
-                ? 'rotate-y-90 scale-95 opacity-0'
-                : '-rotate-y-90 scale-95 opacity-0'
-              : 'rotate-y-0 scale-100 opacity-100'
-          }`}
-          style={{ transformOrigin: 'center center' }}
-        >
-          <div className="h-[55vh] sm:h-[60vh] max-h-[600px] overflow-y-auto hide-scrollbar pb-10">
-            {/* Step 1 */}
+        {/* Main Card */}
+        <div className="w-full max-w-2xl bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+          <div className="p-6 sm:p-10">
+            
+            {/* Step 1: Role Selection */}
             {step === 1 && (
-              <div className="h-full flex flex-col justify-center">
-                <h2 className="text-3xl sm:text-4xl font-black text-white mb-8 text-center">I want to join as a...</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 text-center">Join as a Student or Trainer</h2>
+                <p className="text-gray-500 text-center mb-10">Select your role to personalize your GrapeTask experience.</p>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                  {/* Student Card */}
                   <div
                     onClick={() => {
                       setRole('learner');
                       setTrainerType(null);
                     }}
-                    className={`cursor-pointer group relative overflow-hidden rounded-[32px] border-2 p-8 transition-all duration-300 ${
+                    className={`cursor-pointer group relative rounded-xl border-2 p-6 transition-all duration-200 ${
                       role === 'learner'
-                        ? 'border-[#f0591f] bg-[#f0591f]/10 shadow-[0_0_30px_rgba(240,89,31,0.2)]'
-                        : 'border-[#1e293b] bg-[#020617] hover:border-[#334155]'
+                        ? 'border-[#f0591f] bg-[#f0591f]/5'
+                        : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
                     }`}
                   >
-                    <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <div className="relative z-10 flex flex-col items-center text-center">
-                      <div
-                        className={`w-20 h-20 rounded-2xl flex items-center justify-center mb-6 transition-colors ${
-                          role === 'learner' ? 'bg-[#f0591f] shadow-lg shadow-[#f0591f]/30' : 'bg-[#1e293b] group-hover:bg-[#334155]'
-                        }`}
-                      >
-                        <GraduationCap className={`w-10 h-10 ${role === 'learner' ? 'text-white' : 'text-[#94a3b8]'}`} />
+                    <div className="flex justify-between items-start mb-4">
+                      <GraduationCap className={`w-8 h-8 ${role === 'learner' ? 'text-[#f0591f]' : 'text-gray-400 group-hover:text-gray-600'}`} />
+                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${role === 'learner' ? 'border-[#f0591f]' : 'border-gray-300'}`}>
+                        {role === 'learner' && <div className="w-2.5 h-2.5 rounded-full bg-[#f0591f]" />}
                       </div>
-                      <h3 className={`text-2xl font-black mb-3 ${role === 'learner' ? 'text-white' : 'text-[#cbd5e1]'}`}>Student</h3>
-                      <p className="text-sm text-[#94a3b8] leading-relaxed">Learn premium skills, complete practical tasks, and start earning.</p>
                     </div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-2">I'm a Student</h3>
+                    <p className="text-sm text-gray-500">Learn premium skills, complete practical tasks, and start earning.</p>
                   </div>
 
+                  {/* Trainer Card */}
                   <div
                     onClick={() => {
                       setRole('trainer');
                       setTrainerType('individual');
                     }}
-                    className={`cursor-pointer group relative overflow-hidden rounded-[32px] border-2 p-8 transition-all duration-300 ${
+                    className={`cursor-pointer group relative rounded-xl border-2 p-6 transition-all duration-200 ${
                       role === 'trainer'
-                        ? 'border-blue-500 bg-blue-500/10 shadow-[0_0_30px_rgba(59,130,246,0.2)]'
-                        : 'border-[#1e293b] bg-[#020617] hover:border-[#334155]'
+                        ? 'border-[#f0591f] bg-[#f0591f]/5'
+                        : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
                     }`}
                   >
-                    <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <div className="relative z-10 flex flex-col items-center text-center">
-                      <div
-                        className={`w-20 h-20 rounded-2xl flex items-center justify-center mb-6 transition-colors ${
-                          role === 'trainer' ? 'bg-blue-500 shadow-lg shadow-blue-500/30' : 'bg-[#1e293b] group-hover:bg-[#334155]'
-                        }`}
-                      >
-                        <Briefcase className={`w-10 h-10 ${role === 'trainer' ? 'text-white' : 'text-[#94a3b8]'}`} />
+                    <div className="flex justify-between items-start mb-4">
+                      <Briefcase className={`w-8 h-8 ${role === 'trainer' ? 'text-[#f0591f]' : 'text-gray-400 group-hover:text-gray-600'}`} />
+                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${role === 'trainer' ? 'border-[#f0591f]' : 'border-gray-300'}`}>
+                        {role === 'trainer' && <div className="w-2.5 h-2.5 rounded-full bg-[#f0591f]" />}
                       </div>
-                      <h3 className={`text-2xl font-black mb-3 ${role === 'trainer' ? 'text-white' : 'text-[#cbd5e1]'}`}>Trainer</h3>
-                      <p className="text-sm text-[#94a3b8] leading-relaxed">Teach high-demand skills, review assignments, and earn 70% revenue share.</p>
                     </div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-2">I'm a Trainer</h3>
+                    <p className="text-sm text-gray-500">Teach high-demand skills, review assignments, and earn revenue share.</p>
                   </div>
                 </div>
               </div>
             )}
 
-            {/* Step 2 */}
+            {/* Step 2: Personal Details */}
             {step === 2 && (
-              <div className="h-full">
-                <div className="space-y-6 sm:space-y-8 mt-4">
+              <div className="animate-in fade-in slide-in-from-right-8 duration-500">
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">Personal Information</h2>
+                <p className="text-gray-500 mb-8">Tell us about yourself so we can set up your profile.</p>
+
+                <div className="space-y-6">
                   {/* Photo Upload */}
-                  <div className="flex flex-col items-center justify-center mb-4">
+                  <div className="flex items-center gap-6">
                     <input
                       type="file"
                       accept="image/*"
@@ -373,78 +286,73 @@ export default function OnboardingFlow() {
                     />
                     <div
                       onClick={() => profilePicRef.current?.click()}
-                      className={`w-24 h-24 rounded-[2rem] border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-all group shadow-inner overflow-hidden ${
-                        profilePic ? 'border-[#f0591f] bg-[#f0591f]/10' : 'bg-[#020617] border-[#334155] hover:border-[#f0591f] hover:bg-[#f0591f]/5'
-                      }`}
+                      className="w-20 h-20 rounded-full bg-gray-100 border border-gray-200 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-200 transition-colors overflow-hidden"
                     >
                       {profilePic ? (
-                        <Camera className="w-6 h-6 text-[#f0591f]" />
+                        <span className="text-[#f0591f] font-bold text-[10px] text-center px-1">{profilePic.name.slice(0, 10)}</span>
                       ) : (
-                        <>
-                          <Camera className="w-6 h-6 text-[#64748b] group-hover:text-[#f0591f] mb-2" />
-                          <span className="text-[10px] font-bold text-[#64748b] group-hover:text-[#f0591f] uppercase tracking-wider">Upload</span>
-                        </>
+                        <Camera className="w-6 h-6 text-gray-400" />
                       )}
                     </div>
-                    {profilePic && <span className="text-xs text-[#f0591f] mt-2 font-bold">{profilePic.name}</span>}
+                    <div>
+                      <button onClick={() => profilePicRef.current?.click()} className="text-sm font-semibold text-[#f0591f] border border-[#f0591f] px-4 py-2 rounded-lg hover:bg-[#f0591f]/5 transition-colors">
+                        Upload Photo
+                      </button>
+                      <p className="text-xs text-gray-400 mt-2">JPG or PNG. Max size 5MB.</p>
+                    </div>
                   </div>
 
-                  {/* Inputs */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                    <div className="space-y-2">
-                      <label className="text-xs font-bold text-white/70 uppercase tracking-widest pl-1">Full Name</label>
-                      <div className="relative">
-                        <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748b]" />
-                        <input 
-                          type="text" 
-                          required
-                          value={personalDetails.name}
-                          onChange={(e) => setPersonalDetails({...personalDetails, name: e.target.value})}
-                          placeholder="John Doe" 
-                          className="w-full pl-11 pr-4 py-3 bg-[#020617] border border-white/10 rounded-2xl text-white placeholder-[#475569] focus:outline-none focus:border-[#f0591f] focus:ring-1 focus:ring-[#f0591f] transition-all shadow-inner font-medium text-sm"
-                        />
-                      </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div className="space-y-1.5">
+                      <label className="text-sm font-semibold text-gray-700">Full Name</label>
+                      <input 
+                        type="text" 
+                        value={personalDetails.name}
+                        onChange={(e) => setPersonalDetails({...personalDetails, name: e.target.value})}
+                        placeholder="John Doe" 
+                        className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f0591f]/20 focus:border-[#f0591f] transition-all"
+                      />
                     </div>
-                    <div className="space-y-2">
-                      <label className="text-xs font-bold text-white/70 uppercase tracking-widest pl-1">Username</label>
-                      <div className="relative">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#64748b] font-bold text-sm">@</span>
-                        <input 
-                          type="text" 
-                          required
-                          value={personalDetails.username}
-                          onChange={(e) => setPersonalDetails({...personalDetails, username: e.target.value})}
-                          placeholder="johndoe123" 
-                          className="w-full pl-9 pr-4 py-3 bg-[#020617] border border-white/10 rounded-2xl text-white placeholder-[#475569] focus:outline-none focus:border-[#f0591f] focus:ring-1 focus:ring-[#f0591f] transition-all shadow-inner font-medium text-sm"
-                        />
-                      </div>
+                    <div className="space-y-1.5">
+                      <label className="text-sm font-semibold text-gray-700">Username</label>
+                      <input 
+                        type="text" 
+                        value={personalDetails.username}
+                        onChange={(e) => setPersonalDetails({...personalDetails, username: e.target.value})}
+                        placeholder="johndoe123" 
+                        className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f0591f]/20 focus:border-[#f0591f] transition-all"
+                      />
                     </div>
-                    
-                    <div className="space-y-2">
-                      <label className="text-xs font-bold text-white/70 uppercase tracking-widest pl-1">Email Address</label>
-                      <div className="relative">
-                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748b]" />
-                        <input 
-                          type="email" 
-                          required
-                          value={personalDetails.email}
-                          onChange={(e) => setPersonalDetails({...personalDetails, email: e.target.value})}
-                          placeholder="john@example.com" 
-                          className="w-full pl-11 pr-4 py-3 bg-[#020617] border border-white/10 rounded-2xl text-white placeholder-[#475569] focus:outline-none focus:border-[#f0591f] focus:ring-1 focus:ring-[#f0591f] transition-all shadow-inner font-medium text-sm"
-                        />
-                      </div>
+                    <div className="space-y-1.5">
+                      <label className="text-sm font-semibold text-gray-700">Email Address</label>
+                      <input 
+                        type="email" 
+                        value={personalDetails.email}
+                        onChange={(e) => setPersonalDetails({...personalDetails, email: e.target.value})}
+                        placeholder="john@example.com" 
+                        className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f0591f]/20 focus:border-[#f0591f] transition-all"
+                      />
                     </div>
-
-                    <div className="space-y-2">
-                      <label className="text-xs font-bold text-white/70 uppercase tracking-widest pl-1">Phone Number</label>
+                    <div className="space-y-1.5">
+                      <label className="text-sm font-semibold text-gray-700">Phone Number</label>
                       <input 
                         type="tel" 
-                        required
                         value={personalDetails.phone}
                         onChange={(e) => setPersonalDetails({...personalDetails, phone: e.target.value})}
                         placeholder="+92 300 0000000" 
-                        className="w-full px-5 py-3 bg-[#020617] border border-white/10 rounded-2xl text-white placeholder-[#475569] focus:outline-none focus:border-[#f0591f] focus:ring-1 focus:ring-[#f0591f] transition-all shadow-inner font-medium text-sm"
+                        className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f0591f]/20 focus:border-[#f0591f] transition-all"
                       />
+                    </div>
+                    <div className="space-y-1.5 sm:col-span-2">
+                      <label className="text-sm font-semibold text-gray-700">Password</label>
+                      <input 
+                        type="password" 
+                        value={personalDetails.password}
+                        onChange={(e) => setPersonalDetails({...personalDetails, password: e.target.value})}
+                        placeholder="••••••••" 
+                        className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f0591f]/20 focus:border-[#f0591f] transition-all"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">Must be at least 8 characters long.</p>
                     </div>
                   </div>
                 </div>
@@ -453,29 +361,29 @@ export default function OnboardingFlow() {
 
             {/* Step 3: Professional Details */}
             {step === 3 && (
-              <div className="h-full">
-                <div className="space-y-6 sm:space-y-8 mt-4">
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-white/70 uppercase tracking-widest pl-1">Professional Title</label>
-                    <div className="relative">
-                      <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#64748b]" />
-                      <input 
-                        type="text" 
-                        value={profDetails.title}
-                        onChange={(e) => setProfDetails({...profDetails, title: e.target.value})}
-                        placeholder={role === 'trainer' ? "e.g. Senior Frontend Engineer" : "e.g. Computer Science Student"} 
-                        className="w-full pl-12 pr-4 py-4 bg-[#020617] border border-white/10 rounded-2xl text-white placeholder-[#475569] focus:outline-none focus:border-[#f0591f] focus:ring-1 focus:ring-[#f0591f] transition-all shadow-inner font-medium"
-                      />
-                    </div>
+              <div className="animate-in fade-in slide-in-from-right-8 duration-500">
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">Professional Background</h2>
+                <p className="text-gray-500 mb-8">Share your experience and academic history.</p>
+
+                <div className="space-y-5">
+                  <div className="space-y-1.5">
+                    <label className="text-sm font-semibold text-gray-700">Professional Title</label>
+                    <input 
+                      type="text" 
+                      value={profDetails.title}
+                      onChange={(e) => setProfDetails({...profDetails, title: e.target.value})}
+                      placeholder={role === 'trainer' ? "e.g. Senior Frontend Engineer" : "e.g. Computer Science Student"} 
+                      className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f0591f]/20 focus:border-[#f0591f] transition-all"
+                    />
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label className="text-xs font-bold text-white/70 uppercase tracking-widest pl-1">Years of Experience</label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div className="space-y-1.5">
+                      <label className="text-sm font-semibold text-gray-700">Years of Experience</label>
                       <select 
                         value={profDetails.experience}
                         onChange={(e) => setProfDetails({...profDetails, experience: e.target.value})}
-                        className="w-full px-5 py-4 bg-[#020617] border border-white/10 rounded-2xl text-white placeholder-[#475569] focus:outline-none focus:border-[#f0591f] focus:ring-1 focus:ring-[#f0591f] transition-all shadow-inner font-medium appearance-none"
+                        className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#f0591f]/20 focus:border-[#f0591f] transition-all"
                       >
                         <option value="" disabled>Select experience</option>
                         {role === 'trainer' ? (
@@ -495,18 +403,15 @@ export default function OnboardingFlow() {
                       </select>
                     </div>
 
-                    <div className="space-y-2">
-                      <label className="text-xs font-bold text-white/70 uppercase tracking-widest pl-1">University / Institute</label>
-                      <div className="relative">
-                        <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#64748b]" />
-                        <input 
-                          type="text" 
-                          value={profDetails.university}
-                          onChange={(e) => setProfDetails({...profDetails, university: e.target.value})}
-                          placeholder="Current or Past University" 
-                          className="w-full pl-12 pr-4 py-4 bg-[#020617] border border-white/10 rounded-2xl text-white placeholder-[#475569] focus:outline-none focus:border-[#f0591f] focus:ring-1 focus:ring-[#f0591f] transition-all shadow-inner font-medium"
-                        />
-                      </div>
+                    <div className="space-y-1.5">
+                      <label className="text-sm font-semibold text-gray-700">University / Institute</label>
+                      <input 
+                        type="text" 
+                        value={profDetails.university}
+                        onChange={(e) => setProfDetails({...profDetails, university: e.target.value})}
+                        placeholder="Current or Past University" 
+                        className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f0591f]/20 focus:border-[#f0591f] transition-all"
+                      />
                     </div>
                   </div>
                 </div>
@@ -515,45 +420,40 @@ export default function OnboardingFlow() {
 
             {/* Step 4: Skills */}
             {step === 4 && (
-              <div className="h-full">
-                <div className="space-y-6 mt-4">
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-white/70 uppercase tracking-widest pl-1">Add Skills</label>
-                    <div className="relative">
-                      <Star className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#f0591f]" />
-                      <input 
-                        type="text" 
-                        value={currentSkill}
-                        onChange={(e) => setCurrentSkill(e.target.value)}
-                        onKeyDown={addSkill}
-                        placeholder="Type a skill and press Enter (e.g. React.js, UI/UX)" 
-                        className="w-full pl-12 pr-4 py-4 bg-[#020617] border border-white/10 rounded-2xl text-white placeholder-[#475569] focus:outline-none focus:border-[#f0591f] focus:ring-1 focus:ring-[#f0591f] transition-all shadow-inner font-medium"
-                      />
-                    </div>
+              <div className="animate-in fade-in slide-in-from-right-8 duration-500">
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">Your Expertise</h2>
+                <p className="text-gray-500 mb-8">List the skills you excel at. Press Enter to add.</p>
+
+                <div className="space-y-4">
+                  <div className="relative">
+                    <input 
+                      type="text" 
+                      value={currentSkill}
+                      onChange={(e) => setCurrentSkill(e.target.value)}
+                      onKeyDown={addSkill}
+                      placeholder="Type a skill and press Enter (e.g. React.js, UI/UX)" 
+                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f0591f]/20 focus:border-[#f0591f] transition-all"
+                    />
                   </div>
 
-                  <div className="min-h-[150px] p-6 rounded-[2rem] border border-white/5 bg-[#020617]/50 shadow-inner">
+                  <div className="min-h-[120px] p-4 rounded-lg border border-gray-200 bg-gray-50 flex flex-wrap gap-2 content-start">
                     {skills.length === 0 ? (
-                      <div className="h-full flex items-center justify-center text-[#64748b] text-sm">
-                        No skills added yet. Press enter to add.
-                      </div>
+                      <span className="text-gray-400 text-sm m-auto">No skills added yet.</span>
                     ) : (
-                      <div className="flex flex-wrap gap-3">
-                        {skills.map((skill, index) => (
-                          <span 
-                            key={index} 
-                            className="bg-[#1e293b] text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 border border-white/10 animate-in zoom-in-95"
+                      skills.map((skill, index) => (
+                        <span 
+                          key={index} 
+                          className="bg-[#f0591f]/10 text-[#f0591f] border border-[#f0591f]/20 px-3 py-1.5 rounded-full text-sm font-medium flex items-center gap-2 animate-in fade-in zoom-in-95"
+                        >
+                          {skill}
+                          <button 
+                            onClick={() => removeSkill(skill)}
+                            className="w-4 h-4 rounded-full hover:bg-[#f0591f]/20 flex items-center justify-center transition-colors text-[#f0591f]"
                           >
-                            {skill}
-                            <button 
-                              onClick={() => removeSkill(skill)}
-                              className="w-5 h-5 rounded-full bg-white/10 hover:bg-red-500/20 hover:text-red-400 flex items-center justify-center transition-colors"
-                            >
-                              &times;
-                            </button>
-                          </span>
-                        ))}
-                      </div>
+                            &times;
+                          </button>
+                        </span>
+                      ))
                     )}
                   </div>
                 </div>
@@ -562,34 +462,37 @@ export default function OnboardingFlow() {
 
             {/* Step 5: Documents (Trainer Only) */}
             {step === 5 && role === 'trainer' && (
-              <div className="h-full">
-                <div className="grid gap-4 mt-4">
+              <div className="animate-in fade-in slide-in-from-right-8 duration-500">
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">Verification Documents</h2>
+                <p className="text-gray-500 mb-8">Upload your professional documents to get verified.</p>
+
+                <div className="space-y-4">
                   <input type="file" accept=".pdf,image/*" className="hidden" ref={cnicRef} onChange={(e) => e.target.files && setDocuments({...documents, cnic: e.target.files[0]})} />
                   <input type="file" accept=".pdf,image/*" className="hidden" ref={degreeRef} onChange={(e) => e.target.files && setDocuments({...documents, degree: e.target.files[0]})} />
                   <input type="file" accept=".pdf,image/*" className="hidden" ref={resumeRef} onChange={(e) => e.target.files && setDocuments({...documents, resume: e.target.files[0]})} />
 
                   {[
-                    { id: 'cnic', label: 'CNIC / Identity Card', icon: FileText, state: documents.cnic, ref: cnicRef },
-                    { id: 'degree', label: 'Latest Degree', icon: GraduationCap, state: documents.degree, ref: degreeRef },
-                    { id: 'resume', label: 'Professional Resume', icon: Briefcase, state: documents.resume, ref: resumeRef }
+                    { id: 'cnic', label: 'CNIC / Identity Card', state: documents.cnic, ref: cnicRef },
+                    { id: 'degree', label: 'Latest Degree', state: documents.degree, ref: degreeRef },
+                    { id: 'resume', label: 'Professional Resume', state: documents.resume, ref: resumeRef }
                   ].map((doc) => (
                     <div 
                       key={doc.id}
                       onClick={() => doc.ref.current?.click()}
-                      className={`cursor-pointer p-6 rounded-[24px] border-2 flex items-center justify-between transition-all duration-300 ${doc.state ? 'bg-[#f0591f]/10 border-[#f0591f] shadow-[0_0_20px_rgba(240,89,31,0.1)]' : 'bg-[#020617] border-[#1e293b] hover:border-[#334155]'}`}
+                      className={`cursor-pointer p-5 rounded-xl border-2 flex items-center justify-between transition-all duration-200 ${doc.state ? 'bg-[#f0591f]/5 border-[#f0591f]' : 'bg-white border-gray-200 hover:border-[#f0591f]'}`}
                     >
-                      <div className="flex items-center gap-5">
-                        <div className={`p-4 rounded-2xl ${doc.state ? 'bg-[#f0591f]' : 'bg-[#1e293b]'}`}>
-                          <doc.icon className={`w-6 h-6 ${doc.state ? 'text-white' : 'text-[#64748b]'}`} />
+                      <div className="flex items-center gap-4">
+                        <div className={`w-12 h-12 rounded-full flex items-center justify-center ${doc.state ? 'bg-[#f0591f]/20 text-[#f0591f]' : 'bg-gray-100 text-gray-500'}`}>
+                          <FileText className="w-5 h-5" />
                         </div>
                         <div>
-                          <h4 className={`text-lg font-bold ${doc.state ? 'text-white' : 'text-[#cbd5e1]'}`}>{doc.label}</h4>
-                          <p className="text-xs text-[#64748b] mt-1 font-bold">
+                          <h4 className="text-md font-bold text-gray-900">{doc.label}</h4>
+                          <p className="text-xs text-gray-500 mt-0.5">
                             {doc.state ? doc.state.name : 'PDF, JPG (Max 5MB)'}
                           </p>
                         </div>
                       </div>
-                      {doc.state ? <CheckCircle2 className="text-[#f0591f] w-8 h-8" /> : <Upload className="text-[#64748b] w-6 h-6" />}
+                      {doc.state ? <CheckCircle2 className="text-[#f0591f] w-6 h-6" /> : <Upload className="text-gray-400 w-5 h-5" />}
                     </div>
                   ))}
                 </div>
@@ -598,31 +501,33 @@ export default function OnboardingFlow() {
 
             {/* Step 6: Demo Video (Trainer Only) */}
             {step === 6 && role === 'trainer' && (
-              <div className="h-full">
-                <div className="space-y-6 mt-4">
-                  
-                  <div className="p-6 bg-blue-500/10 border border-blue-500/20 rounded-[24px]">
-                    <h3 className="text-blue-400 font-bold mb-2 flex items-center gap-2"><Video className="w-5 h-5" /> Video Requirements</h3>
-                    <ul className="text-sm text-[#94a3b8] space-y-2 list-disc pl-5">
+              <div className="animate-in fade-in slide-in-from-right-8 duration-500">
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">Demo Video</h2>
+                <p className="text-gray-500 mb-6">Showcase your teaching style with a short demo video.</p>
+                
+                <div className="space-y-6">
+                  <div className="p-4 bg-blue-50 border border-blue-100 rounded-xl">
+                    <h3 className="text-blue-800 font-bold text-sm mb-2 flex items-center gap-2"><Video className="w-4 h-4" /> Video Requirements</h3>
+                    <ul className="text-sm text-blue-700 space-y-1 pl-5 list-disc">
                       <li>Duration must be between 3 to 10 minutes.</li>
                       <li>Video quality must be at least 720p (HD).</li>
                       <li>Audio must be clear without echo or background noise.</li>
                     </ul>
                   </div>
 
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-white/70 uppercase tracking-widest pl-1">Video Link (YouTube / Google Drive)</label>
+                  <div className="space-y-1.5">
+                    <label className="text-sm font-semibold text-gray-700">Video Link (YouTube / Google Drive)</label>
                     <input 
                       type="url" 
                       value={videoLink}
                       onChange={(e) => setVideoLink(e.target.value)}
                       placeholder="https://..." 
-                      className="w-full px-5 py-4 bg-[#020617] border border-white/10 rounded-2xl text-white placeholder-[#475569] focus:outline-none focus:border-[#f0591f] focus:ring-1 focus:ring-[#f0591f] transition-all shadow-inner font-medium"
+                      className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f0591f]/20 focus:border-[#f0591f] transition-all"
                     />
                   </div>
 
-                  <div className="flex items-center justify-center gap-4 text-sm text-[#64748b] font-bold uppercase tracking-wider py-2">
-                    <hr className="flex-1 border-[#1e293b]" /> OR <hr className="flex-1 border-[#1e293b]" />
+                  <div className="flex items-center justify-center gap-4 text-xs text-gray-400 font-bold uppercase">
+                    <hr className="flex-1 border-gray-200" /> OR <hr className="flex-1 border-gray-200" />
                   </div>
 
                   <input 
@@ -638,181 +543,111 @@ export default function OnboardingFlow() {
                   />
                   <div 
                     onClick={() => videoRef.current?.click()}
-                    className={`w-full p-8 border-2 border-dashed rounded-[32px] flex flex-col items-center justify-center transition-colors cursor-pointer group ${videoFile ? 'border-[#f0591f] bg-[#f0591f]/10' : 'border-[#334155] bg-[#020617] hover:border-[#f0591f]'}`}
+                    className={`w-full p-8 border-2 border-dashed rounded-xl flex flex-col items-center justify-center transition-colors cursor-pointer group ${videoFile ? 'border-[#f0591f] bg-[#f0591f]/5' : 'border-gray-300 bg-gray-50 hover:border-[#f0591f]'}`}
                   >
-                    <div className={`w-16 h-16 rounded-full flex items-center justify-center transition-colors mb-4 ${videoFile ? 'bg-[#f0591f]' : 'bg-[#1e293b] group-hover:bg-[#f0591f]'}`}>
-                      {videoFile ? <CheckCircle2 className="w-8 h-8 text-white" /> : <Upload className="w-8 h-8 text-[#64748b] group-hover:text-white" />}
+                    <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors mb-3 ${videoFile ? 'bg-[#f0591f]/20 text-[#f0591f]' : 'bg-gray-200 text-gray-500 group-hover:text-[#f0591f]'}`}>
+                      {videoFile ? <CheckCircle2 className="w-6 h-6" /> : <Upload className="w-6 h-6" />}
                     </div>
-                    <span className={`font-bold text-lg mb-1 ${videoFile ? 'text-white' : 'text-white'}`}>
+                    <span className="font-semibold text-gray-900 mb-1">
                       {videoFile ? 'Video Uploaded Successfully' : 'Click to upload video file'}
                     </span>
-                    <span className="text-[#64748b] text-sm">
+                    <span className="text-gray-500 text-xs">
                       {videoFile ? videoFile.name : 'MP4, WebM (Max 500MB)'}
                     </span>
                   </div>
-
                 </div>
               </div>
             )}
 
-            {/* Step 7: Payment Details (Trainer Only) */}
+            {/* Step 7: Interview Booking (Trainer Only) */}
             {step === 7 && role === 'trainer' && (
-              <div className="h-full">
-                <div className="space-y-6 sm:space-y-8 mt-4">
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-white/70 uppercase tracking-widest pl-1">Bank Name</label>
-                    <div className="relative">
-                      <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#64748b]" />
-                      <input 
-                        type="text" 
-                        value={payment.bankName}
-                        onChange={(e) => setPayment({...payment, bankName: e.target.value})}
-                        placeholder="e.g. Meezan Bank, Payoneer" 
-                        className="w-full pl-12 pr-4 py-4 bg-[#020617] border border-white/10 rounded-2xl text-white placeholder-[#475569] focus:outline-none focus:border-[#f0591f] focus:ring-1 focus:ring-[#f0591f] transition-all shadow-inner font-medium"
-                      />
-                    </div>
-                  </div>
+              <div className="animate-in fade-in slide-in-from-right-8 duration-500">
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">Interview Booking</h2>
+                <p className="text-gray-500 mb-8">Schedule a quick verification call with our team.</p>
 
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-white/70 uppercase tracking-widest pl-1">Account Title</label>
-                    <div className="relative">
-                      <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#64748b]" />
-                      <input 
-                        type="text" 
-                        value={payment.accountTitle}
-                        onChange={(e) => setPayment({...payment, accountTitle: e.target.value})}
-                        placeholder="Name exactly as it appears on account" 
-                        className="w-full pl-12 pr-4 py-4 bg-[#020617] border border-white/10 rounded-2xl text-white placeholder-[#475569] focus:outline-none focus:border-[#f0591f] focus:ring-1 focus:ring-[#f0591f] transition-all shadow-inner font-medium"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-white/70 uppercase tracking-widest pl-1">IBAN / Account Number</label>
-                    <div className="relative">
-                      <Hash className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#64748b]" />
-                      <input 
-                        type="text" 
-                        value={payment.iban}
-                        onChange={(e) => setPayment({...payment, iban: e.target.value})}
-                        placeholder="PK00 MEEZ 0000 0000 0000 0000" 
-                        className="w-full pl-12 pr-4 py-4 bg-[#020617] border border-white/10 rounded-2xl text-white placeholder-[#475569] focus:outline-none focus:border-[#f0591f] focus:ring-1 focus:ring-[#f0591f] transition-all shadow-inner font-medium font-mono"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Step 8: Interview Booking (Trainer Only) */}
-            {step === 8 && role === 'trainer' && (
-              <div className="h-full">
-                <div className="space-y-6 mt-4">
-                  
-                  <div className="p-6 bg-purple-500/10 border border-purple-500/20 rounded-[24px]">
-                    <h3 className="text-purple-400 font-bold mb-2 flex items-center gap-2"><Video className="w-5 h-5" /> Mandatory Verification Call</h3>
-                    <p className="text-sm text-[#94a3b8] leading-relaxed">
-                      To maintain GrapeTask's premium quality, all trainers must pass a 10-15 minute verification call with our team. Please schedule a time below.
+                <div className="space-y-6">
+                  <div className="p-5 bg-purple-50 border border-purple-100 rounded-xl">
+                    <h3 className="text-purple-800 font-bold text-sm mb-2">Mandatory Verification</h3>
+                    <p className="text-sm text-purple-700">
+                      To maintain GrapeTask's premium quality, all trainers must pass a 10-15 minute verification call. Please schedule a time below.
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label className="text-xs font-bold text-white/70 uppercase tracking-widest pl-1">Select Date</label>
-                      <div className="relative">
-                        <CalendarDays className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#64748b]" />
-                        <input 
-                          type="date" 
-                          value={interview.date}
-                          onChange={(e) => setInterview({...interview, date: e.target.value})}
-                          className="w-full pl-12 pr-4 py-4 bg-[#020617] border border-white/10 rounded-2xl text-white placeholder-[#475569] focus:outline-none focus:border-[#f0591f] focus:ring-1 focus:ring-[#f0591f] transition-all shadow-inner font-medium"
-                        />
-                      </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div className="space-y-1.5">
+                      <label className="text-sm font-semibold text-gray-700">Select Date</label>
+                      <input 
+                        type="date" 
+                        value={interview.date}
+                        onChange={(e) => setInterview({...interview, date: e.target.value})}
+                        className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#f0591f]/20 focus:border-[#f0591f] transition-all"
+                      />
                     </div>
                     
-                    <div className="space-y-2">
-                      <label className="text-xs font-bold text-white/70 uppercase tracking-widest pl-1">Select Time</label>
-                      <div className="relative">
-                        <Clock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#64748b]" />
-                        <input 
-                          type="time" 
-                          value={interview.time}
-                          onChange={(e) => setInterview({...interview, time: e.target.value})}
-                          className="w-full pl-12 pr-4 py-4 bg-[#020617] border border-white/10 rounded-2xl text-white placeholder-[#475569] focus:outline-none focus:border-[#f0591f] focus:ring-1 focus:ring-[#f0591f] transition-all shadow-inner font-medium"
-                        />
-                      </div>
+                    <div className="space-y-1.5">
+                      <label className="text-sm font-semibold text-gray-700">Select Time</label>
+                      <input 
+                        type="time" 
+                        value={interview.time}
+                        onChange={(e) => setInterview({...interview, time: e.target.value})}
+                        className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#f0591f]/20 focus:border-[#f0591f] transition-all"
+                      />
                     </div>
                   </div>
-                  
                 </div>
               </div>
             )}
 
-            {/* Step 9 (Success) */}
-            {step === 9 && (
-              <div className="h-full flex flex-col items-center justify-center text-center">
-                <div className="relative mb-10">
-                  <div className="absolute inset-0 bg-[#f0591f] rounded-full blur-[80px] opacity-40 animate-pulse" />
-                  <div className="w-32 h-32 bg-gradient-to-tr from-[#f0591f] to-[#fb923c] rounded-[2rem] rotate-12 flex items-center justify-center shadow-[0_0_50px_rgba(240,89,31,0.5)] relative z-10 transition-transform hover:rotate-0">
-                    <CheckCircle2 className="w-16 h-16 text-white" />
-                  </div>
+            {/* Success Step (totalSteps + 1) */}
+            {step > totalSteps && (
+              <div className="animate-in fade-in zoom-in-95 duration-500 py-8 flex flex-col items-center text-center">
+                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
+                  <CheckCircle2 className="w-10 h-10 text-green-600" />
                 </div>
                 
-                <h1 className="text-4xl sm:text-5xl font-black text-white mb-4 leading-tight drop-shadow-md">
+                <h1 className="text-3xl font-bold text-gray-900 mb-3">
                   {role === 'trainer' ? 'Profile Ready!' : "You're All Set!"}
                 </h1>
                 
-                <p className="text-[#94a3b8] text-lg max-w-sm mx-auto">
+                <p className="text-gray-500 max-w-sm mx-auto mb-8">
                   {role === 'trainer' 
-                    ? "Next, you need to provide your equipment proofs and accept the Trainer Terms."
+                    ? "Your application has been submitted successfully. We will review it shortly."
                     : "Welcome to GrapeTask! Start exploring courses and freelance opportunities."}
                 </p>
+
+                <button 
+                  onClick={handleFinish}
+                  className="bg-[#f0591f] hover:bg-[#d94d19] text-white px-8 py-3 rounded-lg font-bold transition-colors"
+                >
+                  Go to Dashboard
+                </button>
               </div>
             )}
 
           </div>
 
-          {/* Fixed Bottom Action Bar */}
-          <div className="absolute bottom-0 left-0 w-full bg-[#0f172a]/95 backdrop-blur-3xl border-t border-white/10 p-6 sm:px-12 flex items-center justify-between rounded-b-[32px] sm:rounded-b-[40px] shadow-[0_-10px_40px_rgba(0,0,0,0.3)] z-30">
-            {step < 9 ? (
-              <>
-                <button 
-                  onClick={handleBack}
-                  className={`font-bold text-[#64748b] hover:text-white px-6 py-3 rounded-xl transition-all hover:bg-white/5 ${step === 1 ? 'invisible' : 'visible'}`}
-                >
-                  Go Back
-                </button>
-                
-                <button 
-                  onClick={step === (role === 'trainer' ? 8 : 4) ? handleComplete : handleNext}
-                  disabled={
-                    (step === 1 && !role) ||
-                    (step === 2 && (!personalDetails.name || !personalDetails.username || !personalDetails.email || !personalDetails.phone)) ||
-                    (step === 3 && (!profDetails.experience || !profDetails.title)) ||
-                    (step === 4 && skills.length === 0) ||
-                    (step === 7 && (!payment.bankName || !payment.iban)) ||
-                    (step === 8 && role === 'trainer' && (!interview.date || !interview.time))
-                  }
-                  className="flex items-center gap-3 bg-gradient-to-r from-[#f0591f] to-[#ff7a45] hover:shadow-[0_0_30px_rgba(240,89,31,0.6)] disabled:opacity-50 disabled:bg-none disabled:bg-[#1e293b] disabled:text-[#64748b] disabled:shadow-none text-white px-10 py-4 rounded-2xl font-black text-lg transition-all active:scale-95 group"
-                >
-                  {step === (role === 'trainer' ? 8 : 4) ? 'Submit Application' : 'Continue'} 
-                  <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </button>
-              </>
-            ) : (
+          {/* Action Footer (Hidden on success screen) */}
+          {step <= totalSteps && (
+            <div className="bg-gray-50 px-6 sm:px-10 py-5 border-t border-gray-200 flex items-center justify-between">
               <button 
-                onClick={handleFinish}
-                className="w-full flex items-center justify-center gap-3 bg-white text-[#020617] hover:bg-gray-200 px-10 py-5 rounded-2xl font-black text-xl transition-all active:scale-95 shadow-[0_0_40px_rgba(255,255,255,0.3)] group"
+                onClick={handleBack}
+                disabled={step === 1}
+                className={`font-medium text-gray-500 hover:text-gray-900 transition-colors ${step === 1 ? 'opacity-0 cursor-default' : 'opacity-100'}`}
               >
-                {role === 'trainer' ? 'Proceed to Terms' : 'Go to Dashboard'} 
-                <ChevronRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
+                Back
               </button>
-            )}
-          </div>
-
+              
+              <button 
+                onClick={step === totalSteps ? handleComplete : handleNext}
+                disabled={!canContinue || loading}
+                className="flex items-center gap-2 bg-[#f0591f] hover:bg-[#d94d19] disabled:opacity-50 disabled:cursor-not-allowed text-white px-6 py-2.5 rounded-lg font-semibold transition-colors"
+              >
+                {loading ? 'Please wait...' : (step === totalSteps ? 'Submit' : 'Continue')}
+              </button>
+            </div>
+          )}
         </div>
       </div>
-
     </div>
   );
 }

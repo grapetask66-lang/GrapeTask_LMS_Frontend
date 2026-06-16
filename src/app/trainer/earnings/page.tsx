@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { DollarSign, TrendingUp, ArrowUpRight, ArrowDownRight, Wallet, Activity, CreditCard, Star, Download } from 'lucide-react';
 import Link from 'next/link';
@@ -13,12 +15,12 @@ export default function EarningsDashboardPage() {
           <p className="text-sm sm:text-base text-[#94a3b8]">Track your financial progress and withdraw funds.</p>
         </div>
         <div className="flex flex-wrap gap-3 w-full md:w-auto">
-          <button className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-[#0f172a] border border-[#1e293b] hover:bg-[#1e293b] text-white px-5 py-3 rounded-2xl transition-colors font-bold text-sm">
+          <button className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-[#0f172a] border border-[#1e293b] hover:bg-[#1e293b] text-white px-5 py-3 rounded-2xl transition-colors font-bold text-sm" onClick={() => alert('Exporting report as CSV...')}>
             <Download className="w-4 h-4" /> Export Report
           </button>
-          <button className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-gradient-to-r from-[#f0591f] to-orange-500 hover:opacity-90 text-white px-6 py-3 rounded-2xl font-bold shadow-[0_0_20px_rgba(240,89,31,0.3)] transition-all active:scale-95 text-sm">
+          <Link href="/trainer/withdrawal" className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-gradient-to-r from-[#f0591f] to-orange-500 hover:opacity-90 text-white px-6 py-3 rounded-2xl font-bold shadow-[0_0_20px_rgba(240,89,31,0.3)] transition-all active:scale-95 text-sm">
             <CreditCard className="w-4 h-4" /> Withdraw Funds
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -37,9 +39,9 @@ export default function EarningsDashboardPage() {
             </div>
             
             <div className="flex items-start gap-2 sm:gap-4 mb-8">
-              <span className="text-2xl sm:text-4xl md:text-6xl font-black text-white/50 mt-1 sm:mt-2">$</span>
-              <h1 className="text-5xl sm:text-7xl md:text-[140px] leading-none font-black text-white tracking-tighter drop-shadow-2xl">
-                4,250<span className="text-2xl sm:text-4xl md:text-6xl text-white/30">.00</span>
+              <span className="text-xl sm:text-3xl md:text-5xl font-black text-white/50 mt-1 sm:mt-2">$</span>
+              <h1 className="text-4xl sm:text-6xl md:text-[80px] leading-none font-black text-white tracking-tighter drop-shadow-2xl">
+                4,250<span className="text-xl sm:text-3xl md:text-5xl text-white/30">.00</span>
               </h1>
             </div>
             
@@ -140,11 +142,14 @@ export default function EarningsDashboardPage() {
                   <ArrowUpRight className="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="text-base font-bold text-white">Course Sale</h4>
-                  <p className="text-sm text-[#64748b]">Yesterday, 4:30 PM</p>
+                  <h4 className="text-base font-bold text-white">Student: Ali Ahmed</h4>
+                  <p className="text-sm text-[#64748b]">Advanced Web Dev &bull; Watched 100% &bull; Yesterday</p>
                 </div>
               </div>
-              <h4 className="font-black text-green-400 text-xl">+$35.00</h4>
+              <div className="text-right">
+                <h4 className="font-black text-green-400 text-xl">+$35.00</h4>
+                <p className="text-xs text-green-500/60 font-bold">Full Revenue</p>
+              </div>
             </div>
             
             <div className="group flex items-center justify-between p-5 bg-[#020617]/50 rounded-[24px] border border-white/5 hover:border-white/20 transition-all cursor-pointer">
@@ -153,11 +158,30 @@ export default function EarningsDashboardPage() {
                   <ArrowUpRight className="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="text-base font-bold text-white">Course Sale</h4>
-                  <p className="text-sm text-[#64748b]">Oct 12, 2:15 PM</p>
+                  <h4 className="text-base font-bold text-white">Student: Sara Khan</h4>
+                  <p className="text-sm text-[#64748b]">UI/UX Masterclass &bull; Watched 50% &bull; Oct 12</p>
                 </div>
               </div>
-              <h4 className="font-black text-green-400 text-xl">+$35.00</h4>
+              <div className="text-right">
+                <h4 className="font-black text-green-400 text-xl">+$17.50</h4>
+                <p className="text-xs text-green-500/60 font-bold">Partial Revenue</p>
+              </div>
+            </div>
+            
+            <div className="group flex items-center justify-between p-5 bg-[#020617]/50 rounded-[24px] border border-white/5 hover:border-white/20 transition-all cursor-pointer">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-green-500/10 flex items-center justify-center text-green-400 border border-green-500/20 group-hover:scale-110 transition-transform">
+                  <ArrowUpRight className="w-6 h-6" />
+                </div>
+                <div>
+                  <h4 className="text-base font-bold text-white">Student: Usman Tariq</h4>
+                  <p className="text-sm text-[#64748b]">Python Basics &bull; Watched 25% &bull; Oct 10</p>
+                </div>
+              </div>
+              <div className="text-right">
+                <h4 className="font-black text-green-400 text-xl">+$8.75</h4>
+                <p className="text-xs text-green-500/60 font-bold">Partial Revenue</p>
+              </div>
             </div>
           </div>
         </div>

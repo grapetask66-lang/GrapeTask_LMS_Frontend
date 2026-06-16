@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { FormEvent, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { FormEvent, useState, Suspense } from 'react';
 import { CheckCircle2, ChevronRight, Send, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Card, CardTitle } from '@/components/ui/Card';
@@ -11,15 +12,24 @@ import { registerTrainer } from '@/services/trainerApi';
 import { useToastStore } from '@/store/toast-store';
 import { getErrorMessage } from '@/utils/errorParser';
 
-export function TrainerRegistrationScreen() {
+export function TrainerRegistrationScreenContent() {
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const { showToast } = useToastStore();
+  const searchParams = useSearchParams();
+  const ref = searchParams.get('ref');
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     const form = event.target as HTMLFormElement;
     const formData = new FormData(form);
+    
+    if (ref) {
+      formData.append('instituteId', ref);
+      formData.append('trainerType', 'institute');
+    } else {
+      formData.append('trainerType', 'individual');
+    }
 
     try {
       setLoading(true);
@@ -128,5 +138,13 @@ export function TrainerRegistrationScreen() {
         </div>
       </div>
     </div>
+  );
+}
+
+export function TrainerRegistrationScreen() {
+  return (
+    <Suspense fallback={<div className="flex h-screen items-center justify-center"><div className="h-8 w-8 animate-spin rounded-full border-4 border-orange-500 border-t-transparent" /></div>}>
+      <TrainerRegistrationScreenContent />
+    </Suspense>
   );
 }

@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Card, CardTitle } from '@/components/ui/Card';
+import { GlowCard } from '@/components/ui/GlowCard';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Field, SelectInput, TextArea, TextInput } from '@/components/ui/Field';
 import { coursesApi, institutionsApi, reportsApi } from '@/lib/api';
@@ -24,7 +25,9 @@ import {
   TrendingUp,
   School,
   Building2,
-  Zap
+  Zap,
+  UserPlus,
+  Copy
 } from 'lucide-react';
 
 export function InstituteDashboard() {
@@ -108,45 +111,37 @@ export function InstituteDashboard() {
 
       {/* Key Metrics */}
       <div className="grid gap-4 md:grid-cols-4">
-        <Card className="bg-gradient-to-br from-gray-800 to-gray-800/50 border-gray-700">
-          <div className="flex items-start justify-between">
-            <div>
-              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Institution</p>
-              <p className="text-xl font-bold text-white mt-2">{institutions.find((item) => item.id === institutionId)?.name ?? 'Portal'}</p>
-            </div>
-            <Building2 className="w-8 h-8 text-orange-400/30" />
-          </div>
-        </Card>
+        <GlowCard 
+          value={institutions.find((item) => item.id === institutionId)?.name ?? 'Portal'} 
+          label="Institution" 
+          icon={<Building2 className="w-4 h-4" />} 
+          glowColor="from-orange-500"
+          iconBgColor="bg-orange-500"
+        />
         
-        <Card className="bg-gradient-to-br from-gray-800 to-gray-800/50 border-gray-700">
-          <div className="flex items-start justify-between">
-            <div>
-              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Total Students</p>
-              <p className="text-xl font-bold text-white mt-2">{students.length}</p>
-            </div>
-            <Users className="w-8 h-8 text-blue-400/30" />
-          </div>
-        </Card>
+        <GlowCard 
+          value={students.length} 
+          label="Total Students" 
+          icon={<Users className="w-4 h-4" />} 
+          glowColor="from-blue-500"
+          iconBgColor="bg-blue-500"
+        />
         
-        <Card className="bg-gradient-to-br from-gray-800 to-gray-800/50 border-gray-700">
-          <div className="flex items-start justify-between">
-            <div>
-              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Courses</p>
-              <p className="text-xl font-bold text-white mt-2">{courses.length}</p>
-            </div>
-            <BookOpen className="w-8 h-8 text-emerald-400/30" />
-          </div>
-        </Card>
+        <GlowCard 
+          value={courses.length} 
+          label="Courses" 
+          icon={<BookOpen className="w-4 h-4" />} 
+          glowColor="from-emerald-500"
+          iconBgColor="bg-emerald-500"
+        />
         
-        <Card className="bg-gradient-to-br from-gray-800 to-gray-800/50 border-gray-700">
-          <div className="flex items-start justify-between">
-            <div>
-              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Reports</p>
-              <p className="text-xl font-bold text-white mt-2">{reports.length}</p>
-            </div>
-            <FileText className="w-8 h-8 text-purple-400/30" />
-          </div>
-        </Card>
+        <GlowCard 
+          value={reports.length} 
+          label="Reports" 
+          icon={<FileText className="w-4 h-4" />} 
+          glowColor="from-purple-500"
+          iconBgColor="bg-purple-500"
+        />
       </div>
 
       {/* Active Student Access Section */}
@@ -345,6 +340,35 @@ export function InstituteDashboard() {
                 Create Group
               </Button>
             </form>
+          </Card>
+
+          {/* Invite Trainers */}
+          <Card id="invite-trainers" className="border-gray-700">
+            <div className="flex items-center gap-2 mb-4">
+              <UserPlus className="w-5 h-5 text-emerald-400" />
+              <CardTitle title="Invite Trainers" />
+            </div>
+            <p className="text-sm text-gray-400 mb-4">
+              Invite trainers to join your institution.
+            </p>
+            <div className="flex items-center gap-2">
+              <input
+                type="text"
+                readOnly
+                value={`https://grapetask-lms.vercel.app/signup?ref=${institutionId || 'institute123'}`}
+                className="flex-1 bg-gray-900 border border-gray-700 text-gray-300 rounded-lg px-3 py-2 text-xs"
+              />
+              <Button
+                variant="outline"
+                className="shrink-0 border-gray-700 hover:bg-gray-800 h-9 px-3"
+                onClick={() => {
+                  navigator.clipboard.writeText(`https://grapetask-lms.vercel.app/signup?ref=${institutionId || 'institute123'}`);
+                  setMessage('Referral link copied to clipboard.');
+                }}
+              >
+                <Copy className="w-4 h-4" />
+              </Button>
+            </div>
           </Card>
 
           {/* Subscription Packages */}

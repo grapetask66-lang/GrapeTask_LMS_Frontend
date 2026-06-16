@@ -4,7 +4,7 @@ export function dashboardForRole(role?: Role | string | null) {
   const normalizedRole = role?.toLowerCase();
 
   if (normalizedRole === 'admin') return '/admin/dashboard';
-  if (normalizedRole === 'trainer') return '/trainer/dashboard';
+  if (normalizedRole === 'trainer') return '/trainer-welcome';
   if (normalizedRole === 'institute_head') return '/institute/dashboard';
   return '/student/dashboard';
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import { FormEvent, useEffect, useState, useRef, ChangeEvent } from 'react';
-import { BadgeCheck, AlertCircle, UserRound, Save, Briefcase, Globe, Award, Zap, Camera } from 'lucide-react';
+import { BadgeCheck, AlertCircle, UserRound, Save, Briefcase, Globe, Award, Zap, Camera, CreditCard, Plus, Trash2, CheckCircle2, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Card, CardTitle } from '@/components/ui/Card';
 import { Field, TextInput } from '@/components/ui/Field';
@@ -95,6 +95,32 @@ export function TrainerProfileScreen() {
   const avatarInputRef = useRef<HTMLInputElement>(null);
   const { showToast } = useToastStore();
   const { updateUser } = useAuthStore();
+  
+  // Local state for withdrawal methods (Mocked for UI)
+  const [withdrawalMethods, setWithdrawalMethods] = useState<any[]>([
+    { id: '1', provider: 'easypaisa', accountTitle: 'John Doe', accountNumber: '03001234567', isActive: true },
+  ]);
+  const [showAddMethod, setShowAddMethod] = useState(false);
+  const [newMethod, setNewMethod] = useState({ provider: 'easypaisa', accountTitle: '', accountNumber: '' });
+
+  const handleAddMethod = (e: FormEvent) => {
+    e.preventDefault();
+    if (!newMethod.accountTitle || !newMethod.accountNumber) return;
+    setWithdrawalMethods([...withdrawalMethods, { ...newMethod, id: Math.random().toString(), isActive: false }]);
+    setShowAddMethod(false);
+    setNewMethod({ provider: 'easypaisa', accountTitle: '', accountNumber: '' });
+    showToast('Withdrawal method added successfully', 'success');
+  };
+
+  const setPrimaryMethod = (id: string) => {
+    setWithdrawalMethods(methods => methods.map(m => ({ ...m, isActive: m.id === id })));
+    showToast('Primary withdrawal method updated', 'success');
+  };
+
+  const removeMethod = (id: string) => {
+    setWithdrawalMethods(methods => methods.filter(m => m.id !== id));
+    showToast('Withdrawal method removed', 'success');
+  };
 
   // Inject keyframe animations
   useEffect(() => {
@@ -384,6 +410,15 @@ export function TrainerProfileScreen() {
                   <AlertCircle className="h-4 w-4" /> Unverified Profile
                 </span>
               )}
+              
+              {/* Trainer Type Badge */}
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-2 text-xs font-medium text-blue-400 backdrop-blur-sm shadow-[0_4px_12px_rgba(59,130,246,0.2)]">
+                {profile?.trainerType === 'institute' ? (
+                  <span className="flex items-center gap-1.5"><Building2 className="h-4 w-4" /> Institute Trainer</span>
+                ) : (
+                  <span className="flex items-center gap-1.5"><UserRound className="h-4 w-4" /> Individual Trainer</span>
+                )}
+              </span>
             </div>
           </div>
 
@@ -450,14 +485,17 @@ export function TrainerProfileScreen() {
           </div>
         </div>
 
-        {/* Right Column - Update Form */}
-        <div
-          className={`relative rounded-2xl ${glassEffect} p-6 sm:p-8 overflow-hidden ${card3DClass} parallax-card
-            before:absolute before:top-0 before:left-8 before:right-8 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent
-            after:absolute after:bottom-0 after:left-8 after:right-8 after:h-px after:bg-gradient-to-r after:from-transparent after:via-white/[0.04] after:to-transparent
-            transform-gpu animate-[scaleIn_0.7s_cubic-bezier(0.16,1,0.3,1)_forwards] opacity-0`}
-          style={{ transformStyle: 'preserve-3d' }}
-        >
+        {/* Right Column */}
+        <div className="space-y-8 flex flex-col min-w-0">
+          
+          {/* Update Form Card */}
+          <div
+            className={`relative rounded-2xl ${glassEffect} p-6 sm:p-8 overflow-hidden ${card3DClass} parallax-card
+              before:absolute before:top-0 before:left-8 before:right-8 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent
+              after:absolute after:bottom-0 after:left-8 after:right-8 after:h-px after:bg-gradient-to-r after:from-transparent after:via-white/[0.04] after:to-transparent
+              transform-gpu animate-[scaleIn_0.7s_cubic-bezier(0.16,1,0.3,1)_forwards] opacity-0`}
+            style={{ transformStyle: 'preserve-3d' }}
+          >
           {/* 3D ambient effects */}
           <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-orange-500/10 blur-3xl transition-all duration-700 group-hover:scale-110" />
           <div className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-blue-500/5 blur-3xl transition-all duration-700 group-hover:scale-110" />
@@ -542,6 +580,107 @@ export function TrainerProfileScreen() {
                 </Button>
               </div>
             </form>
+          </div>
+        </div>
+
+        {/* Withdrawal Options Card */}
+          <div
+            className={`relative rounded-2xl ${glassEffect} p-6 sm:p-8 overflow-hidden ${card3DClass} parallax-card
+              before:absolute before:top-0 before:left-8 before:right-8 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent
+              after:absolute after:bottom-0 after:left-8 after:right-8 after:h-px after:bg-gradient-to-r after:from-transparent after:via-white/[0.04] after:to-transparent
+              transform-gpu animate-[scaleIn_0.8s_cubic-bezier(0.16,1,0.3,1)_forwards] opacity-0`}
+            style={{ transformStyle: 'preserve-3d' }}
+          >
+            <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-green-500/10 blur-3xl transition-all duration-700" />
+            <div className="relative z-10">
+              <div className="flex items-center justify-between mb-6">
+                <SectionHeader icon={CreditCard} themeKey="orange" title="Withdrawal Methods" caption="Manage how you receive your earnings" />
+                {!showAddMethod && (
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={() => setShowAddMethod(true)}
+                    className="border-orange-500/30 text-orange-400 hover:bg-orange-500/10"
+                  >
+                    <Plus className="w-4 h-4 mr-2" /> Add New
+                  </Button>
+                )}
+              </div>
+
+              {showAddMethod && (
+                <form onSubmit={handleAddMethod} className="mb-8 p-5 bg-gray-800/40 border border-gray-700/50 rounded-xl space-y-4">
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <Field label="Provider">
+                      <select 
+                        className="w-full px-4 py-2.5 bg-gray-900 border border-gray-700 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
+                        value={newMethod.provider}
+                        onChange={(e) => setNewMethod({...newMethod, provider: e.target.value})}
+                      >
+                        <option value="easypaisa">Easypaisa</option>
+                        <option value="jazzcash">JazzCash</option>
+                        <option value="sadapay">SadaPay</option>
+                        <option value="nayapay">NayaPay</option>
+                        <option value="bank">Bank Transfer</option>
+                      </select>
+                    </Field>
+                    <Field label="Account Title">
+                      <TextInput 
+                        placeholder="e.g. John Doe"
+                        value={newMethod.accountTitle}
+                        onChange={(e) => setNewMethod({...newMethod, accountTitle: e.target.value})}
+                        required
+                      />
+                    </Field>
+                  </div>
+                  <Field label="Account Number / IBAN">
+                    <TextInput 
+                      placeholder="e.g. 03001234567 or PK00MEZN..."
+                      value={newMethod.accountNumber}
+                      onChange={(e) => setNewMethod({...newMethod, accountNumber: e.target.value})}
+                      required
+                    />
+                  </Field>
+                  <div className="flex gap-3 justify-end pt-2">
+                    <Button variant="outline" type="button" onClick={() => setShowAddMethod(false)}>Cancel</Button>
+                    <Button type="submit" className="bg-orange-600 hover:bg-orange-500">Save Method</Button>
+                  </div>
+                </form>
+              )}
+
+              <div className="space-y-3">
+                {withdrawalMethods.length === 0 ? (
+                  <p className="text-gray-500 text-sm italic">No withdrawal methods added yet. Add one to receive payments.</p>
+                ) : (
+                  withdrawalMethods.map(method => (
+                    <div key={method.id} className={`p-4 rounded-xl border flex items-center justify-between transition-all ${method.isActive ? 'border-orange-500/50 bg-orange-500/5' : 'border-gray-700/50 bg-gray-800/40 hover:border-gray-600'}`}>
+                      <div className="flex items-center gap-4">
+                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center font-bold text-sm uppercase ${method.isActive ? 'bg-orange-500/20 text-orange-400' : 'bg-gray-700 text-gray-300'}`}>
+                          {method.provider.substring(0, 2)}
+                        </div>
+                        <div>
+                          <p className="font-semibold text-gray-200 capitalize">{method.provider}</p>
+                          <p className="text-xs text-gray-400">{method.accountTitle} &bull; {method.accountNumber}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        {method.isActive ? (
+                          <span className="flex items-center text-xs font-semibold text-orange-400 bg-orange-400/10 px-2.5 py-1 rounded-full">
+                            <CheckCircle2 className="w-3.5 h-3.5 mr-1" /> Primary
+                          </span>
+                        ) : (
+                          <button onClick={() => setPrimaryMethod(method.id)} className="text-xs text-gray-400 hover:text-white transition-colors">
+                            Set Primary
+                          </button>
+                        )}
+                        <button onClick={() => removeMethod(method.id)} className="text-gray-500 hover:text-red-400 transition-colors">
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>

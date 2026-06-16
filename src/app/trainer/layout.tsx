@@ -29,7 +29,8 @@ import {
   Search,
   ChevronRight,
   LogOut,
-  GraduationCap
+  GraduationCap,
+  Activity
 } from 'lucide-react';
 
 export default function TrainerDashboardLayout({
@@ -65,6 +66,7 @@ export default function TrainerDashboardLayout({
     { name: 'Submissions', href: '/trainer/submissions', icon: CheckSquare },
     { name: 'Chat', href: '/trainer/chat', icon: MessageSquare },
     { name: 'Live Q&A', href: '/trainer/meetings', icon: Video },
+    { name: 'Student Analytics', href: '/trainer/analytics', icon: Activity },
     { name: 'Student Reports', href: '/trainer/reports/students', icon: FileBarChart },
     { name: 'Institution', href: '/trainer/reports/institution', icon: Building2 },
     { name: 'Earnings', href: '/trainer/earnings', icon: DollarSign },

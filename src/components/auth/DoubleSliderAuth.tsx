@@ -30,7 +30,7 @@ const AUTH_SLIDES = [
     desc: 'Earn certificates that prove your expertise and unlock high-paying global opportunities.'
   },
   {
-    image: '/images/auth/slide3.png',
+    image: '/images/auth/slide3.jpg',
     badge1: 'Practical Tasks',
     badge1Desc: 'Hands-on Projects',
     badge2: 'Freelance Ready',
