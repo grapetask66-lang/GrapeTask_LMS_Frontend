@@ -359,8 +359,8 @@ export function InstituteDashboard() {
                 className="flex-1 bg-gray-900 border border-gray-700 text-gray-300 rounded-lg px-3 py-2 text-xs"
               />
               <Button
-                variant="outline"
-                className="shrink-0 border-gray-700 hover:bg-gray-800 h-9 px-3"
+                variant="ghost"
+                className="shrink-0 border-gray-700 hover:bg-gray-800 h-9 px-3 border"
                 onClick={() => {
                   navigator.clipboard.writeText(`https://grapetask-lms.vercel.app/signup?ref=${institutionId || 'institute123'}`);
                   setMessage('Referral link copied to clipboard.');
