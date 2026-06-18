@@ -216,11 +216,11 @@ export default function TrainerDashboardLayout({
             >
               <Menu className="w-5 h-5 text-gray-400" />
             </button>
-            <div className="flex items-center gap-1.5 text-xs text-gray-500 font-medium">
+            <div className="flex items-center gap-1.5 text-xs text-gray-500 font-medium" suppressHydrationWarning>
               {breadcrumbs.map((crumb, idx) => (
                 <React.Fragment key={crumb}>
                   {idx > 0 && <ChevronRight className="w-3.5 h-3.5 text-gray-700" />}
-                  <span className={idx === breadcrumbs.length - 1 ? 'text-gray-300 font-semibold' : 'text-gray-600'}>
+                  <span suppressHydrationWarning className={idx === breadcrumbs.length - 1 ? 'text-gray-300 font-semibold' : 'text-gray-600'}>
                     {crumb}
                   </span>
                 </React.Fragment>
@@ -237,9 +237,9 @@ export default function TrainerDashboardLayout({
                 className="bg-transparent text-sm text-gray-400 placeholder-gray-600 outline-none w-32 focus:w-48 transition-all duration-300"
               />
             </div>
-            <div className="hidden md:flex items-center gap-2 text-xs text-gray-500 px-3 py-2 rounded-xl bg-gray-800/40 border border-gray-800/60">
+            <div className="hidden md:flex items-center gap-2 text-xs text-gray-500 px-3 py-2 rounded-xl bg-gray-800/40 border border-gray-800/60" suppressHydrationWarning>
               <Clock className="w-3.5 h-3.5" />
-              <span>{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</span>
+              <span suppressHydrationWarning>{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</span>
             </div>
             <button className="relative p-2 rounded-xl hover:bg-white/5 transition-all duration-200 active:scale-95">
               <Bell className="w-5 h-5 text-gray-400" />
